@@ -56,5 +56,21 @@ class RouterTest extends PHPUnit_Framework_TestCase
 		is('Test 4', $r() );
 	}
 
+	function testApcCache()
+	{
+		ini_set('apc.enable_cli',true);
+
+		$router = new Roller\Router( null , array( 
+			'cache_id' => '_router_testing_'
+	   	));
+		is( Roller\Router::cache_type_apc , $router->cache );
+
+		$router->add('/item/:id', function($id) { return $id; });
+		$router->dispatch( '/item/12' );
+
+		$code = apc_fetch( '_router_testing_' );
+		ok( $code );
+	}
+
 }
 
