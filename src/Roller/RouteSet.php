@@ -24,11 +24,16 @@ class RouteSet implements Iterator
                 }
             }
         }
-        $default     = $optinos[':default'];
+
+        $default     = array();
+        if( isset($options[':default']) )
+            $default = $options[':default'];
+
         $route = RouteCompiler::compile(array(
             'pattern' => $path,
             'requirement' => $requirement,
             'default' => $default,
+            'callback' => $callback,
         ));
         $this->routes[] = $route;
     }
@@ -40,7 +45,7 @@ class RouteSet implements Iterator
 
     public function current() 
     {
-        $this->routes[ $this->i ];
+        return $this->routes[ $this->i ];
     }
 
     public function key () {
