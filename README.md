@@ -1,7 +1,7 @@
 Roller
 ======
 
-PHP Roller is a simple router tool for routing paths for PHP5.3+.
+PHP Roller is a simple/fast router for PHP5.3.
 
 Roller API is really simple, eazy to use.
 
