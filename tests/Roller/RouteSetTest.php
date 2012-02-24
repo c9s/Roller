@@ -35,5 +35,28 @@ class RouteSetTest extends PHPUnit_Framework_TestCase
 		$r = $router->dispatch( '/item/subitem' );
 		is( 'subitem' , $r() );
 	}
+
+	function testPHPDumper()
+	{
+		$routes1 = new Roller\RouteSet;
+		$routes2 = new Roller\RouteSet;
+
+		$routes1->add( '/item' , function() { return 'item'; } );
+		$routes2->add( '/subitem' , function() { return 'subitem'; });
+		$routes1->mount('/item', $routes2);
+
+		$dumper = new Roller\Dumper\PhpDumper;
+		$code = $dumper->dump( $routes1 );
+
+		$cRoutes = eval($code);
+
+		$router = new Roller\Router( $cRoutes );
+		$r = $router->dispatch( '/item' );
+		is( 'item', $r() );
+
+		$r = $router->dispatch( '/item/subitem' );
+		is( 'subitem', $r() );
+	}
+
 }
 

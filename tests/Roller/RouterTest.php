@@ -55,5 +55,6 @@ class RouterTest extends PHPUnit_Framework_TestCase
 		$r = $router->dispatch( '/item/4' );
 		is('Test 4', $r() );
 	}
+
 }
 
