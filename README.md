@@ -5,6 +5,18 @@ PHP Roller is a simple router tool for routing paths for PHP5.3+.
 
 Roller API is really simple, eazy to use.
 
+INSTALL
+-------
+
+Clone this repository, pick up a PSR-0 classloader, and add `src/` to
+class path.
+
+To use console dumper, you will need ezc/ConsoleTools, please use PEAR
+installer to install:
+
+    sudo pear channel-discover components.ez.no
+    sudo pear install -a ezc/ConsoleTools
+
 SYNOPSIS
 --------
 
