@@ -3,6 +3,8 @@ Roller
 
 PHP Roller is a simple router tool for routing paths for PHP5.3+.
 
+Roller API is really simple, eazy to use.
+
 SYNOPSIS
 --------
 
@@ -27,7 +29,10 @@ Add new route with a class/action callback string:
 Add new route with requirement:
 
     $router->add( '/path/to/:year' , array('Callback','method') , array( 
-        'year' => '\d+'
+        'year' => '\d+',
+        ':default' => array(
+            'year' => 2000,
+        ),
     ));
 
 Dispatch
