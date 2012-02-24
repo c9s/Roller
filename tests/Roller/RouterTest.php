@@ -58,7 +58,10 @@ class RouterTest extends PHPUnit_Framework_TestCase
 
 	function testApcCache()
 	{
-		ini_set('apc.enable_cli',true);
+		ini_set('apc.enable_cli',1);
+
+		apc_store( 'test', 3 );
+		is( 3, apc_fetch( 'test' ) );
 
 		$router = new Roller\Router( null , array( 
 			'cache_id' => '_router_testing_'
@@ -66,10 +69,54 @@ class RouterTest extends PHPUnit_Framework_TestCase
 		is( Roller\Router::cache_type_apc , $router->cache );
 
 		$router->add('/item/:id', function($id) { return $id; });
-		$router->dispatch( '/item/12' );
+		$r = $router->dispatch( '/item/12' );
 
 		$code = apc_fetch( '_router_testing_' );
 		ok( $code );
+		$routes = eval($code);
+		ok( $routes );
+		ok( $routes->routes );
+
+
+
+		// make sure cache reload works
+		$router = new Roller\Router( null , array( 
+			'cache_id' => '_router_testing_'
+	   	));
+		$r = $router->dispatch( '/item/12' );
+		is( '12' , $r() );
+		apc_delete( '_router_testing_' );
+	}
+
+
+	function testFileCache()
+	{
+		if( ! file_exists('tests/cache') )
+			mkdir( 'tests/cache', 0755, true );
+
+		$router = new Roller\Router( null , array( 
+			'cache_id' => '_router_testing_',
+			'cache_dir' => 'tests/cache',
+	   	));
+		is( Roller\Router::cache_type_file , $router->cache );
+		$router->add('/item/:id', function($id) { return $id; });
+		$r = $router->dispatch( '/item/12' );
+		ok( $r );
+		is( '12', $r() );
+
+		ok(file_exists( 'tests/cache/_router_testing_' ));
+
+
+		// the cache should be reloaded.
+		$router = new Roller\Router( null , array( 
+			'cache_id' => '_router_testing_',
+			'cache_dir' => 'tests/cache',
+	   	));
+		$r = $router->dispatch( '/item/12' );
+		ok( $r );
+		is( '12', $r() );
+
+		unlink( 'tests/cache/_router_testing_' );
 	}
 
 }

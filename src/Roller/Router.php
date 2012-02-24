@@ -9,7 +9,7 @@ class Router
 	/* boolean, is cache enabled ? */
 	public $cache;
 
-	public $hasCache;
+	public $hasCache = false;
 
 	public $cacheDir;
 
@@ -29,8 +29,8 @@ class Router
 		if( isset($options['cache_id']) ) {
 			$this->cacheId = $options['cache_id'];
 			$this->cache = self::cache_type_apc;
-			if( $c = apc_fetch($options['cache_id']) ) {
-				$this->routes = eval($c);
+			if( false !== ($c = apc_fetch($options['cache_id'])) ) {
+				$this->routes =  eval($c);
 				$this->hasCache = true;
 			}
 		}
@@ -39,9 +39,10 @@ class Router
 			$this->cacheDir = $options['cache_dir'];
 			$this->cache = self::cache_type_file;
 			$cacheFile = $this->cacheDir . DIRECTORY_SEPARATOR . $this->cacheId;
+			$this->hasCache = false;
 			if( file_exists($cacheFile) ) {
 				$this->routes = require $cacheFile;
-				$this->hasCacheCache = true;
+				$this->hasCache = true;
 			}
 		}
 
@@ -49,7 +50,7 @@ class Router
 			$this->reload = $options['reload'];
 		}
 
-		if( !$this->routes ) {
+		if( $this->routes === null ) {
 			$this->routes = $routes ?: new RouteSet;
 		}
 	}
@@ -64,14 +65,15 @@ class Router
 		if( $this->cache === self::cache_type_apc ) {
 			$dumper = new \Roller\Dumper\PhpDumper;
 			$code = $dumper->dump( $this->routes );
-			apc_store( $this->cacheId, $code ) === false 
+			apc_store( $this->cacheId, $code ) === true 
 				or die('Roller\Router: apc cache failed.');
 		}
 		elseif( $this->cache === self::cache_type_file ) {
 			$dumper = new \Roller\Dumper\PhpDumper;
 			$code = $dumper->dump( $this->routes );
 			$cacheFile = $this->cacheDir . DIRECTORY_SEPARATOR . $this->cacheId;
-			file_put_contents( $cacheFile , '<?php ' . $code );
+			file_put_contents( $cacheFile , '<?php ' . $code ) !== false
+				or die('Roller\Router: file cache failed.');
 		}
 		else {
 			throw new Exception('Unknown cache type');
@@ -82,6 +84,7 @@ class Router
 	{
 		if( ! $this->hasCache ) {
 			$this->routes->compile();
+
 			if( $this->cache ) {
 				// make cache
 				$this->makeCache();
