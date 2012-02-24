@@ -92,3 +92,18 @@ To enable file cache:
         'cache_dir' => 'tests/cache',
     ));
 
+
+Hacking
+-------
+Get Onion and install it:
+
+    $ curl -s http://install.onionphp.org/ | bash
+
+Run onion to install depedencies:
+
+    $ onion bundle
+
+Now you should be able to run phpunit =)
+
+    $ phpunit tests
+
