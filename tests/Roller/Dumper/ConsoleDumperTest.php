@@ -9,7 +9,9 @@ class ConsoleDumperTest extends PHPUnit_Framework_TestCase
 		$routes->compile();
 
 		$dumper = new Roller\Dumper\ConsoleDumper;
+        ob_start();
 		$dumper->dump( $routes );
+        ob_end_clean();
 	}
 }
 
