@@ -49,6 +49,17 @@ Add new route with requirement:
         ),
     ));
 
+Dispatch with request method (like POST method):
+
+    $router->add( '/path/to/:year' , array('Callback','method') , array( 
+        'year' => '\d+',
+        ':method' => 'post,
+        ':default' => array(
+            'year' => 2000,
+        ),
+    ));
+
+
 Dispatch
 --------
 To dispatch path:
