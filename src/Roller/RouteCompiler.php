@@ -22,7 +22,7 @@ class RouteCompiler
         $tokens = array();
         $variables = array();
         $pos = 0;
-        preg_match_all('#.\{([\w\d_]+)\}#', $pattern, $matches, PREG_OFFSET_CAPTURE | PREG_SET_ORDER);
+        preg_match_all('#.:([\w\d_]+)#', $pattern, $matches, PREG_OFFSET_CAPTURE | PREG_SET_ORDER);
         foreach ($matches as $match) {
 
             /*
