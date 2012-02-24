@@ -34,7 +34,7 @@ class RouterTest extends PHPUnit_Framework_TestCase
 		ok( $r !== false );
 		ok( $r );
 		$content = $r();
-		is('Hello 2012', $content , 'default value' );
+		is('Hello 2012', $content , 'default value should work' );
 
 		$r = $router->dispatch('/path/to/another');
 		ok( $r === false , 'route not found.' );
