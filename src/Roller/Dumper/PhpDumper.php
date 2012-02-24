@@ -28,7 +28,7 @@ class PhpDumper
             return $str;
         }
         elseif( is_callable($data) && is_object($data) ) {
-            return ClosureSerializer::serialize($data);
+            return \Roller\ClosureSerializer::serialize($data);
         }
         return var_export($data,true);
     }
