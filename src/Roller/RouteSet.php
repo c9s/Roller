@@ -15,6 +15,10 @@ class RouteSet implements Iterator
 
     public function add($path, $callback, $options = array() )
     {
+        if( is_string($callback) ) {
+            $callback = explode(':',$callback);
+        }
+
         $requirement = array();
         if( isset($options[':requirement']) ) {
             $requirement = $options[':requirement'];

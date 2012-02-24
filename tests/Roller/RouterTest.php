@@ -1,5 +1,13 @@
 <?php
 
+class TestController extends Roller\Controller
+{
+	function run($id)
+	{
+		return 'Test ' . $id;
+	}
+}
+
 class RouterTest extends PHPUnit_Framework_TestCase
 {
 	function test()
@@ -30,6 +38,22 @@ class RouterTest extends PHPUnit_Framework_TestCase
 
 		$r = $router->dispatch('/path/to/another');
 		ok( $r === false , 'route not found.' );
+	}
+
+	function testController()
+	{
+		$router = new Roller\Router;
+		$router->add('/item/:id', array('TestController','run'));
+		$r = $router->dispatch( '/item/3' );
+		is('Test 3', $r() );
+	}
+
+	function testControllerString()
+	{
+		$router = new Roller\Router;
+		$router->add('/item/:id', 'TestController:run');
+		$r = $router->dispatch( '/item/4' );
+		is('Test 4', $r() );
 	}
 }
 

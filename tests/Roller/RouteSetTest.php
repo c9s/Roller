@@ -34,7 +34,6 @@ class RouteSetTest extends PHPUnit_Framework_TestCase
 
 		$r = $router->dispatch( '/item/subitem' );
 		is( 'subitem' , $r() );
-		
 	}
 }
 
