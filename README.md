@@ -26,21 +26,32 @@ Initialize a router:
 
     $router = new Roller\Router;
 
-Add new route with a simple callback
+Add a new route with simple callback
 
     $router->add( '/path/to/blog'  , function() { 
         return 'Blog';
     });
 
-Add new route with a class callback
+Add a new route with class callback
 
     $router->add( '/path/to/blog'  , array('Controller','method') );
 
-Add new route with a class/action callback string:
+Add a new route with class/action callback string:
 
     $router->add( '/path/to/blog'  , 'Controller:methodName' );
 
-Add new route with requirement:
+To add a new route with requirement:
+
+    $router->add( '/path/to/:year' , array('Callback','method') , array( 
+        'year' => '\d+',
+    ));
+
+Meta Attributes
+---------------
+meta attributes is started with ':' character. currently, Roller supports: 
+`:method`, `:default`, `:requirement`, `:post`, `:get` attributes.
+
+To add a new route with requirement and default value:
 
     $router->add( '/path/to/:year' , array('Callback','method') , array( 
         'year' => '\d+',
@@ -49,10 +60,11 @@ Add new route with requirement:
         ),
     ));
 
-Dispatch with request method (like POST method):
+To add a new route with request method (like POST method):
 
     $router->add( '/path/to/:year' , array('Callback','method') , array( 
         'year' => '\d+',
+
         ':method' => 'post,
         ':default' => array(
             'year' => 2000,
