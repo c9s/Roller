@@ -104,6 +104,19 @@ class Router
 						$route['vars'][ $k ] = $route['default'][ $k ];
 					}
                 }
+
+                // if method is defined, we should check server request method
+                if( isset($route['method']) && $m = $route['method'] ) {
+                    /* 
+                     * Which request method was used to access the page; 
+                     * i.e. 'GET', 'HEAD', 'POST', 'PUT'.
+                     */
+                    if( strtolower( $_SERVER['REQUEST_METHOD'] ) !== $m ) {
+                        continue;
+                    }
+                }
+
+                // matched!
                 return new MatchedRoute($route);
             }
         }

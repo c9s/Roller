@@ -93,6 +93,13 @@ To enable file cache:
     ));
 
 
+RESTful plugin:
+
+
+    $restfulPlugin = new Roller\Plugin\RESTful(  );
+    $restfulPlugin->handler(  );
+
+
 Hacking
 -------
 Get Onion and install it:

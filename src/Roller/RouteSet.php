@@ -34,11 +34,24 @@ class RouteSet implements Iterator
         if( isset($options[':default']) )
             $default = $options[':default'];
 
+        $method = null; /* any method */
+        if( isset($options[':method']) )
+            $method = $options[':method'];
+        elseif( isset($options[':post']) )
+            $method = 'post';
+        elseif( isset($options[':get']) )
+            $method = 'get';
+        elseif( isset($options[':head']) )
+            $method = 'head';
+        elseif( isset($options[':put']) )
+            $method = 'put';
+
         return $this->routes[] = array(
             'path' => $path,
             'requirement' => $requirement,
             'default' => $default,
             'callback' => $callback,
+            'method' => $method,
         );
     }
 

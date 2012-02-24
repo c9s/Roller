@@ -56,6 +56,25 @@ class RouterTest extends PHPUnit_Framework_TestCase
 		is('Test 4', $r() );
 	}
 
+    function testRequestMethod()
+    {
+		$router = new Roller\Router;
+        $router->add('/item/:id', 'TestController:run', array( 
+            ':post' => true,
+        ));
+        $_SERVER['REQUEST_METHOD'] = 'POST';
+		$r = $router->dispatch( '/item/9' );
+		is('Test 9', $r() );
+
+        $_SERVER['REQUEST_METHOD'] = 'GET';
+		$r = $router->dispatch( '/item/9' );
+        ok( $r === false );
+
+        $_SERVER['REQUEST_METHOD'] = 'HEAD';
+		$r = $router->dispatch( '/item/9' );
+        ok( $r === false );
+    }
+
 	function testApcCache()
 	{
 		ini_set('apc.enable_cli',1);
