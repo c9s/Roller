@@ -5,7 +5,7 @@ PHP Roller is a simple/fast router for PHP5.3.
 
 Roller API is really simple, eazy to use.
 
-<img src="https://github.com/c9s/Roller/raw/master/misc/img1.png" width="400">
+<img src="https://github.com/c9s/Roller/raw/master/misc/img1.png" width="500">
 
 INSTALL
 -------
