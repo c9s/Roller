@@ -5,9 +5,9 @@ class Router
 {
 	public $routes;
 
-	function __construct()
+	function __construct($routes = null)
 	{
-		$this->routes = new RouteSet;
+		$this->routes = $routes ?: new RouteSet;
 	}
 
 	function add($path,$callback,$options=array() )
@@ -17,6 +17,7 @@ class Router
 
 	function dispatch($path)
 	{
+		$this->routes->compile();
         foreach( $this->routes as $route ) {
             if( preg_match( $route['compiled'], $path, $regs ) ) {
                 foreach( $route['variables'] as $k ) {

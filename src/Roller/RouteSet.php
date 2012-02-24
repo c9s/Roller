@@ -10,6 +10,7 @@ class RouteSet implements Iterator
 
     public function __construct()
     {
+
     }
 
     public function add($path, $callback, $options = array() )
@@ -25,22 +26,31 @@ class RouteSet implements Iterator
             }
         }
 
-        $default     = array();
+        $default = array();
         if( isset($options[':default']) )
             $default = $options[':default'];
 
-        $route = RouteCompiler::compile(array(
-            'pattern' => $path,
+        return $this->routes[] = array(
+            'path' => $path,
             'requirement' => $requirement,
             'default' => $default,
             'callback' => $callback,
-        ));
-        $this->routes[] = $route;
+        );
     }
 
-    public function mount( RouteSet $routes )
+    public function mount( $prefix, RouteSet $routes )
     {
+        foreach( $routes as $r ) {
+            $r['path'] = $prefix . $r['path'];
+            $this->routes[] = $r;
+        }
+    }
 
+    public function compile()
+    {
+        foreach( $this->routes as &$r ) {
+            $r = RouteCompiler::compile($r);
+        }
     }
 
     public function current() 

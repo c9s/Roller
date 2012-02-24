@@ -8,7 +8,7 @@ class RouteCompiler
      */
     static function compile(Array $route)
     {
-        $pattern = $route['pattern'];
+        $pattern = $route['path'];
         $len = strlen($pattern);
 
 
