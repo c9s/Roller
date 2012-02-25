@@ -46,9 +46,9 @@ To add a new route with requirement:
         'year' => '\d+',
     ));
 
-Meta Attributes
----------------
-meta attributes is started without ':' prefix. currently, Roller supports: 
+META ATTRIBUTE
+--------------
+Meta attributes are started without ':' prefix. currently, Roller supports: 
 `method`, `default`, `requirement`, `post`, `get` attributes.
 
 To add a new route with requirement and default value:
@@ -121,11 +121,13 @@ RESTful plugin:
     $restful = new Roller\Plugin\RESTful( array(
         'prefix' => '/restful',
     ));
+
     $restful->mount = function() {
         $method = $_SERVER['REQUEST_METHOD'];
         $routes = new RouteSet;
         $routes->add( '/:resource_id/:id' );
     };
+
     $router->addPlugin( $restful );
 
 Hacking
