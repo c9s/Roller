@@ -120,12 +120,31 @@ RESTful plugin:
 
     $restful = new Roller\Plugin\RESTful( array(
         'prefix' => '/restful',
+        'resource_id' => array('post','blog','comment'),
     ));
+
+    $restful->urlGenerator = function($resourceId) { 
+        $routes = new RouteSet;
+        $routes->add( '/:resource_id/new' , .... );
+        $routes->add( '/:resource_id' , .... );
+        $routes->add( '/:resource_id/:id' , .... , [ ':method' => 'post' ] );
+        $routes->add( '/:resource_id/:id' , .... , [ ':method' => 'put' ] );
+    };
+
+    $restful->createHandler = function() {
+
+    };
+
+    $restful->updateHandler = function() {
+
+    };
+
+    $restful->deleteHandler = function() {
+
+    };
 
     $restful->mount = function() {
         $method = $_SERVER['REQUEST_METHOD'];
-        $routes = new RouteSet;
-        $routes->add( '/:resource_id/:id' );
     };
 
     $router->addPlugin( $restful );
