@@ -46,6 +46,14 @@ To add a new route with requirement:
         'year' => '\d+',
     ));
 
+To add a new route with requirement and closure:
+
+    $router->add( '/path/to/:year' , function($year) { 
+        return $year;
+    },array( 
+        'year' => '\d+',
+    ));
+
 META ATTRIBUTE
 --------------
 Meta attributes are started without ':' prefix. currently, Roller supports: 
