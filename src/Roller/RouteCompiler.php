@@ -1,17 +1,20 @@
 <?php
 namespace Roller;
+use Exception;
 
+/**
+ *
+ *   /blog/:year/:month
+ *   /blog/item/:id
+ *   /blog/item/:id(.:format)
+ *
+ */
 class RouteCompiler
 {
-    /**
-     * Compiles the current route instance.
-     */
-    static function compile(Array $route)
-    {
-        $pattern = $route['path'];
+
+    static function compilePattern($pattern, $options = array() ) {
+
         $len = strlen($pattern);
-
-
         /**
          * contains:
          *   
@@ -22,9 +25,25 @@ class RouteCompiler
         $tokens = array();
         $variables = array();
         $pos = 0;
-        preg_match_all('#.:([\w\d_]+)#', $pattern, $matches, PREG_OFFSET_CAPTURE | PREG_SET_ORDER);
-        foreach ($matches as $match) {
 
+        /**
+         *  the path like:
+         *
+         *      /blog/to/:year/:month
+         *
+         *  will be separated like:
+         *      
+         *      [
+         *          '/blog/to',  (text token)
+         *          '/:year',    (reg exp token)
+         *          '/:month',   (reg exp token)
+         *      ]
+         */
+        $matches = self::splitTokens( $pattern );
+
+        // build tokens
+        foreach ($matches as $match) {
+            
             /*
              * Split tokens from abstract pattern
              * to rebuild regexp pattern.
@@ -37,22 +56,46 @@ class RouteCompiler
             $seps = array($pattern[$pos]);
             $pos = $match[0][1] + strlen($match[0][0]);
 
-            // field name
-            $var = $match[1][0];
 
+            // optional pattern
+            if( $match[0][0][0] == '(' ) {
+                $optional = $match[2][0];
+                $subroute = self::compilePattern($optional,array(
+                    'default' => @$options['default'],
+                    'requirement' => @$options['requirement'],
+                ));
 
-            /* build field pattern from requirement */
-            if ( isset( $route['requirement'][$var] ) && $req = $route['requirement'][$var]) {
-                $regexp = $req;
-            } else {
-                if ($pos !== $len) {
-                    $seps[] = $pattern[$pos];
-                }
-                $regexp = sprintf('[^%s]+?', preg_quote(implode('', array_unique($seps)), '#'));
+                throw new Exception('not implemented.');
+
+                // $regexp = 
+                /*
+                $tokens[] = array( 
+                    'variable',
+                );
+                 */
             }
+            else {
+                // field name (variable name)
+                $var = $match[1][0];
 
-            $tokens[] = array('variable', $match[0][0][0], $regexp, $var);
-            $variables[] = $var;
+                /* build field pattern from requirement */
+                if ( isset( $options['requirement'][$var] ) && $req = $options['requirement'][$var]) {
+                    $regexp = $req;
+                } else {
+                    if ($pos !== $len) {
+                        $seps[] = $pattern[$pos];
+                    }
+
+                    // build regexp (from separater)
+                    $regexp = sprintf('[^%s]+?', preg_quote(implode('', array_unique($seps)), '#'));
+                }
+
+                $tokens[] = array('variable', 
+                    $match[0][0][0], 
+                    $regexp, 
+                    $var);
+                $variables[] = $var;
+            }
         }
 
         if ($pos < $len) {
@@ -63,7 +106,7 @@ class RouteCompiler
         $firstOptional = INF;
         for ($i = count($tokens) - 1; $i >= 0; $i--) {
             if ('variable' === $tokens[$i][0] 
-                && isset($route['default'][ $tokens[$i][3] ]) )
+                && isset($options['default'][ $tokens[$i][3] ]) )
             {
                 $firstOptional = $i;
             } 
@@ -81,17 +124,28 @@ class RouteCompiler
         if (1 === count($tokens) && 0 === $firstOptional) {
             $token = $tokens[0];
             ++$indent;
-            $regex .= str_repeat(' ', $indent * 4).sprintf("%s(?:\n", preg_quote($token[1], '#'));
+            $regex .= str_repeat(' ', $indent * 4)
+                . sprintf("%s(?:\n", 
+                    preg_quote($token[1], '#'));
 
-            // regular expression with place holder name. ( [3] => name , [2] => pattern
-            $regex .= str_repeat(' ', $indent * 4).sprintf("(?P<%s>%s)\n", $token[3], $token[2]);
+            // regular expression with place holder name. ( 
+            //          [0] => token type,
+            //          [1] => separator
+            //          [2] => pattern
+            //          [3] => name , 
+            $regex .= str_repeat(' ', $indent * 4)
+                . sprintf("(?P<%s>%s)\n", 
+                    $token[3], $token[2]);
+
         } else {
             foreach ($tokens as $i => $token) {
                 if ('text' === $token[0]) {
-                    $regex .= str_repeat(' ', $indent * 4).preg_quote($token[1], '#')."\n";
+                    $regex .= str_repeat(' ', $indent * 4)
+                            . preg_quote($token[1], '#')."\n";
                 } else {
                     if ($i >= $firstOptional) {
-                        $regex .= str_repeat(' ', $indent * 4)."(?:\n";
+                        $regex .= str_repeat(' ', $indent * 4)
+                            . "(?:\n";
                         ++$indent;
                     }
                     $regex .= str_repeat(' ', $indent * 4).
@@ -105,10 +159,26 @@ class RouteCompiler
         }
 
         // save variables
-        $route['variables'] = $variables;
+        $options['variables'] = $variables;
+        $options['regex'] = $regex;
+        return $options;
+    }
+
+    static function splitTokens($string)
+    {
+        preg_match_all('#(?:.:([\w\d_]+)|\((.*)\))#', $string, $matches, PREG_OFFSET_CAPTURE | PREG_SET_ORDER);
+        return $matches;
+    }
+
+    /**
+     * Compiles the current route instance.
+     */
+    static function compile(Array $route)
+    {
+        $route = self::compilePattern($route['path'], $route);
 
         // save compiled pattern
-        $route['compiled'] = sprintf("#^\n%s$#xs", $regex);
+        $route['compiled'] = sprintf("#^\n%s$#xs", $route['regex']);
         return $route;
 
 #          return new CompiledRoute(
