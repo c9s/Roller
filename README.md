@@ -48,8 +48,8 @@ To add a new route with requirement:
 
 Meta Attributes
 ---------------
-meta attributes is started with ':' character. currently, Roller supports: 
-`:method`, `:default`, `:requirement`, `:post`, `:get` attributes.
+meta attributes is started without ':' prefix. currently, Roller supports: 
+`method`, `default`, `requirement`, `post`, `get` attributes.
 
 To add a new route with requirement and default value:
 
@@ -74,6 +74,7 @@ To add a new route with request method (like POST method):
 
 Dispatch
 --------
+
 To dispatch path:
 
     $r = $router->dispatch( $_SERVER['PATH_INFO'] );
@@ -84,7 +85,6 @@ To evalulate response content:
         echo $r();
     else
         die('page not found.');
-
 
 Mount paths
 -----------
@@ -118,10 +118,15 @@ To enable file cache:
 
 RESTful plugin:
 
-
-    $restfulPlugin = new Roller\Plugin\RESTful(  );
-    $restfulPlugin->handler(  );
-
+    $restful = new Roller\Plugin\RESTful( array(
+        'prefix' => '/restful',
+    ));
+    $restful->mount = function() {
+        $method = $_SERVER['REQUEST_METHOD'];
+        $routes = new RouteSet;
+        $routes->add( '/:resource_id/:id' );
+    };
+    $router->addPlugin( $restful );
 
 Hacking
 -------
