@@ -129,17 +129,18 @@ RESTful plugin:
         $routes->add( '/:resource_id' , .... );
         $routes->add( '/:resource_id/:id' , .... , [ ':method' => 'post' ] );
         $routes->add( '/:resource_id/:id' , .... , [ ':method' => 'put' ] );
+        return $routes;
     };
 
-    $restful->createHandler = function() {
-
-    };
-
-    $restful->updateHandler = function() {
+    $restful->createHandler = function($resourceId) {
 
     };
 
-    $restful->deleteHandler = function() {
+    $restful->updateHandler = function($resourceId,$id) {
+
+    };
+
+    $restful->deleteHandler = function($resourceId,$id) {
 
     };
 
