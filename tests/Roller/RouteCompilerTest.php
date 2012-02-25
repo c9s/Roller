@@ -2,6 +2,29 @@
 
 class RouteCompilerTest extends PHPUnit_Framework_TestCase
 {
+
+    function test()
+    {
+        $route = Roller\RouteCompiler::compile(array( 
+            'path' => '/blog/:id(/like/:format)',
+            'default' => array(
+                'format' => 'json'
+            )
+        ));
+        ok( preg_match( $route['compiled'] , 
+            '/blog/23.json', $matched ) );
+
+        ok( preg_match( $route['compiled'] , 
+            '/blog/23/like/json', $matched ) );
+
+        ok( ! preg_match( $route['compiled'] , 
+            '/blog/23/json' ) );
+
+        ok( ! preg_match( $route['compiled'] , 
+            '/blog/23/' ) );
+    }
+
+
     function testOptionalHolder()
     {
         $route = Roller\RouteCompiler::compile(array( 

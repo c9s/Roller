@@ -65,14 +65,12 @@ class RouteCompiler
                     'requirement' => @$options['requirement'],
                 ));
 
-                throw new Exception('not implemented.');
-
-                // $regexp = 
-                /*
                 $tokens[] = array( 
-                    'variable',
+                    'optional',
+                    $optional[0],
+                    $subroute['regex'],
                 );
-                 */
+                // $regexp = 
             }
             else {
                 // field name (variable name)
@@ -120,6 +118,13 @@ class RouteCompiler
         $regex = '';
         $indent = 1;
 
+
+        // token structure:
+        //   [0] => token type,
+        //   [1] => separator
+        //   [2] => pattern
+        //   [3] => name , 
+
         // first optional token and only one token.
         if (1 === count($tokens) && 0 === $firstOptional) {
             $token = $tokens[0];
@@ -129,10 +134,6 @@ class RouteCompiler
                     preg_quote($token[1], '#'));
 
             // regular expression with place holder name. ( 
-            //          [0] => token type,
-            //          [1] => separator
-            //          [2] => pattern
-            //          [3] => name , 
             $regex .= str_repeat(' ', $indent * 4)
                 . sprintf("(?P<%s>%s)\n", 
                     $token[3], $token[2]);
@@ -142,7 +143,13 @@ class RouteCompiler
                 if ('text' === $token[0]) {
                     $regex .= str_repeat(' ', $indent * 4)
                             . preg_quote($token[1], '#')."\n";
-                } else {
+                }
+                elseif( 'optional' === $token[0]) {
+                    $regex .= str_repeat(' ', $indent * 4) . "(?:\n";
+                    $regex .= $token[2];
+                    $regex .= str_repeat(' ', $indent * 4) . ")?\n";
+                }
+                else {
                     if ($i >= $firstOptional) {
                         $regex .= str_repeat(' ', $indent * 4)
                             . "(?:\n";
@@ -161,6 +168,7 @@ class RouteCompiler
         // save variables
         $options['variables'] = $variables;
         $options['regex'] = $regex;
+        // $options['tokens'] = $tokens;
         return $options;
     }
 
