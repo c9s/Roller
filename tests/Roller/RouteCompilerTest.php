@@ -5,11 +5,17 @@ class RouteCompilerTest extends PHPUnit_Framework_TestCase
     function testOptionalHolder()
     {
         $route = Roller\RouteCompiler::compile(array( 
-            'path' => '/blog/:id.:format'
+            'path' => '/blog/:id.:format',
+            'default' => array(
+                'format' => 'json'
+            )
         ));
         ok( preg_match( $route['compiled'] , '/blog/23.json', $matched ) );
         is( 23, $matched['id'] );
         is( 'json' , $matched['format'] );
+
+        ok( preg_match( $route['compiled'] , '/blog/23', $matched ) );
+        is( 23, $matched['id'] );
     }
 
     function testPlaceHolder()
