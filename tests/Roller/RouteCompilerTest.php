@@ -16,6 +16,7 @@ class RouteCompilerTest extends PHPUnit_Framework_TestCase
 
         ok( preg_match( $route['compiled'] , 
             '/blog/23/like/json', $matched ) );
+        is( 'json', $matched['format'] );
 
         ok( ! preg_match( $route['compiled'] , 
             '/blog/23/json' ) );
