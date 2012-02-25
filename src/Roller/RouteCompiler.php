@@ -180,15 +180,6 @@ class RouteCompiler
         // save compiled pattern
         $route['compiled'] = sprintf("#^\n%s$#xs", $route['regex']);
         return $route;
-
-#          return new CompiledRoute(
-#              $route,
-#              'text' === $tokens[0][0] ? $tokens[0][1] : '',
-#              sprintf("#^\n%s$#xs", $regex),
-#              array_reverse($tokens),
-#              $variables
-#          );
-
     }
 }
 
