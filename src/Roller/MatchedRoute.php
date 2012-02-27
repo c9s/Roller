@@ -28,6 +28,10 @@ class MatchedRoute
 		// reflection parameters
 		$rps = null;
 		if( is_array($cb) ) {
+			if( is_string($cb[0]) ) {
+				$cb[0] = new $cb[0];
+			}
+
 			// which is a callback with class
 			$rc = new ReflectionClass( $cb[0] );
 			$rm = $rc->getMethod($cb[1]);

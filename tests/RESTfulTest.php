@@ -39,7 +39,12 @@ class RESTfulTest extends PHPUnit_Framework_TestCase
         $router->addPlugin($restful);
 
         $_SERVER['REQUEST_METHOD'] = 'get';
-        $router->dispatch('/restful/blog');
+        $r = $router->dispatch('/restful/blog/1');
+        is( '{"success":true,"data":{"id":"1","title":"title"},"message":"Record 1 loaded."}' , $r() );
+
+        $_SRVER['REQUEST_METHOD'] = 'get';
+        $r = $router->dispatch('/restful/blog');
+        is( '{"success":true,"data":[{"id":0},{"id":1},{"id":2}],"message":"Record find success."}' , $r() );
     }
 }
 

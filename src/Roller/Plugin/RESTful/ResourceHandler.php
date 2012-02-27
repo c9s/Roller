@@ -5,6 +5,10 @@ namespace Roller\Plugin\RESTful;
 abstract class ResourceHandler
 {
 
+	public $message;
+
+	public $data;
+
 
 	/**
 	 * retrieve record list
@@ -59,36 +63,44 @@ abstract class ResourceHandler
 
 	public function handleFind($format)
 	{
-		$data = $this->find();
-		return $this->renderFormat( $data, $format );
+		$this->data = $this->find();
+		return $this->returnSuccess($format, "Record find success.");
 	}
 
 	public function handleCreate($format) 
 	{
-		$data = $this->create();
-		return $this->renderFormat( $data, $format );
+		$this->data = $this->create();
+		return $this->returnSuccess($format, "Record $id created.");
 	}
 
 	public function handleUpdate($id,$format)
 	{
-		$data = $this->update($id);
-		return $this->renderFormat( $data, $format );
+		$this->data = $this->update($id);
+		return $this->returnSuccess($format, "Record $id updated.");
 	}
 
 	public function handleLoad($id,$format)
 	{
-		$data = $this->load($id);
-		return $this->renderFormat( $data, $format );
+		$this->data = $this->load($id);
+		return $this->returnSuccess($format, "Record $id loaded.");
 	}
 
 	public function handleDelete($id,$format)
 	{
-		$data = $this->load($id);
-		return $this->renderFormat( $data, $format );
+		$this->data = $this->load($id);
+		return $this->returnSuccess($format, "Record $id deleted.");
 	}
-	
+
+	public function returnSuccess($format,$message = null)
+	{
+		return $this->renderFormat( 
+			array( 
+				'success' => true,
+				'data' => $this->data,
+				'message' => $this->message ?: $message,
+			), $format );
+	}
+
 }
-
-
 
 

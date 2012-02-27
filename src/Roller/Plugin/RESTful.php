@@ -84,20 +84,35 @@ class RESTful implements PluginInterface
         foreach( $this->resources as $r => $h ) {
 
 			// xxx: refactor to ResourceHandler->expand method 
-            $routes->add( "/$r(\.:format)" , array($h,'find'), 
-                    array( ':get' => true , 'format' => 'json' ) );
+            $routes->add( "/$r(\.:format)" , array($h,'handleFind'), 
+				array( 
+					':get' => true , 
+					':default' => array( 'format' => 'json' ) 
+				));
 
             $routes->add( '/' . $r . '(\.:format)' , array($h,'handleCreate'), 
-                    array( ':post' => true, 'format' => 'json' ) );
+				array( 
+					':post' => true, 
+					':default' => array( 'format' => 'json' ) 
+				));
 
             $routes->add( '/' . $r . '/:id(\.:format)' , array($h,'handleLoad'),
-                    array( ':get' => true, 'format' => 'json' ) );
+				array( 
+					':get' => true, 
+					':default' => array( 'format' => 'json' )
+			   	));
 
             $routes->add( '/' . $r . '/:id(\.:format)' , array($h,'handleUpdate'),
-                    array( ':put' => true, 'format' => 'json' ) );
+				array( 
+					':put' => true, 
+					':default' => array( 'format' => 'json' ) 
+				));
 
             $routes->add( '/' . $r . '/:id(\.:format)' , array($h,'handleDelete'),
-                    array( ':delete' => true, 'format' => 'json' ) );
+				array( 
+					':delete' => true, 
+					':default' => array( 'format' => 'json' ) 
+				));
 
         }
 		$router->mount( $this->prefix , $routes );
