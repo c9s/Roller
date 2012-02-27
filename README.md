@@ -142,11 +142,13 @@ Add RESTful plugin to your router manager:
 
         $router->addPlugin($restful);
 
-Register your resource id to your resource handler:
+Register your resource id to your resource handler, each resource id is mapping
+to an resource handler:
 
         $restful->registerResource( 'blog' , 'BlogResourceHandler' );
 
-Define your resource handler, here is a simple example that defines how CRUD works:
+Define your resource handler, here is a simple blog example that defines how
+RESTful CRUD works:
 
 ```php
 	<?php
@@ -154,14 +156,12 @@ Define your resource handler, here is a simple example that defines how CRUD wor
 
 	class BlogResourceHandler extends ResourceHandler
 	{
-		public function create()    { return array( 'id' => 1 );
-		}
+		public function create()    { return array( 'id' => 1 ); }
 
-		public function update($id) { return array( 'id' => 1 );
-		}
+		public function update($id) { return array( 'id' => 1 ); }
 
 		// delete a record.
-		public function delete($id) { return array( 'id' => 'delete' ); }
+		public function delete($id) { return array( 'id' => 1 ); }
 
 		// load one record
 		public function load($id)   { return array( 'id' => $id , 'title' => 'title' ); }
