@@ -127,7 +127,14 @@ class Router
 	public function dispatch($path)
 	{
 		if( ! $this->hasCache ) {
+
+            foreach( $this->plugins as $p )
+                $p->beforeCompile( $this );
+
 			$this->routes->compile();
+
+            foreach( $this->plugins as $p )
+                $p->afterCompile( $this );
 
 			if( $this->cache ) {
 				// make cache
