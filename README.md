@@ -13,7 +13,7 @@ INSTALL
 Clone this repository, pick up a PSR-0 classloader, and add `src/` to
 class path.
 
-To use console dumper, you will need ezc/ConsoleTools, please use PEAR
+To use console dumper, you need ezc/ConsoleTools, please use PEAR
 installer to install:
 
     sudo pear channel-discover components.ez.no
@@ -177,7 +177,7 @@ RESTful CRUD works:
 	}
 ```
 
-Before you dispatching URLs, router object will calls `expand` method from `ResourceHandler` class, which
+Before you dispatch URLs, router object calls `expand` method from `ResourceHandler` class, which
 generates RESTful routes into the routeset of router object. And below is the generated URLs:
 
 	GET /restful/blog        - get blog list
@@ -188,7 +188,7 @@ generates RESTful routes into the routeset of router object. And below is the ge
 
 You can override the `expand` method to define your own style RESTful URLs.
 
-You should be able to dispatch RESTful urls:
+Now you should be able to dispatch RESTful urls:
 
         $_SERVER['REQUEST_METHOD'] = 'get';
         $r = $router->dispatch('/restful/blog/1');
