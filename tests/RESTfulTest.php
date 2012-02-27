@@ -1,6 +1,31 @@
 <?php
 
 use Roller\Plugin\RESTful\ResourceHandler;
+use Roller\Plugin\RESTful\GenericHandler;
+
+class MyGenericHandler extends GenericHandler
+{
+    public function create($resourceId) { 
+        return array( 'id' => 99 );
+    }
+
+    public function load($resourceId,$id) { 
+        return array( 'id' => $id );
+    }
+
+    public function update($resourceId,$id) { 
+        return array( 'id' => $id );
+    }
+
+    public function delete($resourceId,$id) { 
+        return array( 'id' => $id );
+    }
+
+    public function find($resourceId) { 
+        return range(1,10);
+    }
+
+}
 
 class BlogResourceHandler extends ResourceHandler
 {
@@ -31,10 +56,38 @@ class BlogResourceHandler extends ResourceHandler
 
 class RESTfulTest extends PHPUnit_Framework_TestCase
 {
+
+    function testGenericHandler()
+    {
+        $router = new Roller\Router;
+        ok( $router );
+
+        $restful = new Roller\Plugin\RESTful(array( 'prefix' => '/restful' ));
+        ok( $restful );
+
+        $restful->setGenericHandler( 'MyGenericHandler' );
+        $router->addPlugin($restful);
+
+        $_SERVER['REQUEST_METHOD'] = 'GET';
+        $r = $router->dispatch( '/restful/blog' );
+        is( '{"success":true,"data":[1,2,3,4,5,6,7,8,9,10],"message":"Record find success."}' , $r() );
+
+        $_SERVER['REQUEST_METHOD'] = 'GET';
+        $r = $router->dispatch( '/restful/blog/3' );
+        is( '{"success":true,"data":{"id":"3"},"message":"Record 3 loaded."}' , $r() );
+
+    }
+
+
+
     function test()
     {
         $router = new Roller\Router;
+        ok( $router );
+
         $restful = new Roller\Plugin\RESTful(array( 'prefix' => '/restful' ));
+        ok( $restful );
+
         $restful->registerResource( 'blog' , 'BlogResourceHandler' );
         $router->addPlugin($restful);
 

@@ -165,8 +165,17 @@ Add RESTful plugin to your router manager:
         $router->addPlugin($restful);
 ```
 
-Register your resource id to your resource handler, each resource id is mapping
-to an resource handler:
+To support RESTful, you have two solutions:
+
+- `ResourceHandler`: If you need to define differnt logic for each resource, you can use
+  `ResourceHandler`, you can separate different resource logic into different
+  handler class.
+- `GenericHandler`: If your resources use the same logic and the same
+  permission controll, you can use `GenericHandler` for every resources.
+
+
+To use ResourceHandler, register your resource id to router with your resource
+handler class name, each resource id is mapping to an resource handler:
 
 ```php
 <?php

@@ -85,6 +85,12 @@ class RESTful implements PluginInterface
 			$h = new $hClass;
 			$h->expand( $routes, $h , $r );
         }
+
+        if( $this->genericHandler ) {
+            $h = new $this->genericHandler;
+            $h->expand( $routes, $h );
+        }
+
 		$router->mount( $this->prefix , $routes );
     }
 

@@ -12,7 +12,6 @@ abstract class GenericHandler extends BaseHandler
     abstract public function update($resourceId,$id);
     abstract public function delete($resourceId,$id);
 
-
 	public function handleFind($resourceId,$format)
 	{
 		$this->data = $this->find($resourceId);
@@ -43,10 +42,8 @@ abstract class GenericHandler extends BaseHandler
 		return $this->returnSuccess($format, "Record $id deleted.");
 	}
 
-
     public function expand($routes, $h)
     {
-
         $routes->add( '/:resourceId(\.:format)' , array( $h , 'handleCreate' ), array( 
             ':method' => 'post',
             ':default' => array( 'format' => 'json' ),
@@ -71,7 +68,6 @@ abstract class GenericHandler extends BaseHandler
             ':method' => 'get',
             ':default' => array( 'format' => 'json' ),
         ));
-
     }
 
 }
