@@ -132,20 +132,29 @@ define a bunch of RESTful routes, Roller Router also provides a simple RESTful
 route generator, which is pretty easy to customize your own RESTful routes.
 
 First, initalize a RESTful plugin object:
-	
+
+```php
+<?php
         $router = new Roller\Router;
         $restful = new Roller\Plugin\RESTful(array( 
 				'prefix' => '/restful' 
 		));
+```
 
 Add RESTful plugin to your router manager:
 
+```php
+<?php
         $router->addPlugin($restful);
+```
 
 Register your resource id to your resource handler, each resource id is mapping
 to an resource handler:
 
+```php
+<?php
         $restful->registerResource( 'blog' , 'BlogResourceHandler' );
+```
 
 Define your resource handler, here is a simple blog example that defines how
 RESTful CRUD works:
