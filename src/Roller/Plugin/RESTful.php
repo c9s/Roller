@@ -81,39 +81,9 @@ class RESTful implements PluginInterface
         // Create       => POST /restful/posts
         // Update       => PUT  /restful/posts
         // Delete       => DELETE /restful/posts/:id
-        foreach( $this->resources as $r => $h ) {
-
-			// xxx: refactor to ResourceHandler->expand method 
-            $routes->add( "/$r(\.:format)" , array($h,'handleFind'), 
-				array( 
-					':get' => true , 
-					':default' => array( 'format' => 'json' ) 
-				));
-
-            $routes->add( '/' . $r . '(\.:format)' , array($h,'handleCreate'), 
-				array( 
-					':post' => true, 
-					':default' => array( 'format' => 'json' ) 
-				));
-
-            $routes->add( '/' . $r . '/:id(\.:format)' , array($h,'handleLoad'),
-				array( 
-					':get' => true, 
-					':default' => array( 'format' => 'json' )
-			   	));
-
-            $routes->add( '/' . $r . '/:id(\.:format)' , array($h,'handleUpdate'),
-				array( 
-					':put' => true, 
-					':default' => array( 'format' => 'json' ) 
-				));
-
-            $routes->add( '/' . $r . '/:id(\.:format)' , array($h,'handleDelete'),
-				array( 
-					':delete' => true, 
-					':default' => array( 'format' => 'json' ) 
-				));
-
+        foreach( $this->resources as $r => $hClass ) {
+			$h = new $hClass;
+			$h->expand( $routes, $h , $r );
         }
 		$router->mount( $this->prefix , $routes );
     }

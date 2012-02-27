@@ -39,13 +39,51 @@ abstract class ResourceHandler
 	abstract public function load($id);
 
 
+	public function getClass()
+	{
+		return get_class($this);
+	}
+
 
 	/**
-	 * expand resource handlers to routeset 
+	 * expand resource handlers to routeset,
+	 * in here, we define how to expand RESTful URLs from resource id, 
+	 * and which is customizable.
+	 *
+	 * @param RouteSet $routes
+	 * @param string $r resource identifier.
 	 */
-	public function expand()
+	public function expand($routes, $h, $r)
 	{
-		// xxx
+		$routes->add( "/$r(\.:format)" , array($h,'handleFind'), 
+			array( 
+				':get' => true , 
+				':default' => array( 'format' => 'json' ) 
+			));
+
+		$routes->add( '/' . $r . '(\.:format)' , array($h,'handleCreate'), 
+			array( 
+				':post' => true, 
+				':default' => array( 'format' => 'json' ) 
+			));
+
+		$routes->add( '/' . $r . '/:id(\.:format)' , array($h,'handleLoad'),
+			array( 
+				':get' => true, 
+				':default' => array( 'format' => 'json' )
+			));
+
+		$routes->add( '/' . $r . '/:id(\.:format)' , array($h,'handleUpdate'),
+			array( 
+				':put' => true, 
+				':default' => array( 'format' => 'json' ) 
+			));
+
+		$routes->add( '/' . $r . '/:id(\.:format)' , array($h,'handleDelete'),
+			array( 
+				':delete' => true, 
+				':default' => array( 'format' => 'json' ) 
+			));
 	}
 
 	public function renderFormat($data, $format)
