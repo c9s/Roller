@@ -1,0 +1,14 @@
+Runing roller_ext - roller_ext. 1713.1495323286/s
+Runing roller - roller. 459.53392569544/s
+
+              Rate   Mem roller_ext roller
+roller_ext    1K/s    0B         --   -26%
+    roller   459/s    0B       372%     --
+
+
+================================== Bar Chart ==================================
+
+  roller_ext    1K/s | ████████████████████████████████████████████████████████████  |
+      roller   459/s | ████████████████                                              |
+
+
