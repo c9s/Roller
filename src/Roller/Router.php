@@ -1,5 +1,6 @@
 <?php
 namespace Roller;
+use Exception;
 
 class Router
 {
@@ -165,5 +166,19 @@ class Router
         }
 		return false;
 	}
+
+
+    /**
+     * dispatch methods to plugins (mixin)
+     */
+    public function __call($m,$a)
+    {
+        foreach( $this->plugins as $p ) {
+            if( method_exists($p,$m) ) {
+                return call_user_func_array( array($p,$m), $a);
+            }
+        }
+        throw new Exception("$m method not found.");
+    }
 
 }
