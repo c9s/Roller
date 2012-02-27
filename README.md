@@ -5,6 +5,18 @@ PHP Roller is a simple/fast router for PHP5.3.
 
 Roller API is really simple, eazy to use.
 
+FEATURES
+--------
+
+- Flexiable
+- Highly-Customizable
+- APC cache support.
+- File cache support.
+- Built-in RESTful route generator.
+- Customizable RESTful route generator.
+- Simple, Useful route path syntax. (rails-style)
+- Very fast.
+
 <img src="https://github.com/c9s/Roller/raw/master/misc/img1.png" width="500">
 
 INSTALL
