@@ -22,14 +22,19 @@ FEATURES
 INSTALL
 -------
 
+Install through PEAR:
+
+    $ sudo pear channel-discover pear.corneltek.com
+    $ sudo pear install corneltek/Roller
+
 Clone this repository, pick up a PSR-0 classloader, and add `src/` to
 class path.
 
 To use console dumper, you need ezc/ConsoleTools, please use PEAR
 installer to install:
 
-    sudo pear channel-discover components.ez.no
-    sudo pear install -a ezc/ConsoleTools
+    $ sudo pear channel-discover components.ez.no
+    $ sudo pear install -a ezc/ConsoleTools
 
 SYNOPSIS
 --------
