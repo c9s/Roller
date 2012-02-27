@@ -2,12 +2,8 @@
 namespace Roller\Plugin\RESTful;
 use Exception;
 
-abstract class ResourceHandler
+abstract class ResourceHandler extends BaseHandler
 {
-
-	public $message;
-
-	public $data;
 
 
 	/**
@@ -37,12 +33,6 @@ abstract class ResourceHandler
 	 * load one record
 	 */
 	abstract public function load($id);
-
-
-	public function getClass()
-	{
-		return get_class($this);
-	}
 
 
 	/**
@@ -86,18 +76,6 @@ abstract class ResourceHandler
 			));
 	}
 
-	public function renderFormat($data, $format)
-	{
-		switch($format) {
-			case 'json':
-				return json_encode( $data );
-			break;
-
-			case 'yaml':
-				return yaml_emit( $data );
-			break;
-		}
-	}
 
 	public function handleFind($format)
 	{
@@ -129,15 +107,6 @@ abstract class ResourceHandler
 		return $this->returnSuccess($format, "Record $id deleted.");
 	}
 
-	public function returnSuccess($format,$message = null)
-	{
-		return $this->renderFormat( 
-			array( 
-				'success' => true,
-				'data' => $this->data,
-				'message' => $this->message ?: $message,
-			), $format );
-	}
 
 }
 
