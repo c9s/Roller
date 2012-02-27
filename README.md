@@ -16,6 +16,9 @@ FEATURES
 - Customizable RESTful route generator.
 - Simple, Useful route path syntax. (rails-style)
 - Very fast.
+- High unit test coverage, between 88%~100%.
+
+
 
 <img src="https://github.com/c9s/Roller/raw/master/misc/img1.png" width="500">
 
