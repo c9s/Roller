@@ -38,13 +38,25 @@ class RESTfulTest extends PHPUnit_Framework_TestCase
         $restful->registerResource( 'blog' , 'BlogResourceHandler' );
         $router->addPlugin($restful);
 
-        $_SERVER['REQUEST_METHOD'] = 'get';
+        $_SERVER['REQUEST_METHOD'] = 'GET';
         $r = $router->dispatch('/restful/blog/1');
         is( '{"success":true,"data":{"id":"1","title":"title"},"message":"Record 1 loaded."}' , $r() );
 
-        $_SRVER['REQUEST_METHOD'] = 'get';
+        $_SRVER['REQUEST_METHOD'] = 'GET';
         $r = $router->dispatch('/restful/blog');
         is( '{"success":true,"data":[{"id":0},{"id":1},{"id":2}],"message":"Record find success."}' , $r() );
+
+        $_SRVER['REQUEST_METHOD'] = 'PUT';
+        $r = $router->dispatch('/restful/blog/1');
+        ok( $r() );
+
+        $_SRVER['REQUEST_METHOD'] = 'DELETE';
+        $r = $router->dispatch('/restful/blog/1');
+        ok( $r() );
+
+        $_SRVER['REQUEST_METHOD'] = 'POST';
+        $r = $router->dispatch('/restful/blog');
+        ok( $r() );
     }
 }
 
