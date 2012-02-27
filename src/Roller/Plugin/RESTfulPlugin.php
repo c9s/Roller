@@ -42,22 +42,22 @@ class RESTfulPlugin implements PluginInterface
     public $genericHandler;
 
 
-    public setValidResources($resources)
+    public function setValidResources($resources)
     {
         $this->validResources = $resources;
     }
 
-    public addValidResource($resourceId)
+    public function addValidResource($resourceId)
     {
         $this->validResources[] = $resourceId;
     }
 
-    public registerResource( $resourceId, $handlerClass )
+    public function registerResource( $resourceId, $handlerClass )
     {
         $this->resources[ $resourceId ] = $handlerClass;
     }
 
-    public setGenericHandler( $genericHandlerClass )
+    public function setGenericHandler( $genericHandlerClass )
     {
         $this->genericHandler = $genericHandlerClass;
     }
