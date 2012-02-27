@@ -22,6 +22,24 @@ $router->routes->compile();
 // var_dump( $router->routes->routes );
 
 echo "dispatching\n";
-$regs = null;
-$r = roller_dispatch( $router->routes->routes , '/foo1000' , $regs );
-var_dump( $r, $regs ); 
+
+
+
+$b = new SimpleBench;
+$b->setN(10);
+
+$b->iterate('roller_ext', 'roller_ext' , function() use ($router) {
+    $regs = null;
+    $r = roller_dispatch( $router->routes->routes , '/foo1000' , $regs );
+});
+
+$b->iterate('roller' , 'roller' , function() use ($router) {
+    $r = $router->dispatch('/foo1000');
+});
+
+// var_dump( $r , $regs ); 
+// var_dump( hello_array_value( array(  'foo' => 'what' ) , 'foo' ) );
+
+$result = $b->compare();
+echo $result->output('Console');
+// $result->output('EzcGraph');
