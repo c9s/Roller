@@ -14,7 +14,7 @@ $router->add('/',function() {
     return 'Hello World, please request /=/test for RESTful resource handler demo.';
 });
 
-foreach( range(1,1000) as $i ) {
+foreach( range(1,10000) as $i ) {
     $router->add('/foo' . $i , function() { return 'bar'; });
 }
 
@@ -24,7 +24,7 @@ $router->routes->compile();
 echo "dispatching\n";
 
 $regs = null;
-$r = roller_dispatch( $router->routes->routes , '/foo1000' , $regs );
+$r = roller_dispatch( $router->routes->routes , '/foo10000' , $regs );
 
 var_dump( $r , $regs ); 
 

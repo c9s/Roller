@@ -90,6 +90,8 @@ PHP_FUNCTION(roller_dispatch)
                 php_pcre_match_impl(pce, subject, subject_len, return_value, subpats,
                     global, false , flags, start_offset TSRMLS_CC);
 
+                efree(regex);
+
                 /* return_value is not bool */
                 if( Z_TYPE_P(return_value) == IS_LONG ) {
                     if( Z_LVAL_P(return_value) ) {
