@@ -9,13 +9,44 @@ class Router
 	/* boolean, is cache enabled ? */
 	public $cache;
 
+
+    /**
+     * is cache found ?
+     */
 	public $hasCache = false;
 
+
+    /**
+     * cache directory
+     *
+     * @var string path
+     */
 	public $cacheDir;
 
+    /**
+     * cache id 
+     *
+     * @var string cache if for apc and file.
+     */
 	public $cacheId;
 
+
+    /**
+     * cache exxpiry 
+     */
+    public $cacheExpiry = 3600;
+
+    /**
+     * should we reload cache ? (not implemented yet)
+     *
+     */
 	public $reload = false;
+
+
+    /**
+     * @var array plugins
+     */
+    public $plugins = array();
 
 
 	const cache_type_apc = 1;
@@ -41,8 +72,15 @@ class Router
 			$cacheFile = $this->cacheDir . DIRECTORY_SEPARATOR . $this->cacheId;
 			$this->hasCache = false;
 			if( file_exists($cacheFile) ) {
-				$this->routes = require $cacheFile;
-				$this->hasCache = true;
+                // check expiry 
+                if( filemtime($cacheFile) + $this->cacheExpiry > time() ) {
+                    // expired, do something ?
+                }
+                else {
+                    $this->routes = require $cacheFile;
+                    $this->hasCache = true;
+                }
+
 			}
 		}
 
