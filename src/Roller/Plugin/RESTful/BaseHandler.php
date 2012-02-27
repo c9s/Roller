@@ -1,11 +1,42 @@
 <?php
 namespace Roller\Plugin\RESTful;
 
+
+
+
 abstract class BaseHandler
 {
 	public $message;
 
 	public $data;
+
+
+    /**
+     * http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
+     */
+    public function codeCreated($message = 'Created')
+    {
+        header("HTTP/1.1 201 $message");
+    }
+
+    public function codeOk($message = 'OK') 
+    {
+        header("HTTP/1.1 200 $message");
+    }
+
+    public function codeBadRequest($message = 'Bad Request')
+    {
+        header("HTTP/1.1 400 $message");
+    }
+
+    public function returnError($format,$message = null)
+    {
+        $this->codeBadRequest($message);
+        return $this->renderFormat(array( 
+            'success' => false,
+            'errors' => $message,
+        ), $format);
+    }
 
 	public function returnSuccess($format,$message = null)
 	{
@@ -21,10 +52,11 @@ abstract class BaseHandler
 	{
 		switch($format) {
 			case 'json':
+                header('content-type: application/json; charset=utf8;');
 				return json_encode( $data );
 			break;
-
 			case 'yaml':
+                header('content-type: application/yaml; charset=utf8;');
 				return yaml_emit( $data );
 			break;
 		}
