@@ -12,7 +12,10 @@ abstract class BaseHandler
 
 
     /**
+     * HTTP Status Code:
+     *
      * http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
+     * http://restpatterns.org/HTTP_Status_Codes
      */
     public function codeCreated($message = 'Created')
     {
