@@ -1,14 +1,32 @@
 <?php
 
-use Roller\Plugin\RESTful\ResourceHandlerInterface;
+use Roller\Plugin\RESTful\ResourceHandler;
 
-class BlogResourceHandler implements ResourceHandlerInterface 
+class BlogResourceHandler extends ResourceHandler
 {
-    public function create()    {  }
-    public function update($id) {  }
-    public function delete($id) {  }
-    public function load($id)   {  }
-    public function find()      {  }
+    public function create()    { 
+        return array( 'id' => 1 );
+    }
+
+    public function update($id) { 
+        return array( 'id' => 1 );
+    }
+
+    public function delete($id) { 
+        return array( 'id' => 'delete' );
+    }
+
+    public function load($id)   { 
+        return array( 'id' => $id , 'title' => 'title' );
+    }
+
+    public function find()      { 
+        return array( 
+            array( 'id' => 0 ),
+            array( 'id' => 1 ),
+            array( 'id' => 2 ),
+        );
+    }
 }
 
 class RESTfulTest extends PHPUnit_Framework_TestCase
