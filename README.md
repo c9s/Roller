@@ -215,7 +215,7 @@ RESTful CRUD works:
 	}
 ```
 
-Before you dispatch URLs, router object calls `expand` method from `ResourceHandler` class, which
+Before you dispatch URLs, router object calls the `expand` method of `ResourceHandler` class, which
 generates RESTful routes into the routeset of router object. And below is the generated URLs:
 
 	GET /restful/blog        - get blog list
