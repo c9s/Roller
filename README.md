@@ -211,18 +211,21 @@ You can override the `expand` method to define your own style RESTful URLs.
 
 Now you should be able to dispatch RESTful urls:
 
-        $_SERVER['REQUEST_METHOD'] = 'get';
-        $r = $router->dispatch('/restful/blog/1');
+```php
+<?php
 
-		// returns {"success":true,"data":{"id":"1","title":"title"},"message":"Record 1 loaded."}
-		$r();   
+	$_SERVER['REQUEST_METHOD'] = 'get';
+	$r = $router->dispatch('/restful/blog/1');
 
-        $_SRVER['REQUEST_METHOD'] = 'get';
-        $r = $router->dispatch('/restful/blog');
+	// returns {"success":true,"data":{"id":"1","title":"title"},"message":"Record 1 loaded."}
+	$r();   
 
-        // {"success":true,"data":[{"id":0},{"id":1},{"id":2}],"message":"Record find success."}
-		$r();
+	$_SRVER['REQUEST_METHOD'] = 'get';
+	$r = $router->dispatch('/restful/blog');
 
+	// {"success":true,"data":[{"id":0},{"id":1},{"id":2}],"message":"Record find success."}
+	$r();
+```
 
 ## Customize Resource Handler
 
