@@ -6,65 +6,65 @@ use Exception;
 abstract class GenericHandler extends BaseHandler
 {
 
-    abstract public function create($resourceId);
-    abstract public function find($resourceId);
-    abstract public function load($resourceId,$id);
-    abstract public function update($resourceId,$id);
-    abstract public function delete($resourceId,$id);
+    abstract public function create($resource);
+    abstract public function find($resource);
+    abstract public function load($resource,$id);
+    abstract public function update($resource,$id);
+    abstract public function delete($resource,$id);
 
-	public function handleFind($resourceId,$format)
+	public function handleFind($resource,$format)
 	{
-		$this->data = $this->find($resourceId);
+		$this->data = $this->find($resource);
 		return $this->returnSuccess($format, "Record find success.");
 	}
 
-	public function handleCreate($resourceId,$format) 
+	public function handleCreate($resource,$format) 
 	{
-		$this->data = $this->create($resourceId);
+		$this->data = $this->create($resource);
 		return $this->returnSuccess($format, "Record $id created.");
 	}
 
-	public function handleUpdate($resourceId,$id,$format)
+	public function handleUpdate($resource,$id,$format)
 	{
-		$this->data = $this->update($resourceId,$id);
+		$this->data = $this->update($resource,$id);
 		return $this->returnSuccess($format, "Record $id updated.");
 	}
 
-	public function handleLoad($resourceId,$id,$format)
+	public function handleLoad($resource,$id,$format)
 	{
-		$this->data = $this->load($resourceId,$id);
+		$this->data = $this->load($resource,$id);
 		return $this->returnSuccess($format, "Record $id loaded.");
 	}
 
-	public function handleDelete($resourceId,$id,$format)
+	public function handleDelete($resource,$id,$format)
 	{
-		$this->data = $this->load($resourceId,$id);
+		$this->data = $this->load($resource,$id);
 		return $this->returnSuccess($format, "Record $id deleted.");
 	}
 
     public function expand($routes, $h)
     {
-        $routes->add( '/:resourceId(\.:format)' , array( $h , 'handleCreate' ), array( 
+        $routes->add( '/:resource(\.:format)' , array( $h , 'handleCreate' ), array( 
             ':method' => 'post',
             ':default' => array( 'format' => 'json' ),
         ));
 
-        $routes->add( '/:resourceId(\.:format)' , array( $h , 'handleFind' ), array( 
+        $routes->add( '/:resource(\.:format)' , array( $h , 'handleFind' ), array( 
             ':method' => 'get',
             ':default' => array( 'format' => 'json' ),
         ));
 
-        $routes->add( '/:resourceId/:id(\.:format)' , array( $h, 'handleUpdate'), array( 
+        $routes->add( '/:resource/:id(\.:format)' , array( $h, 'handleUpdate'), array( 
             ':method' => 'put',
             ':default' => array( 'format' => 'json' ),
         ));
 
-        $routes->add( '/:resourceId/:id(\.:format)' , array( $h, 'handleDelete'), array( 
+        $routes->add( '/:resource/:id(\.:format)' , array( $h, 'handleDelete'), array( 
             ':method' => 'delete',
             ':default' => array( 'format' => 'json' ),
         ));
 
-        $routes->add( '/:resourceId/:id(\.:format)' , array( $h, 'handleLoad'), array( 
+        $routes->add( '/:resource/:id(\.:format)' , array( $h, 'handleLoad'), array( 
             ':method' => 'get',
             ':default' => array( 'format' => 'json' ),
         ));

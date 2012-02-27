@@ -5,23 +5,23 @@ use Roller\Plugin\RESTful\GenericHandler;
 
 class MyGenericHandler extends GenericHandler
 {
-    public function create($resourceId) { 
+    public function create($resource) { 
         return array( 'id' => 99 );
     }
 
-    public function load($resourceId,$id) { 
+    public function load($resource,$id) { 
         return array( 'id' => $id );
     }
 
-    public function update($resourceId,$id) { 
+    public function update($resource,$id) { 
         return array( 'id' => $id );
     }
 
-    public function delete($resourceId,$id) { 
+    public function delete($resource,$id) { 
         return array( 'id' => $id );
     }
 
-    public function find($resourceId) { 
+    public function find($resource) { 
         return range(1,10);
     }
 
