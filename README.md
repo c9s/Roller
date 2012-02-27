@@ -79,7 +79,6 @@ To add a new route with request method (like POST method):
         ),
     ));
 
-
 Dispatch
 --------
 
