@@ -53,7 +53,7 @@ class Router
 
 	const cache_type_file = 2;
 
-	function __construct($routes = null, $options = array() )
+	public function __construct($routes = null, $options = array() )
 	{
 
 		/* if cache_id is defined (only), we use apc for caching defined routes */
@@ -93,12 +93,17 @@ class Router
 		}
 	}
 
-	function add($path,$callback,$options=array() )
+	public function add($path,$callback,$options=array() )
 	{
 		return $this->routes->add( $path, $callback, $options );
 	}
 
-	function makeCache()
+    public function addPlugin($plugin)
+    {
+        $this->plugins[] = $plugin;
+    }
+
+	private function makeCache()
 	{
 		if( $this->cache === self::cache_type_apc ) {
 			$dumper = new \Roller\Dumper\PhpDumper;
@@ -118,7 +123,7 @@ class Router
 		}
 	}
 
-	function dispatch($path)
+	public function dispatch($path)
 	{
 		if( ! $this->hasCache ) {
 			$this->routes->compile();
