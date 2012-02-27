@@ -35,7 +35,7 @@ class Router
     /**
      * cache exxpiry 
      */
-    public $cacheExpiry = 3600;
+    public $cacheExpiry;
 
     /**
      * should we reload cache ? (not implemented yet)
@@ -74,14 +74,15 @@ class Router
 			$this->hasCache = false;
 			if( file_exists($cacheFile) ) {
                 // check expiry 
-                if( filemtime($cacheFile) + $this->cacheExpiry > time() ) {
+                if( $this->cacheExpiry 
+                    && ( filemtime($cacheFile) + $this->cacheExpiry ) < time() ) 
+                {
                     // expired, do something ?
                 }
                 else {
                     $this->routes = require $cacheFile;
                     $this->hasCache = true;
                 }
-
 			}
 		}
 
@@ -98,6 +99,11 @@ class Router
 	{
 		return $this->routes->add( $path, $callback, $options );
 	}
+
+    public function mount($prefix,$routeset) 
+    {
+        return $this->routes->mount( $prefix , $routeset );
+    }
 
     public function addPlugin($plugin)
     {

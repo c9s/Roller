@@ -45,6 +45,8 @@ class RouteSet implements Iterator
             $method = 'head';
         elseif( isset($options[':put']) )
             $method = 'put';
+        elseif( isset($options[':delete']) )
+            $method = 'delete';
 
         return $this->routes[] = array(
             'path' => $path,
