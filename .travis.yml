@@ -8,6 +8,6 @@ before_script:
   - phpenv rehash
   - "pyrus upgrade -f -p pear2.php.net/PEAR2_Pyrus_Developer"
   - curl http://install.onionphp.org/ | bash
-  - ./onion bundle
+  - onion bundle
 
 script: phpunit
