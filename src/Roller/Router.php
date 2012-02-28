@@ -159,13 +159,6 @@ class Router
         else {
             foreach( $this->routes as $route ) {
                 if( preg_match( $route['compiled'], $path, $regs ) ) {
-                    foreach( $route['variables'] as $k ) {
-                        if( isset($regs[$k]) ) {
-                            $route['vars'][ $k ] = $regs[$k];
-                        } else {
-                            $route['vars'][ $k ] = $route['default'][ $k ];
-                        }
-                    }
 
                     // if method is defined, we should check server request method
                     if( isset($route['method']) && $m = $route['method'] ) {
@@ -177,6 +170,17 @@ class Router
                             continue;
                         }
                     }
+
+                    // apply variables
+
+                    foreach( $route['variables'] as $k ) {
+                        if( isset($regs[$k]) ) {
+                            $route['vars'][ $k ] = $regs[$k];
+                        } else {
+                            $route['vars'][ $k ] = $route['default'][ $k ];
+                        }
+                    }
+
 
                     // matched!
                     return new MatchedRoute($route);

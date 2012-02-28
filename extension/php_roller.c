@@ -36,7 +36,6 @@ PHP_FUNCTION(roller_dispatch)
 
     zval			 *subpats = NULL;	/* Array for subpatterns */
 
-    zval **data;
 
     if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "asz", 
                     &routeset, 
@@ -55,51 +54,53 @@ PHP_FUNCTION(roller_dispatch)
 
     // php_printf("%d routes\n", array_count);
 
+    zval **z_route;
     for(zend_hash_internal_pointer_reset_ex(arr_hash, &pointer); 
-            zend_hash_get_current_data_ex(arr_hash, (void**) &data, &pointer) == SUCCESS; 
+            zend_hash_get_current_data_ex(arr_hash, (void**) &z_route, &pointer) == SUCCESS; 
             zend_hash_move_forward_ex(arr_hash, &pointer)) 
     {
 
         zval  **tmp;
-        HashTable *route_hash = Z_ARRVAL_PP(data);
-        if (zend_hash_find(route_hash, "compiled", sizeof("compiled"), (void**)&tmp) == SUCCESS) {
-            if (Z_TYPE_PP(tmp) == IS_STRING) {
-                // PHPWRITE(Z_STRVAL_PP(tmp), Z_STRLEN_PP(tmp));
+        HashTable *route_hash = Z_ARRVAL_PP(z_route);
+        if (zend_hash_find(route_hash, "compiled", sizeof("compiled"), (void**)&tmp) == FAILURE ) {
+            continue;
+        }
 
-                /* parameters */
-                char			 *regex;			/* Regular expression */
-                char			 *subject;			/* String to match against */
-                int				  regex_len;
-                int				  subject_len;
-                pcre_cache_entry *pce;				/* Compiled regular expression */
-                long			  flags = 0;		/* Match control flags */
-                long			  start_offset = 0;	/* Where the new search starts */
-                int  global  = 0;
+        if (Z_TYPE_PP(tmp) == IS_STRING) {
+            // PHPWRITE(Z_STRVAL_PP(tmp), Z_STRLEN_PP(tmp));
 
-                regex = estrndup(Z_STRVAL_PP(tmp), Z_STRLEN_PP(tmp));
-                regex_len = strlen(regex);
+            /* parameters */
+            char			 *regex;			/* Regular expression */
+            char			 *subject;			/* String to match against */
+            int				  regex_len;
+            int				  subject_len;
+            pcre_cache_entry *pce;				/* Compiled regular expression */
+            long			  flags = 0;		/* Match control flags */
+            long			  start_offset = 0;	/* Where the new search starts */
+            int  global  = 0;
 
-                subject = path;
-                subject_len = path_len;
+            regex = estrndup(Z_STRVAL_PP(tmp), Z_STRLEN_PP(tmp));
+            regex_len = strlen(regex);
 
-                /* Compile regex or get it from cache. */
-                if ((pce = pcre_get_compiled_regex_cache(regex, regex_len TSRMLS_CC)) == NULL) {
-                    RETURN_FALSE;
-                }
+            subject = path;
+            subject_len = path_len;
 
-                php_pcre_match_impl(pce, subject, subject_len, return_value, subpats,
-                    global, false , flags, start_offset TSRMLS_CC);
-
-                efree(regex);
-
-                /* return_value is not bool */
-                if( Z_TYPE_P(return_value) == IS_LONG ) {
-                    if( Z_LVAL_P(return_value) ) {
-                        MAKE_COPY_ZVAL( data, return_value );
-                        return;
-                    }
-                }
+            /* Compile regex or get it from cache. */
+            if ((pce = pcre_get_compiled_regex_cache(regex, regex_len TSRMLS_CC)) == NULL) {
+                RETURN_FALSE;
             }
+
+            php_pcre_match_impl(pce, subject, subject_len, return_value, subpats,
+                global, false , flags, start_offset TSRMLS_CC);
+
+            efree(regex);
+
+            /* return_value is not bool */
+            if( Z_TYPE_P(return_value) == IS_LONG && ! Z_LVAL_P(return_value) )
+                continue;
+
+            MAKE_COPY_ZVAL( z_route, return_value );
+            return;
         }
     }
     RETURN_NULL();
