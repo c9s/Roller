@@ -23,5 +23,5 @@ $router->routes->compile();
 
 echo "dispatching\n";
 $regs = null;
-$r = roller_dispatch( $router->routes->routes , '/foo1000' , $regs );
-var_dump( $r, $regs ); 
+$route = roller_dispatch( $router->routes->routes , '/foo1000' , $regs );
+var_dump( $route, $regs ); 

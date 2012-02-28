@@ -95,6 +95,7 @@ PHP_FUNCTION(roller_dispatch)
                 /* return_value is not bool */
                 if( Z_TYPE_P(return_value) == IS_LONG ) {
                     if( Z_LVAL_P(return_value) ) {
+                        MAKE_COPY_ZVAL( data, return_value );
                         return;
                     }
                 }

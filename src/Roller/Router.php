@@ -152,29 +152,35 @@ class Router
 			$this->hasCache = true;
 		}
 
-        foreach( $this->routes as $route ) {
-            if( preg_match( $route['compiled'], $path, $regs ) ) {
-                foreach( $route['variables'] as $k ) {
-					if( isset($regs[$k]) ) {
-						$route['vars'][ $k ] = $regs[$k];
-					} else {
-						$route['vars'][ $k ] = $route['default'][ $k ];
-					}
-                }
-
-                // if method is defined, we should check server request method
-                if( isset($route['method']) && $m = $route['method'] ) {
-                    /* 
-                     * Which request method was used to access the page; 
-                     * i.e. 'GET', 'HEAD', 'POST', 'PUT'.
-                     */
-                    if( strtolower( $_SERVER['REQUEST_METHOD'] ) !== $m ) {
-                        continue;
+        if( function_exists('roller_dispatch') ) {
+            $regs = null;
+            $route = roller_dispatch( $router->routes->routes , '/foo1000' , $regs );
+        }
+        else {
+            foreach( $this->routes as $route ) {
+                if( preg_match( $route['compiled'], $path, $regs ) ) {
+                    foreach( $route['variables'] as $k ) {
+                        if( isset($regs[$k]) ) {
+                            $route['vars'][ $k ] = $regs[$k];
+                        } else {
+                            $route['vars'][ $k ] = $route['default'][ $k ];
+                        }
                     }
-                }
 
-                // matched!
-                return new MatchedRoute($route);
+                    // if method is defined, we should check server request method
+                    if( isset($route['method']) && $m = $route['method'] ) {
+                        /* 
+                        * Which request method was used to access the page; 
+                        * i.e. 'GET', 'HEAD', 'POST', 'PUT'.
+                        */
+                        if( strtolower( $_SERVER['REQUEST_METHOD'] ) !== $m ) {
+                            continue;
+                        }
+                    }
+
+                    // matched!
+                    return new MatchedRoute($route);
+                }
             }
         }
 		return false;
