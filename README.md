@@ -17,9 +17,8 @@ FEATURES
 - Built-in RESTful route generator, resource handler.
 - Customizable RESTful route generator, resource handler.
 - Simple, Useful route path syntax. (rails-style)
-- Very fast.
+- High performance (through PHP extension)
 - High unit test coverage, coverage > 88%.
-
 
 
 <img src="https://github.com/c9s/Roller/raw/master/misc/img1.png" width="500">
@@ -304,6 +303,17 @@ class YourResourceHandler extends ResourceHandler {
 }
 ```
 
+Install Extension
+-----------------
+
+    $ cd extension
+    $ phpize 
+    $ ./configure 
+    $ make && make install
+
+Add config to your php.ini:
+
+    extension=roller.so
 
 Hacking
 -------
