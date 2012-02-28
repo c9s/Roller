@@ -55,11 +55,11 @@ abstract class BaseHandler
 	{
 		switch($format) {
 			case 'json':
-                header('content-type: application/json; charset=utf8;');
+                @header('content-type: application/json; charset=utf8;');
 				return json_encode( $data );
 			break;
 			case 'yaml':
-                header('content-type: application/yaml; charset=utf8;');
+                @header('content-type: application/yaml; charset=utf8;');
 				return yaml_emit( $data );
 			break;
 		}
