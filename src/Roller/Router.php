@@ -153,8 +153,8 @@ class Router
 		}
 
         if( function_exists('roller_dispatch') ) {
-            $regs = null;
-            $route = roller_dispatch( $router->routes->routes , '/foo1000' , $regs );
+            $route = roller_dispatch( $router->routes->routes , $path );
+            return new MatchedRoute($route);
         }
         else {
             $server_req_method = strtolower($_SERVER['REQUEST_METHOD']);

@@ -4,9 +4,9 @@
 #include "php.h"
 #include "php_roller.h"
 #include "ext/pcre/php_pcre.h"
+#include "ext/standard/php_string.h"
 
-
-#define DEBUG 1
+// #define DEBUG 1
 
 static const zend_function_entry roller_functions[] = {
     PHP_FE(roller_dispatch, NULL)
@@ -51,7 +51,7 @@ PHP_FUNCTION(roller_dispatch)
 
     /* get request method */
     char *c_request_method;
-    int  *c_request_method_len;
+    int  c_request_method_len;
     zval **z_server_hash;
     zval **z_request_method;
 
