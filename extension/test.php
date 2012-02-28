@@ -15,7 +15,7 @@ $router->add('/',function() {
 });
 
 $i = 0;
-foreach( range(1,1000) as $i ) {
+foreach( range(1,10000) as $i ) {
     $router->add('/foo' . $i , function() { return 'bar'; });
 }
 
@@ -23,6 +23,8 @@ $router->routes->compile();
 // var_dump( $router->routes->routes );
 
 echo "dispatching\n";
+
+$_SERVER['REQUEST_METHOD'] = 'GET';
 
 echo "before_dispatch: " . (memory_get_usage() / 1024 / 1024) . " MB\n";
 $regs = null;

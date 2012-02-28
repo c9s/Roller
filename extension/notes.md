@@ -33,3 +33,8 @@ https://wiki.php.net/internals/engine/objects
 
 To get array hash table
     HashTable *route_hash = Z_ARRVAL_PP(z_route);
+
+
+PHP API Functions:
+
+    php_strtolower(c_request_method ,c_request_method_len);

@@ -57,6 +57,10 @@ PHP_FUNCTION(roller_dispatch)
 	) {
 		c_request_method = Z_STRVAL_PP(z_request_method);
         c_request_method_len = Z_STRLEN_PP(z_request_method);
+
+        // convert to lower case, for comparing string
+        php_strtolower(c_request_method ,c_request_method_len);
+        // php_printf("%s\n", c_request_method );
 	}
 
     HashPosition route_pointer;
