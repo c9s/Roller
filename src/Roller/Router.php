@@ -154,7 +154,7 @@ class Router
 
         if( function_exists('roller_dispatch') ) {
             $route = roller_dispatch( $this->routes->routes , $path );
-            return new MatchedRoute($route);
+            return $route ? new MatchedRoute($route) : false;
         }
         else {
             $server_req_method = strtolower($_SERVER['REQUEST_METHOD']);

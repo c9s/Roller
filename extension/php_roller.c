@@ -248,6 +248,6 @@ PHP_FUNCTION(roller_dispatch)
 #ifdef DEBUG
     php_printf("D: return null\n");
 #endif
-    RETURN_NULL();
+    RETURN_FALSE;
 }
 

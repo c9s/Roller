@@ -12,9 +12,6 @@ if( extension_loaded('roller') ) {
 
 // var_dump( $router->routes->routes );
 
-echo "dispatching\n";
-
-
 /*
 echo "before_dispatch: " . (memory_get_usage() / 1024 / 1024) . " MB\n";
 $regs = null;
