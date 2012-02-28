@@ -23,3 +23,13 @@ https://wiki.php.net/internals/engine/objects
 
 
     MAKE_COPY_ZVAL(subject, return_value);
+
+    EG(function_table)
+    EG(symbol_table)
+    EG(class_table)
+
+    EG(regular_list)
+    EG(persistent_list)
+
+To get array hash table
+    HashTable *route_hash = Z_ARRVAL_PP(z_route);

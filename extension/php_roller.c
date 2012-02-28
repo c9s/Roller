@@ -34,63 +34,87 @@ PHP_FUNCTION(roller_dispatch)
     char *path;
     int  path_len;
 
-    zval			 *subpats = NULL;	/* Array for subpatterns */
+    zval *subpats = NULL;	/* Array for subpatterns */
 
-
+    /* parse parameters */
     if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "asz", 
                     &routeset, 
                     &path, &path_len,
                     &subpats
-                    ) == FAILURE) 
-    {
+                    ) == FAILURE) {
         RETURN_NULL();
     }
 
-    HashPosition pointer;
+
+    /* get request method */
+    char *c_request_method;
+    int  *c_request_method_len;
+    zval **z_server_hash;
+    zval **z_request_method;
+	if (zend_hash_find(&EG(symbol_table), "_SERVER", sizeof("_SERVER"), (void **) &z_server_hash) == SUCCESS &&
+		Z_TYPE_PP(z_server_hash) == IS_ARRAY &&
+		zend_hash_find(Z_ARRVAL_PP(z_server_hash), "REQUEST_METHOD", sizeof("REQUEST_METHOD"), (void **) &z_request_method) == SUCCESS
+	) {
+		c_request_method = Z_STRVAL_PP(z_request_method);
+        c_request_method_len = Z_STRLEN_PP(z_request_method);
+	}
+
+    HashPosition route_pointer;
+    HashTable    *routeset_hash;
+
+    routeset_hash = Z_ARRVAL_P(routeset);
+
+    /*
     int array_count;
-
-    HashTable *arr_hash = Z_ARRVAL_P(routeset);
-    array_count = zend_hash_num_elements(arr_hash);
-
-    // php_printf("%d routes\n", array_count);
+    array_count = zend_hash_num_elements(routeset_hash);
+    php_printf("%d routes\n", array_count);
+    */
 
     zval **z_route;
-    for(zend_hash_internal_pointer_reset_ex(arr_hash, &pointer); 
-            zend_hash_get_current_data_ex(arr_hash, (void**) &z_route, &pointer) == SUCCESS; 
-            zend_hash_move_forward_ex(arr_hash, &pointer)) 
+    for(zend_hash_internal_pointer_reset_ex(routeset_hash, &route_pointer); 
+            zend_hash_get_current_data_ex(routeset_hash, (void**) &z_route, &route_pointer) == SUCCESS; 
+            zend_hash_move_forward_ex(routeset_hash, &route_pointer)) 
     {
-
-        zval  **tmp;
+        zval  **z_compiled;
+        zval  **z_method;
         HashTable *route_hash = Z_ARRVAL_PP(z_route);
-        if (zend_hash_find(route_hash, "compiled", sizeof("compiled"), (void**)&tmp) == FAILURE ) {
+
+        /* If 'compiled' key is not set, we should skip it */
+        if (zend_hash_find(route_hash, "compiled", sizeof("compiled"), (void**)&z_compiled) == FAILURE ) {
             continue;
         }
 
-        if (Z_TYPE_PP(tmp) == IS_STRING) {
-            // PHPWRITE(Z_STRVAL_PP(tmp), Z_STRLEN_PP(tmp));
+        /* check request method */
+        if (zend_hash_find(route_hash, "method", sizeof("method"), (void**) &z_method) != FAILURE ) {
+            char *c_route_method = Z_STRVAL_PP(z_method);
+
+            // If method is specified, we should check
+            if( c_route_method != NULL 
+                && strncmp(c_route_method, c_request_method, c_request_method_len ) != 0 
+                ) continue;
+        }
+
+        if (Z_TYPE_PP(z_compiled) == IS_STRING) {
+            // PHPWRITE(Z_STRVAL_PP(z_compiled), Z_STRLEN_PP(z_compiled));
 
             /* parameters */
             char			 *regex;			/* Regular expression */
-            char			 *subject;			/* String to match against */
             int				  regex_len;
-            int				  subject_len;
             pcre_cache_entry *pce;				/* Compiled regular expression */
             long			  flags = 0;		/* Match control flags */
             long			  start_offset = 0;	/* Where the new search starts */
             int  global  = 0;
 
-            regex = estrndup(Z_STRVAL_PP(tmp), Z_STRLEN_PP(tmp));
+            regex = estrndup(Z_STRVAL_PP(z_compiled), Z_STRLEN_PP(z_compiled));
             regex_len = strlen(regex);
 
-            subject = path;
-            subject_len = path_len;
 
             /* Compile regex or get it from cache. */
             if ((pce = pcre_get_compiled_regex_cache(regex, regex_len TSRMLS_CC)) == NULL) {
                 RETURN_FALSE;
             }
 
-            php_pcre_match_impl(pce, subject, subject_len, return_value, subpats,
+            php_pcre_match_impl(pce, path, path_len, return_value, subpats,
                 global, false , flags, start_offset TSRMLS_CC);
 
             efree(regex);
