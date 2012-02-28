@@ -4,7 +4,9 @@ if( extension_loaded('roller') ) {
 }
 
 require '../vendor/pear/Universal/ClassLoader/BasePathClassLoader.php';
-$loader = new \Universal\ClassLoader\BasePathClassLoader( array('../src','../vendor/pear', '/opt/local/lib/php'));
+$loader = new \Universal\ClassLoader\BasePathClassLoader( 
+    array('../src','../vendor/pear', '/opt/local/lib/php'
+));
 $loader->useIncludePath(true);
 $loader->register();
 
@@ -24,15 +26,14 @@ $router->routes->compile();
 echo "dispatching\n";
 
 
-
 $b = new SimpleBench;
 $b->setN(10);
 
 $b->iterate('roller_ext', 'roller_ext' , function() use ($router) {
-    $regs = null;
-    $r = roller_dispatch( $router->routes->routes , '/foo1000' , $regs );
+    $r = roller_dispatch( $router->routes->routes , '/foo1000' );
 });
 
+$router->enableExtension = false;
 $b->iterate('roller' , 'roller' , function() use ($router) {
     $r = $router->dispatch('/foo1000');
 });
@@ -42,4 +43,3 @@ $b->iterate('roller' , 'roller' , function() use ($router) {
 
 $result = $b->compare();
 echo $result->output('Console');
-// $result->output('EzcGraph');

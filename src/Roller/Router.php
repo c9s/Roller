@@ -32,6 +32,8 @@ class Router
 	public $cacheId;
 
 
+    public $enableExtension = true;
+
     /**
      * cache exxpiry 
      */
@@ -152,17 +154,17 @@ class Router
 			$this->hasCache = true;
 		}
 
-        if( function_exists('roller_dispatch') ) {
+        if( $this->enableExtension && function_exists('roller_dispatch') ) {
             $route = roller_dispatch( $this->routes->routes , $path );
             return $route ? new MatchedRoute($route) : false;
         }
         else {
-            $server_req_method = strtolower($_SERVER['REQUEST_METHOD']);
+            $server_req_method = isset($_SERVER['REQUEST_METHOD']) ? strtolower( $_SERVER['REQUEST_METHOD'] ) : null;
             foreach( $this->routes as $route ) {
                 if( preg_match( $route['compiled'], $path, $regs ) ) {
 
                     // if method is defined, we should check server request method
-                    if( isset($route['method']) && $m = $route['method'] ) {
+                    if( $server_req_method && isset($route['method']) && $m = $route['method'] ) {
                         /* 
                         * Which request method was used to access the page; 
                         * i.e. 'GET', 'HEAD', 'POST', 'PUT'.
