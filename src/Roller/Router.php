@@ -157,6 +157,7 @@ class Router
             $route = roller_dispatch( $router->routes->routes , '/foo1000' , $regs );
         }
         else {
+            $server_req_method = strtolower($_SERVER['REQUEST_METHOD']);
             foreach( $this->routes as $route ) {
                 if( preg_match( $route['compiled'], $path, $regs ) ) {
 
@@ -166,13 +167,11 @@ class Router
                         * Which request method was used to access the page; 
                         * i.e. 'GET', 'HEAD', 'POST', 'PUT'.
                         */
-                        if( strtolower( $_SERVER['REQUEST_METHOD'] ) !== $m ) {
+                        if( $server_req_method !== $m )
                             continue;
-                        }
                     }
 
                     // apply variables
-
                     foreach( $route['variables'] as $k ) {
                         if( isset($regs[$k]) ) {
                             $route['vars'][ $k ] = $regs[$k];

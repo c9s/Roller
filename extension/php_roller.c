@@ -5,6 +5,9 @@
 #include "php_roller.h"
 #include "ext/pcre/php_pcre.h"
 
+
+#define DEBUG 1
+
 static const zend_function_entry roller_functions[] = {
     PHP_FE(roller_dispatch, NULL)
     PHP_FE_END
@@ -34,13 +37,13 @@ PHP_FUNCTION(roller_dispatch)
     char *path;
     int  path_len;
 
-    zval *subpats = NULL;	/* Array for subpatterns */
+    zval *z_subpats = NULL;	/* Array for subpatterns */
 
     /* parse parameters */
-    if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "asz", 
+    if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "as|z", 
                     &routeset, 
                     &path, &path_len,
-                    &subpats
+                    &z_subpats
                     ) == FAILURE) {
         RETURN_NULL();
     }
@@ -51,6 +54,8 @@ PHP_FUNCTION(roller_dispatch)
     int  *c_request_method_len;
     zval **z_server_hash;
     zval **z_request_method;
+
+
 	if (zend_hash_find(&EG(symbol_table), "_SERVER", sizeof("_SERVER"), (void **) &z_server_hash) == SUCCESS &&
 		Z_TYPE_PP(z_server_hash) == IS_ARRAY &&
 		zend_hash_find(Z_ARRVAL_PP(z_server_hash), "REQUEST_METHOD", sizeof("REQUEST_METHOD"), (void **) &z_request_method) == SUCCESS
@@ -68,6 +73,7 @@ PHP_FUNCTION(roller_dispatch)
     routeset_hash = Z_ARRVAL_P(routeset);
 
     zval **z_route;
+
     for(zend_hash_internal_pointer_reset_ex(routeset_hash, &route_pointer); 
             zend_hash_get_current_data_ex(routeset_hash, (void**) &z_route, &route_pointer) == SUCCESS; 
             zend_hash_move_forward_ex(routeset_hash, &route_pointer)) 
@@ -75,6 +81,15 @@ PHP_FUNCTION(roller_dispatch)
         zval  **z_compiled;
         zval  **z_method;
         HashTable *route_hash = Z_ARRVAL_PP(z_route);
+
+
+#ifdef DEBUG
+        zval **z_path;
+        if (zend_hash_find(route_hash, "path", sizeof("path"), (void**)&z_path) == SUCCESS ) {
+            php_printf("D: check route: %s\n", Z_STRVAL_PP( z_path ) );
+        }
+#endif
+
 
         /* If 'compiled' key is not set, we should skip it */
         if (zend_hash_find(route_hash, "compiled", sizeof("compiled"), (void**)&z_compiled) == FAILURE ) {
@@ -92,7 +107,6 @@ PHP_FUNCTION(roller_dispatch)
         }
 
         if (Z_TYPE_PP(z_compiled) == IS_STRING) {
-            // PHPWRITE(Z_STRVAL_PP(z_compiled), Z_STRLEN_PP(z_compiled));
 
             /* parameters */
             char			 *regex;			/* Regular expression */
@@ -112,18 +126,124 @@ PHP_FUNCTION(roller_dispatch)
             }
             efree(regex);
 
-            php_pcre_match_impl(pce, path, path_len, return_value, subpats,
+
+            zval *pcre_ret;
+            ALLOC_INIT_ZVAL(pcre_ret);
+            php_pcre_match_impl(pce, path, path_len, pcre_ret, z_subpats,
                 global, false , flags, start_offset TSRMLS_CC);
 
 
             /* return_value is not bool */
-            if( Z_TYPE_P(return_value) == IS_LONG && ! Z_LVAL_P(return_value) )
+            if( Z_TYPE_P(pcre_ret) == IS_LONG && ! Z_LVAL_P(pcre_ret) )
                 continue;
 
-            MAKE_COPY_ZVAL( z_route, return_value );
+
+            /* apply variables
+            foreach( $route['variables'] as $k ) {
+                if( isset($regs[$k]) ) {
+                    $route['vars'][ $k ] = $regs[$k];
+                } else {
+                    $route['vars'][ $k ] = $route['default'][ $k ];
+                }
+            }
+            */
+
+            /* check request method */
+            zval **z_variables;
+            zval **z_var_name;
+            zval **z_default_array;
+
+            HashTable *subpats_hash = NULL;
+
+            if( z_subpats != NULL )
+                subpats_hash = Z_ARRVAL_P(z_subpats);
+
+#ifdef DEBUG
+            php_printf("D: found route\n");
+#endif
+
+
+
+            // create a new route with variables
+
+            zval *z_route_copy;
+            ALLOC_INIT_ZVAL( z_route_copy );
+            MAKE_COPY_ZVAL( z_route, z_route_copy );
+
+            route_hash = Z_ARRVAL_P(z_route_copy);
+
+            // Apply variables and default variables {{{
+            // Check if variables key is defined.
+            if (zend_hash_find(route_hash, "variables", sizeof("variables"), (void**) &z_variables) == SUCCESS ) {
+
+#ifdef DEBUG
+                php_printf("D: variables key found.\n");
+#endif
+
+
+                HashPosition  variables_pointer;
+                HashTable    *variables_hash;
+
+                variables_hash = Z_ARRVAL_PP(z_variables);
+
+                // foreach variables as var, check if url contains variable or we should apply default value
+                for(zend_hash_internal_pointer_reset_ex(variables_hash, &variables_pointer); 
+                        zend_hash_get_current_data_ex(variables_hash, (void**) &z_var_name, &variables_pointer) == SUCCESS; 
+                        zend_hash_move_forward_ex(variables_hash, &variables_pointer)) 
+                {
+                    // setup vars to route_hash table
+                    zval **z_var_value;
+                    zval **z_vars;
+                    zval **z_default_value;
+                    HashTable *vars_hash;
+
+                    // register variable value to $regs['vars'][ $var_name ] = $var_value;
+                    if( zend_hash_find(route_hash, "vars", sizeof("vars"), (void**) &z_vars ) == FAILURE ) {
+                        zval *arr;
+                        ALLOC_INIT_ZVAL(arr);
+                        array_init(arr);
+                        z_vars = &arr;
+                        add_assoc_zval( z_route_copy, "vars" , *z_vars );
+                    }
+
+                    if( z_subpats != NULL 
+                        && zend_hash_find(subpats_hash, Z_STRVAL_PP(z_var_name), Z_STRLEN_PP(z_var_name) + 1,
+                                    (void**) &z_var_value ) == SUCCESS 
+                         )
+                    {
+
+#ifdef DEBUG
+                        php_printf("D: assign variable %s.\n", Z_STRVAL_PP(z_var_name) );
+#endif
+                        add_assoc_zval( *z_vars , Z_STRVAL_PP(z_var_name) , *z_var_value );
+                    } 
+                    else if ( 
+                        zend_hash_find(route_hash, "default" , sizeof("default"), (void**) &z_default_array ) != FAILURE 
+                            && zend_hash_find( Z_ARRVAL_PP(z_default_array) , Z_STRVAL_PP(z_var_name), Z_STRLEN_PP(z_var_name) + 1, 
+                                    (void**) &z_default_value ) != FAILURE ) 
+                    {
+#ifdef DEBUG
+                        php_printf("D: assign default %s.\n", Z_STRVAL_PP(z_var_name) );
+#endif
+                        add_assoc_zval( *z_vars , Z_STRVAL_PP(z_var_name) , *z_default_value );
+                    }
+                }
+
+            }
+            // }}}
+
+#ifdef DEBUG
+            php_printf("D: return\n");
+#endif
+            *return_value = *z_route_copy;
+            zval_copy_ctor(return_value);
             return;
         }
     }
+
+#ifdef DEBUG
+    php_printf("D: return null\n");
+#endif
     RETURN_NULL();
 }
 
