@@ -153,7 +153,7 @@ class Router
 		}
 
         if( function_exists('roller_dispatch') ) {
-            $route = roller_dispatch( $router->routes->routes , $path );
+            $route = roller_dispatch( $this->routes->routes , $path );
             return new MatchedRoute($route);
         }
         else {

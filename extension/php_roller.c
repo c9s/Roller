@@ -45,8 +45,13 @@ PHP_FUNCTION(roller_dispatch)
                     &path, &path_len,
                     &z_subpats
                     ) == FAILURE) {
-        RETURN_NULL();
+        RETURN_FALSE;
     }
+
+    if( z_subpats == NULL ) {
+        ALLOC_INIT_ZVAL( z_subpats );
+    }
+
 
 
     /* get request method */
@@ -206,12 +211,11 @@ PHP_FUNCTION(roller_dispatch)
                         add_assoc_zval( z_route_copy, "vars" , *z_vars );
                     }
 
-                    if( z_subpats != NULL 
+                    if( z_subpats != NULL
                         && zend_hash_find(subpats_hash, Z_STRVAL_PP(z_var_name), Z_STRLEN_PP(z_var_name) + 1,
                                     (void**) &z_var_value ) == SUCCESS 
                          )
                     {
-
 #ifdef DEBUG
                         php_printf("D: assign variable %s.\n", Z_STRVAL_PP(z_var_name) );
 #endif

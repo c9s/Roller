@@ -1,3 +1,3 @@
 #!/bin/bash
 make && \
-    DYLD_LIBRARY_PATH=`pwd`/modules php -d extension=roller.so test.php
+    DYLD_LIBRARY_PATH=`pwd`/modules phpunit -d extension=roller.so tests

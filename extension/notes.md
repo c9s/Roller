@@ -39,5 +39,5 @@ PHP API Functions:
 
     php_strtolower(c_request_method ,c_request_method_len);
 
+    ALLOC_INIT_ZVAL(z_route_copy);
 
-            ALLOC_INIT_ZVAL(z_route_copy);
