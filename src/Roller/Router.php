@@ -62,11 +62,14 @@ class Router
 		/* if cache_id is defined (only), we use apc for caching defined routes */
 		if( isset($options['cache_id']) ) {
 			$this->cacheId = $options['cache_id'];
-			$this->cache = self::cache_type_apc;
-			if( false !== ($c = apc_fetch($options['cache_id'])) ) {
-				$this->routes =  eval($c);
-				$this->hasCache = true;
-			}
+
+            if( extension_loaded('apc') ) {
+                $this->cache = self::cache_type_apc;
+                if( false !== ($c = apc_fetch($options['cache_id'])) ) {
+                    $this->routes =  eval($c);
+                    $this->hasCache = true;
+                }
+            }
 		}
 
 		if( isset($options['cache_dir']) ) {
