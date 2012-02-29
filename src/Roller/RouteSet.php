@@ -93,7 +93,7 @@ class RouteSet implements Iterator
         return isset( $this->routes[ $this->i ] );
     }
 
-    public function __set_state($data)
+    static function __set_state($data)
     {
         $a = new self;
         $a->routes = $data['routes'];
