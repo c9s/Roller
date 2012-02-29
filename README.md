@@ -10,15 +10,15 @@ Roller API is really simple, eazy to use.
 FEATURES
 --------
 
+- Highly customizable
 - Flexible
-- Highly-Customizable
 - APC cache support.
 - File cache support.
-- Built-in RESTful route generator, resource handler.
+- Built-in *RESTful* route generator, resource handler.
 - Customizable RESTful route generator, resource handler.
 - Simple, Useful route path syntax. (rails-style)
-- High performance (through PHP extension)
-- High unit test coverage, coverage > 88%.
+- High performance (through PHP extension, can dispatch *1607%* faster than pure php version)
+- High unit test coverage, coverage > *88%*.
 
 
 <img src="https://github.com/c9s/Roller/raw/master/misc/img1.png" width="500">
