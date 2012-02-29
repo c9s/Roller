@@ -332,6 +332,15 @@ class YourResourceHandler extends ResourceHandler {
 }
 ```
 
+.htaccess File for Apache
+-------------------------
+
+    RewriteEngine on
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-s
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^(.*)$ your_router.php/$1 [NC,L]
+
 Install Extension
 -----------------
 
