@@ -7,7 +7,8 @@ php:
 before_script:
   - phpenv rehash
   - "pyrus upgrade -f -p pear2.php.net/PEAR2_Pyrus_Developer"
-  - pyrus install pear.corneltek.com/PHPUnit_TestMore
+  - pyrus channel-discover pear.corneltek.com
+  - pyrus install corneltek/PHPUnit_TestMore
   - curl http://install.onionphp.org/ | bash
   - curl -O https://raw.github.com/c9s/Onion/master/onion
   - php onion bundle

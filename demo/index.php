@@ -32,11 +32,14 @@ class MyGenericHandler extends GenericHandler
 
 }
 
-$router = new Roller\Router;
+$router = new Roller\Router( array( 'cache_id' => 'router_demo' ));
 $restful = new Roller\Plugin\RESTful(array( 'prefix' => '/=' ));
 
 $restful->setGenericHandler( 'MyGenericHandler' );
 $router->addPlugin($restful);
+
+foreach( range(1,100) as $i ) 
+    $router->add("/foo$i" , function() {  return 'true'; });
 
 $router->add('/',function() { 
     return 'Hello World, please request /=/test for RESTful resource handler demo.';
