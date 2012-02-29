@@ -19,7 +19,12 @@ FEATURES
 - Simple, Useful route path syntax. (rails-style)
 - High performance (through PHP extension, can dispatch **1607%** faster than pure php version)
 - High unit test coverage, coverage > **88%**.
+- Ready for Frameworks.
 
+
+
+ROUTE CONSOLE DUMPER
+--------------------
 
 <img src="https://github.com/c9s/Roller/raw/master/misc/img1.png" width="500">
 
@@ -45,35 +50,53 @@ SYNOPSIS
 
 Initialize a router:
 
+```php
+<?php
     $router = new Roller\Router;
+```
 
 Add a new route with simple callback
 
+```php
+<?php
     $router->add( '/path/to/blog'  , function() { 
         return 'Blog';
     });
+```
 
 Add a new route with class callback
 
+```php
+<?php
     $router->add( '/path/to/blog'  , array('Controller','method') );
+```
 
 Add a new route with class/action callback string:
 
+```php
+<?
     $router->add( '/path/to/blog'  , 'Controller:methodName' );
+```
 
 To add a new route with requirement:
 
+```php
+<?
     $router->add( '/path/to/:year' , array('Callback','method') , array( 
         'year' => '\d+',
     ));
+```
 
 To add a new route with requirement and closure:
 
+```php
+<?
     $router->add( '/path/to/:year' , function($year) { 
         return $year;
     },array( 
         'year' => '\d+',
     ));
+```
 
 META ATTRIBUTE
 --------------
@@ -82,15 +105,20 @@ Meta attributes are started without ':' prefix. currently, Roller supports:
 
 To add a new route with requirement and default value:
 
+```php
+<?
     $router->add( '/path/to/:year' , array('Callback','method') , array( 
         'year' => '\d+',
         ':default' => array(
             'year' => 2000,
         ),
     ));
+```
 
 To add a new route with request method (like POST method):
 
+```php
+<?
     $router->add( '/path/to/:year' , array('Callback','method') , array( 
         'year' => '\d+',
 
@@ -99,6 +127,7 @@ To add a new route with request method (like POST method):
             'year' => 2000,
         ),
     ));
+```
 
 Dispatch
 --------
