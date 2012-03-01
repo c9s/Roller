@@ -98,6 +98,24 @@ To add a new route with requirement and closure:
     ));
 ```
 
+An alias for GET method:
+
+```php
+<?
+    $router->get( '/path/to/:year' , function() { ... } );
+```
+
+An alias for POST method:
+
+```php
+<?
+    $router->post( '/path/to/:year' , function() { ... } );
+```
+
+
+
+
+
 META ATTRIBUTE
 --------------
 Meta attributes are started without ':' prefix. currently, Roller supports: 

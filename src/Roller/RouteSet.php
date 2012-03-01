@@ -2,6 +2,7 @@
 namespace Roller;
 use Iterator;
 use Roller\RouteCompiler;
+use Exception;
 
 class RouteSet implements Iterator
 {
@@ -12,6 +13,41 @@ class RouteSet implements Iterator
     {
 
     }
+
+    public function __call($m,$a) {
+        switch( $m ) {
+        case 'post':
+        case 'head':
+        case 'get':
+            $path = $a[0];
+            $callback = $a[1];
+            $options = isset($a[2]) ? $a[2] : array();
+            $options[':method'] = $m;
+            return $this->add( $path , $callback , $options );
+            break;
+        }
+        throw new Exception("Method $m not found.");
+    }
+
+
+
+    /**
+     * __call magic is always slow than methods 
+     */
+    public function get($path, $callback, $options = array() )
+    {
+        $options[':method'] = 'get';
+        return $this->add( $path,  $callback , $options );
+    }
+
+    public function post($path, $callback, $options = array() )
+    {
+        $options[':method'] = 'post';
+        return $this->add( $path, $callback, $options );
+    }
+
+
+
 
     public function add($path, $callback, $options = array() )
     {
@@ -72,6 +108,8 @@ class RouteSet implements Iterator
         }
     }
 
+
+    /** interface for iterating **/
     public function current() 
     {
         return $this->routes[ $this->i ];
@@ -93,6 +131,8 @@ class RouteSet implements Iterator
         return isset( $this->routes[ $this->i ] );
     }
 
+
+    /** interface for loading cache from source */
     static function __set_state($data)
     {
         $a = new self;

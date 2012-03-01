@@ -110,6 +110,7 @@ class Router
         return $this->routes->mount( $prefix , $routeset );
     }
 
+
     public function addPlugin($plugin)
     {
         $this->plugins[] = $plugin;
@@ -196,10 +197,13 @@ class Router
 
 
     /**
-     * dispatch methods to plugins (mixin)
+     * dispatch methods to plugins (mixin) and routeset methods
      */
     public function __call($m,$a)
     {
+        if( method_exists($this->routes,$m) ) {
+            return call_user_func_array( array($this->routes,$m) , $a );
+        }
         foreach( $this->plugins as $p ) {
             if( method_exists($p,$m) ) {
                 return call_user_func_array( array($p,$m), $a);
