@@ -5,44 +5,65 @@ use ReflectionObject;
 use ReflectionFunction;
 use ReflectionClass;
 use Roller\Exception\RouteException;
+use ArrayAccess;
+
+
+
+/**
+ *
+ * ArrayAccess supports:
+ *
+ *  $route;
+ *  $route['path'];
+ *  $route['compiled'];
+ *
+ */
 
 class MatchedRoute
+    implements ArrayAccess
 {
     /**
-     * route data array()
+     * Route data array()
      */
 	public $route;
 
 
+    /**
+     * @var Roller\Router router object
+     */
     public $router;
 
     /**
      * controller object (if route call class and object to handle request)
+     *
+     * @var Controller object
      */
     public $controller;
 
+    /**
+     * @param Roller\Router $router router object.
+     * @param array $route route hash.
+     */
 	public function __construct($router,$route)
 	{
         $this->router = $router;
 		$this->route = $route;
 	}
 
+
+    /**
+     * To evaluate route content
+     */
     public function run() 
     {
-        if( ! isset($this->route['callback'] ) )
-            throw new RouteException( 'callback attribute is not defined.' , $this->route );
-
-		$cb = $this->route['callback'];
-
-        if( null === $cb )
-            throw new RouteException( 'callback attribute is empty.' , $this->route );
-
+        if( ($cb = $this->getCallback()) === null )
+            throw new RouteException( 'callback attribute is not defined or empty.' , $this->route );
 
         /** constructor arguments **/
         $args = $this->route['args'];
 
         // validation action method prototype
-        $vars = isset($this->route['vars']) ? $this->route['vars'] : array();
+        $vars = $this->getVars();
 
 		// reflection parameters
 		$rps = null;
@@ -125,16 +146,66 @@ class MatchedRoute
             return $this->route['default'];
     }
 
+    public function getCallback()
+    {
+        if( isset($this->route['callback']) )
+            return $this->route['callback'];
+    }
+
     public function getVars()
     {
         if( isset($this->route['vars']) )
             return $this->route['vars'];
     }
 
+    public function getArgs()
+    {
+        if( isset($this->route['args']) )
+            return $this->route['args'];
+    }
+
     public function getController()
     {
         return $this->controller;
     }
+
+
+
+    /** magic accessor interface **/
+    public function __isset($n) {
+        return isset($this->route[$n]);
+    }
+
+    public function __get($n) {
+        return ( isset($this->route[ $n ] ) ) ? $this->route[ $n ] : null;
+    }
+
+    public function __set($n,$v) {
+        $this->route[ $n ] = $v;
+    }
+
+
+    /** ArrayAccess interface **/
+    public function offsetSet($name,$value)
+    {
+        $this->route[ $name ] = $value;
+    }
+    
+    public function offsetExists($name)
+    {
+        return isset($this->route[ $name ]);
+    }
+    
+    public function offsetGet($name)
+    {
+        return $this->route[ $name ];
+    }
+    
+    public function offsetUnset($name)
+    {
+        return unset($this->route[$name]);
+    }
+    
 
 	// evaluate route
 	function __invoke()
