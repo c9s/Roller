@@ -152,14 +152,36 @@ Dispatch
 
 To dispatch path:
 
+```php
+<?
     $r = $router->dispatch( $_SERVER['PATH_INFO'] );
+```
 
 To evalulate response content:
 
+```php
+<?
     if( $r !== false )
         echo $r();
     else
         die('page not found.');
+```
+
+Customize Route Class
+---------------------
+
+```php
+<?
+class YourRoute extends Roller\MatchedRoute
+{
+    // customze here.
+}
+
+$r = new Roller\Router(array( 
+    'route_class' => 'YourRoute'
+));
+$route = $r->dispatch( '/path/to/...' );    // get YourRoute object.
+```
 
 
 Mount paths
@@ -167,6 +189,8 @@ Mount paths
 
 To mount route set:
 
+```php
+<?
     $routes = new Roller\RouteSet;
     $routes->add( '/path/to/:year' , array( 'Callback', 'method' ) );
 
@@ -174,23 +198,29 @@ To mount route set:
     $routes->mount( '/root' , $routes );
 
     $router = new Roller\Router( $routes );
+```
 
 Cache
 -----
 
 To enable apc cache:
 
+```php
+<?
     $router = new Roller\Router( null , array( 
         'cache_id' => '_router_testing_'
     ));
+```
     
 To enable file cache:
 
+```php
+<?
     $router = new Roller\Router( null , array( 
         'cache_id' => '_router_testing_',
         'cache_dir' => 'tests/cache',
     ));
-
+```
 
 RESTful
 -------
