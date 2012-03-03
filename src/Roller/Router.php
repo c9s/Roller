@@ -67,6 +67,10 @@ class Router
             $this->matchedRouteClass = $options['route_class'];
         }
 
+        if( $routes && !is_a( $routes, 'Roller\RouteSet' ) ) {
+            throw new RouterException('Router constructor argument #1 is not a Roller\RouteSet object.');
+        }
+
 		/* if cache_id is defined (only), we use apc for caching defined routes */
 		if( isset($options['cache_id']) ) {
 			$this->cacheId = $options['cache_id'];
@@ -103,7 +107,7 @@ class Router
 			$this->reload = $options['reload'];
 		}
 
-		if( $this->routes === null ) {
+		if( null == $this->routes ) {
 			$this->routes = $routes ?: new RouteSet;
 		}
 	}
