@@ -48,8 +48,15 @@ class MatchedRoute
                 $this->controller = $obj;
                 $cb[0] = $obj;
             }
-            if( ! method_exists($obj,$cb[1]) )
-                throw new Exception("Method {$cb[1]} does not exist.");
+            else {
+                $this->controller = $cb[0];
+            }
+
+            if( $this->controller && ! method_exists( $this->controller ,$cb[1]) ) {
+                throw new Exception("Method " . 
+                    get_class($this->controller) . "->{$cb[1]} does not exist.");
+            }
+
             $rm = $rc->getMethod($cb[1]);
             $rps = $rm->getParameters();
 		}
@@ -58,10 +65,8 @@ class MatchedRoute
 			$rm = $rc->getMethod('run');
 			$rps = $rm->getParameters();
 
-            $obj = $args ? $rc->newInstanceArgs($args) : $rc->newInstance();
-            $this->controller = $obj;
-            $cb = array( $obj, 'run');
-            $this->controller = $obj;
+            $this->controller = $args ? $rc->newInstanceArgs($args) : $rc->newInstance();
+            $cb = array( $controller, 'run');
 		}
 		elseif( is_a($cb,'Closure') ) {
 			$rf = new ReflectionFunction( $cb );
