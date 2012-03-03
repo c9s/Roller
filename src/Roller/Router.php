@@ -24,6 +24,10 @@ class Router
      */
 	public $cacheDir;
 
+
+    public $matchedRouteClass = 'Roller\MatchedRoute';
+
+
     /**
      * cache id 
      *
@@ -58,6 +62,10 @@ class Router
 
 	public function __construct($routes = null, $options = array() )
 	{
+        /* setup custom route class */
+        if( isset($options['route_class']) ) {
+            $this->matchedRouteClass = $options['route_class'];
+        }
 
 		/* if cache_id is defined (only), we use apc for caching defined routes */
 		if( isset($options['cache_id']) ) {
@@ -160,7 +168,8 @@ class Router
 
         if( $this->enableExtension && function_exists('roller_dispatch') ) {
             $route = roller_dispatch( $this->routes->routes , $path );
-            return $route ? new MatchedRoute($route) : false;
+            $class = $this->matchedRouteClass;
+            return $route ? new $class($route) : false;
         }
         else {
             $server_req_method = isset($_SERVER['REQUEST_METHOD']) ? strtolower( $_SERVER['REQUEST_METHOD'] ) : null;
@@ -188,7 +197,8 @@ class Router
 
 
                     // matched!
-                    return new MatchedRoute($route);
+                    $class = $this->matchedRouteClass;
+                    return new $class($route);
                 }
             }
         }
