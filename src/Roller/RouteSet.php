@@ -42,8 +42,13 @@ class RouteSet implements Iterator
     }
 
 
-
-
+    /** 
+     * write this in extension 
+     *
+     * @param string $path
+     * @param mixed $callback
+     * @param array $options
+     */
     public function add($path, $callback, $options = array() )
     {
         if( is_string($callback) && false !== strpos($callback,':') ) {
@@ -101,7 +106,7 @@ class RouteSet implements Iterator
     public function mount( $prefix, RouteSet $routes )
     {
         foreach( $routes as $r ) {
-            $r['path'] = $prefix . $r['path'];
+            $r['path'] = $prefix . rtrim($r['path'],'/');
             $this->routes[] = $r;
         }
     }
@@ -145,6 +150,7 @@ class RouteSet implements Iterator
         $a->i = $data['i'];
         return $a;
     }
+
 
 }
 
