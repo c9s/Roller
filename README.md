@@ -183,6 +183,17 @@ $r = new Roller\Router(array(
 $route = $r->dispatch( '/path/to/...' );    // get YourRoute object.
 ```
 
+RouteSet
+--------
+RouteSet is a route collection class, you can mount a route set to another route set.
+
+To use RouteSet is very easy:
+
+```php
+<?php
+$routes = new Roller\RouteSet;
+$routes->add( $path , $cb );
+```
 
 Mount paths
 -----------
