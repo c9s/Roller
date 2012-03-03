@@ -73,6 +73,24 @@ class MatchedRoute
 
     }
 
+    function getRequirement()
+    {
+        if( isset($this->route['requirement']) )
+            return $this->route['requirement'];
+    }
+
+    function getDefault()
+    {
+        if( isset($this->route['default'] ) ) 
+            return $this->route['default'];
+    }
+
+    public function getVars()
+    {
+        if( isset($this->route['vars']) )
+            return $this->route['vars'];
+    }
+
 	// evaluate route
 	function __invoke()
 	{

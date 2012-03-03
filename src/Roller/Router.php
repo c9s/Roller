@@ -196,7 +196,6 @@ class Router
                         }
                     }
 
-
                     // matched!
                     $class = $this->matchedRouteClass;
                     return new $class($route);
