@@ -8,8 +8,36 @@ class TestController extends Roller\Controller
 	}
 }
 
+class MyController extends Roller\Controller
+{
+    public function before() 
+    {
+
+    }
+
+    public function run()
+    {
+        return 'rocks';
+    }
+
+    public function after()
+    {
+
+    }
+}
+
 class RouterTest extends PHPUnit_Framework_TestCase
 {
+
+    function testController()
+    {
+        $router = new Roller\Router;
+        $router->add('/test' , 'MyController:indexAction' );
+        $route = $router->dispatch('/test');
+        ok( $route );
+    }
+
+
 	function test()
 	{
 		$router = new Roller\Router;
