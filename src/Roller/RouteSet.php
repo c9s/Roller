@@ -71,18 +71,27 @@ class RouteSet implements Iterator
             $default = $options[':default'];
 
         $method = null; /* any method */
-        if( isset($options[':method']) )
+        if( isset($options[':method']) ) {
             $method = $options[':method'];
-        elseif( isset($options[':post']) )
+        } elseif( isset($options[':post']) ) {
             $method = 'post';
-        elseif( isset($options[':get']) )
+        } elseif( isset($options[':get']) ) {
             $method = 'get';
-        elseif( isset($options[':head']) )
+        } elseif( isset($options[':head']) ) {
             $method = 'head';
-        elseif( isset($options[':put']) )
+        } elseif( isset($options[':put']) ) {
             $method = 'put';
-        elseif( isset($options[':delete']) )
+        } elseif( isset($options[':delete']) ) {
             $method = 'delete';
+        }
+
+        /** 
+         * arguments pass to constructor 
+         */
+        $args = null;
+        if( isset($options[':args']) ) {
+            $args = $options[':args'];
+        }
 
         return $this->routes[] = array(
             'path' => $path,
@@ -90,6 +99,7 @@ class RouteSet implements Iterator
             'default' => $default,
             'callback' => $callback,
             'method' => $method,
+            'args' => $args,
         );
     }
 

@@ -14,13 +14,13 @@ class MatchedRoute
 		$this->route = $route;
 	}
 
-	// evaluate route
-	function __invoke()
-	{
+    function run() {
 		$cb = $this->route['callback'];
 		if( ! is_callable($cb) )
 			throw new Exception( 'This route callback is not a valid callback.' );
 
+        /** constructor arguments **/
+        $args = $this->route['args'];
 
         // validation action method prototype
         $vars = isset($this->route['vars']) ? $this->route['vars'] : array();
@@ -28,12 +28,15 @@ class MatchedRoute
 		// reflection parameters
 		$rps = null;
 		if( is_array($cb) ) {
-			if( is_string($cb[0]) ) {
-				$cb[0] = new $cb[0];
-			}
+
+			$rc = new ReflectionClass( $cb[0] );
 
 			// which is a callback with class
-			$rc = new ReflectionClass( $cb[0] );
+			if( is_string($cb[0]) ) {
+                $obj = $args ? $rc->newInstanceArgs($args) : $rc->newInstance();
+				$cb[0] = $obj;
+			}
+
 			$rm = $rc->getMethod($cb[1]);
 			$rps = $rm->getParameters();
 		}
@@ -67,6 +70,13 @@ class MatchedRoute
 
         // XXX: check parameter numbers here
         return call_user_func_array($cb, $arguments );
+
+    }
+
+	// evaluate route
+	function __invoke()
+	{
+        return $this->run();
 	}
 }
 
