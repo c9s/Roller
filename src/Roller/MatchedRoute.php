@@ -51,22 +51,14 @@ class MatchedRoute
 	}
 
 
-    /**
-     * To evaluate route content
-     */
-    public function run() 
+    public function createController($rc,$args = null) 
     {
-        if( ($cb = $this->getCallback()) === null )
-            throw new RouteException( 'callback attribute is not defined or empty.' , $this->route );
+        return $args ? $rc->newInstanceArgs($args) : $rc->newInstance();
+    }
 
-        /** constructor arguments **/
-        $args = $this->route['args'];
-
-        // validation action method prototype
-        $vars = $this->getVars();
-
-		// reflection parameters
-		$rps = null;
+    public function initCallback( & $cb, $args)
+    {
+        $rps = null;
 		if( is_array($cb) ) {
             $rc = new ReflectionClass( $cb[0] );
             if( is_string($cb[0]) ) {
@@ -91,13 +83,40 @@ class MatchedRoute
 			$rm = $rc->getMethod('run');
 			$rps = $rm->getParameters();
 
-            $this->controller = $args ? $rc->newInstanceArgs($args) : $rc->newInstance();
+            $this->controller = $this->createController( $rc, $args );
+            $cb = array( $controller, 'run');
+		}
+		elseif( is_a($cb,'Roller\Controller') ) {
+			$rc = new ReflectionClass( $cb );
+			$rm = $rc->getMethod('run');
+			$rps = $rm->getParameters();
+
+            $this->controller = $this->createController( $rc, $args );
             $cb = array( $controller, 'run');
 		}
 		elseif( is_a($cb,'Closure') ) {
 			$rf = new ReflectionFunction( $cb );
 			$rps = $rf->getParameters();
 		}
+        return $rps;
+    }
+
+    /**
+     * To evaluate route content
+     */
+    public function run() 
+    {
+        if( ($cb = $this->getCallback()) === null )
+            throw new RouteException( 'callback attribute is not defined or empty.' , $this->route );
+
+        /** constructor arguments **/
+        $args = $this->route['args'];
+
+        // validation action method prototype
+        $vars = $this->getVars();
+
+		// reflection parameters
+		$rps = $this->initCallback( $cb , $args );
 
         // check callback function
 		if( ! is_callable($cb) )
@@ -203,7 +222,7 @@ class MatchedRoute
     
     public function offsetUnset($name)
     {
-        return unset($this->route[$name]);
+        unset($this->route[$name]);
     }
     
 
