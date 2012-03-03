@@ -8,14 +8,19 @@ use ReflectionClass;
 class MatchedRoute
 {
 	public $route;
+    public $router;
 
-	function __construct($route)
+	public function __construct($router,$route)
 	{
+        $this->router = $router;
 		$this->route = $route;
 	}
 
-    function run() {
+    public function run() 
+    {
 		$cb = $this->route['callback'];
+        $controller = null;
+
 		if( ! is_callable($cb) )
 			throw new Exception( 'This route callback is not a valid callback.' );
 
@@ -28,22 +33,24 @@ class MatchedRoute
 		// reflection parameters
 		$rps = null;
 		if( is_array($cb) ) {
-
-			$rc = new ReflectionClass( $cb[0] );
-
-			// which is a callback with class
-			if( is_string($cb[0]) ) {
+            $rc = new ReflectionClass( $cb[0] );
+            if( is_string($cb[0]) ) {
                 $obj = $args ? $rc->newInstanceArgs($args) : $rc->newInstance();
-				$cb[0] = $obj;
-			}
-
-			$rm = $rc->getMethod($cb[1]);
-			$rps = $rm->getParameters();
+                $controller = $obj;
+                $cb[0] = $obj;
+            }
+            $rm = $rc->getMethod($cb[1]);
+            $rps = $rm->getParameters();
 		}
 		elseif( is_a($cb,'\Roller\Controller') ) {
-			$ro = new ReflectionObject( $cb );
-			$rm = $ro->getMethod('run');
+			$rc = new ReflectionClass( $cb );
+			$rm = $rc->getMethod('run');
 			$rps = $rm->getParameters();
+
+            $obj = $args ? $rc->newInstanceArgs($args) : $rc->newInstance();
+            $controller = $obj;
+            $cb = array( $obj, 'run');
+            $controller = $obj;
 		}
 		elseif( is_a($cb,'Closure') ) {
 			$rf = new ReflectionFunction( $cb );
@@ -68,9 +75,17 @@ class MatchedRoute
             }
         }
 
-        // XXX: check parameter numbers here
-        return call_user_func_array($cb, $arguments );
+        if( is_a($controller,'Roller\Controller') ) {
+            $controller->route = $this->route;
+            call_user_func( array($controller,'before') );
+        }
 
+        $ret = call_user_func_array($cb, $arguments );
+
+        if( is_a($controller,'Roller\Controller') ) {
+            call_user_func( array($controller,'after') );
+        }
+        return $ret;
     }
 
     function getRequirement()

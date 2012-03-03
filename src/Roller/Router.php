@@ -169,7 +169,12 @@ class Router
         if( $this->enableExtension && function_exists('roller_dispatch') ) {
             $route = roller_dispatch( $this->routes->routes , $path );
             $class = $this->matchedRouteClass;
-            return $route ? new $class($route) : false;
+            if( $route ) {
+                return new $class($this,$route);
+            }
+            else {
+                return false;
+            }
         }
         else {
             $server_req_method = isset($_SERVER['REQUEST_METHOD']) ? strtolower( $_SERVER['REQUEST_METHOD'] ) : null;
@@ -198,7 +203,7 @@ class Router
 
                     // matched!
                     $class = $this->matchedRouteClass;
-                    return new $class($route);
+                    return new $class($this,$route);
                 }
             }
         }
