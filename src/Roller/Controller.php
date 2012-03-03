@@ -4,8 +4,19 @@ namespace Roller;
 
 abstract class Controller
 {
+
+
+    /**
+     * @var Roller\MatchedRoute object
+     */
     public $route;
+
+    /**
+     * @var Roller\Router object
+     */
     public $router;
+
+
 
     public function __construct()
     {
@@ -26,5 +37,17 @@ abstract class Controller
     {
 
     }
+
+
+    public function getRoute()
+    {
+        return $this->route;
+    }
+
+    public function getRouter()
+    {
+        return $this->router;
+    }
+
 }
 

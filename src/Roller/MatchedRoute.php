@@ -40,14 +40,21 @@ class MatchedRoute
      */
     public $controller;
 
+
+    /**
+     * current dispatched path
+     */
+    public $path;
+
     /**
      * @param Roller\Router $router router object.
      * @param array $route route hash.
      */
-	public function __construct($router,$route)
+	public function __construct($router,$route,$path)
 	{
         $this->router = $router;
 		$this->route = $route;
+        $this->path = $path;
 	}
 
 
@@ -140,7 +147,7 @@ class MatchedRoute
             }
         }
         if( $this->controller && is_a($this->controller,'Roller\Controller') ) {
-            $this->controller->route = $this->route;
+            $this->controller->route = $this;
             $this->controller->router = $this->router;
             $this->controller->before();
         }
@@ -188,6 +195,20 @@ class MatchedRoute
         return $this->controller;
     }
 
+    public function getPath()
+    {
+        return $this->path;
+    }
+
+    public function getRouter()
+    {
+        return $this->router;
+    }
+
+    public function getRoute()
+    {
+        return $this->route;
+    }
 
 
     /** magic accessor interface **/
@@ -225,6 +246,8 @@ class MatchedRoute
         unset($this->route[$name]);
     }
     
+
+
 
 	// evaluate route
 	function __invoke()

@@ -174,7 +174,7 @@ class Router
             $route = roller_dispatch( $this->routes->routes , $path );
             $class = $this->matchedRouteClass;
             if( $route ) {
-                return new $class($this,$route);
+                return new $class($this,$route,$path);
             }
             else {
                 return false;
@@ -207,7 +207,7 @@ class Router
 
                     // matched!
                     $class = $this->matchedRouteClass;
-                    return new $class($this,$route);
+                    return new $class($this,$route,$path);
                 }
             }
         }
