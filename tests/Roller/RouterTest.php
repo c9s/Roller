@@ -10,19 +10,21 @@ class TestController extends Roller\Controller
 
 class MyController extends Roller\Controller
 {
+    public $counter = 0;
     public function before() 
     {
-
+        $this->counter++;
     }
 
     public function run()
     {
+        $this->counter++;
         return 'rocks';
     }
 
     public function after()
     {
-
+        $this->counter++;
     }
 }
 
@@ -35,6 +37,9 @@ class RouterTest extends PHPUnit_Framework_TestCase
         $router->add('/test' , 'MyController:indexAction' );
         $route = $router->dispatch('/test');
         ok( $route );
+
+        $route();
+
     }
 
 

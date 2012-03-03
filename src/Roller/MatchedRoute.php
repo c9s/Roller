@@ -19,7 +19,7 @@ class MatchedRoute
     public function run() 
     {
 		$cb = $this->route['callback'];
-        $controller = null;
+        $this->controller = null;
 
 		if( ! is_callable($cb) )
 			throw new Exception( 'This route callback is not a valid callback.' );
@@ -36,7 +36,7 @@ class MatchedRoute
             $rc = new ReflectionClass( $cb[0] );
             if( is_string($cb[0]) ) {
                 $obj = $args ? $rc->newInstanceArgs($args) : $rc->newInstance();
-                $controller = $obj;
+                $this->controller = $obj;
                 $cb[0] = $obj;
             }
             $rm = $rc->getMethod($cb[1]);
@@ -48,9 +48,9 @@ class MatchedRoute
 			$rps = $rm->getParameters();
 
             $obj = $args ? $rc->newInstanceArgs($args) : $rc->newInstance();
-            $controller = $obj;
+            $this->controller = $obj;
             $cb = array( $obj, 'run');
-            $controller = $obj;
+            $this->controller = $obj;
 		}
 		elseif( is_a($cb,'Closure') ) {
 			$rf = new ReflectionFunction( $cb );
@@ -75,26 +75,26 @@ class MatchedRoute
             }
         }
 
-        if( is_a($controller,'Roller\Controller') ) {
-            $controller->route = $this->route;
-            call_user_func( array($controller,'before') );
+        if( is_a($this->controller,'Roller\Controller') ) {
+            $this->controller->route = $this->route;
+            call_user_func( array($this->controller,'before') );
         }
 
         $ret = call_user_func_array($cb, $arguments );
 
-        if( is_a($controller,'Roller\Controller') ) {
-            call_user_func( array($controller,'after') );
+        if( is_a($this->controller,'Roller\Controller') ) {
+            call_user_func( array($this->controller,'after') );
         }
         return $ret;
     }
 
-    function getRequirement()
+    public function getRequirement()
     {
         if( isset($this->route['requirement']) )
             return $this->route['requirement'];
     }
 
-    function getDefault()
+    public function getDefault()
     {
         if( isset($this->route['default'] ) ) 
             return $this->route['default'];
@@ -104,6 +104,11 @@ class MatchedRoute
     {
         if( isset($this->route['vars']) )
             return $this->route['vars'];
+    }
+
+    public function getController()
+    {
+        return $this->controller;
     }
 
 	// evaluate route
