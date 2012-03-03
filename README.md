@@ -36,8 +36,8 @@ Install through PEAR:
     $ sudo pear channel-discover pear.corneltek.com
     $ sudo pear install corneltek/Roller
 
-Clone this repository, pick up a PSR-0 classloader, and add `src/` to
-class path.
+Or clone this repository, pick up a PSR-0 classloader, and add `src/` to class
+path.
 
 To use console dumper, you need ezc/ConsoleTools, please use PEAR
 installer to install:
@@ -147,6 +147,38 @@ To add a new route with request method (like POST method):
     ));
 ```
 
+RouteSet
+--------
+
+RouteSet is a route collection class, you can mount a route set to another route set.
+
+To use RouteSet is very easy:
+
+```php
+<?php
+$subroutes = new Roller\RouteSet;
+$subroutes->add( '/subitem' , $cb );
+
+$routes = new Roller\RouteSet;
+$routes->mount( '/item' , $subroutes );
+```
+
+Mount paths
+-----------
+
+To mount route set:
+
+```php
+<?
+    $routes = new Roller\RouteSet;
+    $routes->add( '/path/to/:year' , array( 'Callback', 'method' ) );
+
+    $routes = new Roller\RouteSet;
+    $routes->mount( '/root' , $routes );
+
+    $router = new Roller\Router( $routes );
+```
+
 Dispatch
 --------
 
@@ -183,33 +215,6 @@ $r = new Roller\Router(array(
 $route = $r->dispatch( '/path/to/...' );    // get YourRoute object.
 ```
 
-RouteSet
---------
-RouteSet is a route collection class, you can mount a route set to another route set.
-
-To use RouteSet is very easy:
-
-```php
-<?php
-$routes = new Roller\RouteSet;
-$routes->add( $path , $cb );
-```
-
-Mount paths
------------
-
-To mount route set:
-
-```php
-<?
-    $routes = new Roller\RouteSet;
-    $routes->add( '/path/to/:year' , array( 'Callback', 'method' ) );
-
-    $routes = new Roller\RouteSet;
-    $routes->mount( '/root' , $routes );
-
-    $router = new Roller\Router( $routes );
-```
 
 Cache
 -----
