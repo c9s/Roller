@@ -7,8 +7,18 @@ use ReflectionClass;
 
 class MatchedRoute
 {
+    /**
+     * route data array()
+     */
 	public $route;
+
+
     public $router;
+
+    /**
+     * controller object (if route call class and object to handle request)
+     */
+    public $controller;
 
 	public function __construct($router,$route)
 	{
@@ -19,7 +29,6 @@ class MatchedRoute
     public function run() 
     {
 		$cb = $this->route['callback'];
-        $this->controller = null;
 
 		if( ! is_callable($cb) )
 			throw new Exception( 'This route callback is not a valid callback.' );
@@ -39,10 +48,12 @@ class MatchedRoute
                 $this->controller = $obj;
                 $cb[0] = $obj;
             }
+            if( ! method_exists($obj,$cb[1]) )
+                throw new Exception("Method {$cb[1]} does not exist.");
             $rm = $rc->getMethod($cb[1]);
             $rps = $rm->getParameters();
 		}
-		elseif( is_a($cb,'\Roller\Controller') ) {
+		elseif( is_a($cb,'Roller\Controller') ) {
 			$rc = new ReflectionClass( $cb );
 			$rm = $rc->getMethod('run');
 			$rps = $rm->getParameters();
@@ -75,14 +86,15 @@ class MatchedRoute
             }
         }
 
-        if( is_a($this->controller,'Roller\Controller') ) {
+        if( $this->controller && is_a($this->controller,'Roller\Controller') ) {
             $this->controller->route = $this->route;
+            $this->controller->router = $this->router;
             call_user_func( array($this->controller,'before') );
         }
 
         $ret = call_user_func_array($cb, $arguments );
 
-        if( is_a($this->controller,'Roller\Controller') ) {
+        if( $this->controller && is_a($this->controller,'Roller\Controller') ) {
             call_user_func( array($this->controller,'after') );
         }
         return $ret;

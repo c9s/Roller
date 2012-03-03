@@ -51,7 +51,7 @@ class RouteSet implements Iterator
 
     public function add($path, $callback, $options = array() )
     {
-        if( is_string($callback) ) {
+        if( is_string($callback) && false !== strpos($callback,':') ) {
             $callback = explode(':',$callback);
         }
 

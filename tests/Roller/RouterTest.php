@@ -16,7 +16,7 @@ class MyController extends Roller\Controller
         $this->counter++;
     }
 
-    public function run()
+    public function indexAction()
     {
         $this->counter++;
         return 'rocks';
@@ -31,15 +31,18 @@ class MyController extends Roller\Controller
 class RouterTest extends PHPUnit_Framework_TestCase
 {
 
-    function testController()
+    function testMyController()
     {
         $router = new Roller\Router;
         $router->add('/test' , 'MyController:indexAction' );
         $route = $router->dispatch('/test');
-        ok( $route );
+        ok( $route , 'route found' );
+        ok( $route->route );
 
-        $route();
-
+        $route->run();
+        
+        ok( $con = $route->getController() );
+        is( 3, $con->counter );
     }
 
 
