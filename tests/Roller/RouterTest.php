@@ -8,9 +8,12 @@ class TestController extends Roller\Controller
 	}
 }
 
+
+
 class MyController extends Roller\Controller
 {
     public $counter = 0;
+
     public function before() 
     {
         $this->counter++;
@@ -39,7 +42,7 @@ class RouterTest extends PHPUnit_Framework_TestCase
         ok( $route , 'route found' );
         ok( $route->route );
 
-        $route->run();
+        $route();
         
         ok( $con = $route->getController() );
         is( 3, $con->counter );

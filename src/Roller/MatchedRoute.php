@@ -102,13 +102,13 @@ class MatchedRoute
         if( $this->controller && is_a($this->controller,'Roller\Controller') ) {
             $this->controller->route = $this->route;
             $this->controller->router = $this->router;
-            call_user_func( array($this->controller,'before') );
+            $this->controller->before();
         }
 
         $ret = call_user_func_array($cb, $arguments );
 
         if( $this->controller && is_a($this->controller,'Roller\Controller') ) {
-            call_user_func( array($this->controller,'after') );
+            $this->controller->after();
         }
         return $ret;
     }
