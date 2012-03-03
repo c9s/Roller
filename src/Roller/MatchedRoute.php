@@ -29,7 +29,13 @@ class MatchedRoute
 
     public function run() 
     {
+        if( ! isset($this->route['callback'] ) )
+            throw new RouteException( 'callback attribute is not defined.' , $this->route );
+
 		$cb = $this->route['callback'];
+
+        if( null === $cb )
+            throw new RouteException( 'callback attribute is empty.' , $this->route );
 
 		if( ! is_callable($cb) )
 			throw new RouteException( 'This route callback is not a valid callback.' , $this->route );
