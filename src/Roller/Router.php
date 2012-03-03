@@ -190,7 +190,8 @@ class Router
                     foreach( $route['variables'] as $k ) {
                         if( isset($regs[$k]) ) {
                             $route['vars'][ $k ] = $regs[$k];
-                        } else {
+                        } 
+                        elseif ( isset($route['default'][$k]) ) {
                             $route['vars'][ $k ] = $route['default'][ $k ];
                         }
                     }
