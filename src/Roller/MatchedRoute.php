@@ -37,8 +37,6 @@ class MatchedRoute
         if( null === $cb )
             throw new RouteException( 'callback attribute is empty.' , $this->route );
 
-		if( ! is_callable($cb) )
-			throw new RouteException( 'This route callback is not a valid callback.' , $this->route );
 
         /** constructor arguments **/
         $args = $this->route['args'];
@@ -79,6 +77,10 @@ class MatchedRoute
 			$rf = new ReflectionFunction( $cb );
 			$rps = $rf->getParameters();
 		}
+
+        // check callback function
+		if( ! is_callable($cb) )
+			throw new RouteException( 'This route callback is not a valid callback.' , $this->route );
 
         // get relection method parameter prototype for checking...
         $arguments = array();
