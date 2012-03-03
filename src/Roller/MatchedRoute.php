@@ -90,7 +90,6 @@ class MatchedRoute
                 // throw new Exception("controller parameter error: ");
             }
         }
-
         if( $this->controller && is_a($this->controller,'Roller\Controller') ) {
             $this->controller->route = $this->route;
             $this->controller->router = $this->router;
