@@ -4,6 +4,7 @@ use Exception;
 use ReflectionObject;
 use ReflectionFunction;
 use ReflectionClass;
+use RouteException;
 
 class MatchedRoute
 {
@@ -31,7 +32,7 @@ class MatchedRoute
 		$cb = $this->route['callback'];
 
 		if( ! is_callable($cb) )
-			throw new Exception( 'This route callback is not a valid callback.' );
+			throw new RouteException( 'This route callback is not a valid callback.' , $this->route );
 
         /** constructor arguments **/
         $args = $this->route['args'];
@@ -53,8 +54,8 @@ class MatchedRoute
             }
 
             if( $this->controller && ! method_exists( $this->controller ,$cb[1]) ) {
-                throw new Exception("Method " . 
-                    get_class($this->controller) . "->{$cb[1]} does not exist.");
+                throw new RouteException("Method " . 
+                    get_class($this->controller) . "->{$cb[1]} does not exist.", $this->route );
             }
 
             $rm = $rc->getMethod($cb[1]);
@@ -87,7 +88,7 @@ class MatchedRoute
                 $arguments[] = $default;
             }
             else {
-                // throw new Exception("controller parameter error: ");
+                throw new RouteException( 'parameter is not defined.',  $this->route );
             }
         }
         if( $this->controller && is_a($this->controller,'Roller\Controller') ) {
