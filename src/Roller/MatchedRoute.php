@@ -4,7 +4,7 @@ use Exception;
 use ReflectionObject;
 use ReflectionFunction;
 use ReflectionClass;
-use RouteException;
+use Roller\Exception\RouteException;
 
 class MatchedRoute
 {

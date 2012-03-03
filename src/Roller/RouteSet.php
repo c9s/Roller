@@ -9,11 +9,6 @@ class RouteSet implements Iterator
     public $routes = array();
     public $i = 0;
 
-    public function __construct()
-    {
-
-    }
-
     public function __call($m,$a) {
         switch( $m ) {
         case 'post':

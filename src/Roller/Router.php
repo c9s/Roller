@@ -1,6 +1,6 @@
 <?php
 namespace Roller;
-use Exception;
+use Exception\RouterException;
 
 class Router
 {

@@ -1,5 +1,5 @@
 <?php
-namespace Roller;
+namespace Roller\Exception;
 use Exception;
 
 class RouteException extends Exception
@@ -16,7 +16,6 @@ class RouteException extends Exception
     {
         return $this->route;
     }
-
 }
 
 
