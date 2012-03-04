@@ -6,7 +6,10 @@ use Exception;
 
 class RouteSet implements Iterator
 {
+    public $routesMap = array();
+
     public $routes = array();
+
     public $i = 0;
 
     public function __call($m,$a) {
@@ -43,7 +46,7 @@ class RouteSet implements Iterator
 
 
     /** 
-     * write this in extension 
+     * xxx: write this in extension 
      *
      * @param string $path
      * @param mixed $callback
@@ -93,16 +96,54 @@ class RouteSet implements Iterator
             $args = $options[':args'];
         }
 
-        return $this->routes[] = array(
-            'path' => $path,
+
+        $route = array(
+            'path'        => $path,
             'requirement' => $requirement,
-            'default' => $default,
-            'callback' => $callback,
-            'method' => $method,
-            'args' => $args,
+            'default'     => $default,
+            'callback'    => $callback,
+            'method'      => $method,
+            'args'        => $args,
         );
+
+        $name = null;
+        if( isset($options[':name']) ) {
+            $name = $route['name'] = $options[':name'];
+        } else {
+            $name = $route['name'] = preg_replace( '/\W/' , '_' , $route['path'] );
+        }
+        return $this->routes[] = $this->routesMap[ $name ] = & $route;
     }
 
+
+
+
+    /**
+     * find route by route path
+     *
+     */
+    public function findRouteByPath( $path ) 
+    {
+        foreach( $this->routes as $route ) {
+            if( isset($route['path']) && $route['path'] == $path ) {
+                return $route;
+            }
+        }
+    }
+
+
+    /**
+     * get route by route name
+     */
+    public function getRoute($name) 
+    {
+        if( isset($this->routesMap[ $name ] ) ) {
+            return $this->routesMap[ $name ];
+        }
+    }
+
+
+    // xxx: write this in extension.
     public function mount( $prefix, RouteSet $routes )
     {
         foreach( $routes as $r ) {
@@ -111,6 +152,8 @@ class RouteSet implements Iterator
         }
     }
 
+
+    // xxx: write this in extension to improve compile time performance.
     public function compile()
     {
         foreach( $this->routes as &$r ) {
