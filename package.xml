@@ -11,10 +11,10 @@
     <active>yes</active>
   </lead>
   <date>2012-03-04</date>
-  <time>01:53:42</time>
+  <time>13:15:28</time>
   <version>
-    <release>1.2.8</release>
-    <api>1.2.8</api>
+    <release>1.2.9</release>
+    <api>1.2.9</api>
   </version>
   <stability>
     <release>stable</release>
@@ -39,15 +39,15 @@
       <file name="src/Roller/Exception/RouterException.php" role="php" md5sum="47f7624f9454e42c11b5e1f9afe54365"/>
       <file name="src/Roller/MatchedRoute.php" role="php" md5sum="d3c3840c31046b911f4320377be3a936"/>
       <file name="src/Roller/Plugin/RESTful/BaseHandler.php" role="php" md5sum="5e59af5c48777c92081fc5dbd601e794"/>
-      <file name="src/Roller/Plugin/RESTful/GenericHandler.php" role="php" md5sum="e3a07e8abbc8a4b619328e6b18c49c9d"/>
-      <file name="src/Roller/Plugin/RESTful/ResourceHandler.php" role="php" md5sum="ed104d2ba9fdbdbddde6732024588da8"/>
+      <file name="src/Roller/Plugin/RESTful/GenericHandler.php" role="php" md5sum="e26ef057017951df77a65d8535e10fe9"/>
+      <file name="src/Roller/Plugin/RESTful/ResourceHandler.php" role="php" md5sum="3bd8e91ab18260aaa2d48c26424b5204"/>
       <file name="src/Roller/Plugin/RESTful.php" role="php" md5sum="b14e7a518138d50597d841841c9a09e5"/>
       <file name="src/Roller/PluginInterface.php" role="php" md5sum="e18eacc88ca940293cb510bcd6806eb6"/>
       <file name="src/Roller/RouteCompiler.php" role="php" md5sum="0d7843927b3c8686a492bd3519ab6d84"/>
-      <file name="src/Roller/Router.php" role="php" md5sum="fc3861485089e7f4d15caecae0c58f47"/>
-      <file name="src/Roller/RouteSet.php" role="php" md5sum="1e9805b497527da4cbef893777c9adee"/>
+      <file name="src/Roller/Router.php" role="php" md5sum="0ae038583fcaa4c22bac5c0d9a1389b7"/>
+      <file name="src/Roller/RouteSet.php" role="php" md5sum="4cae4eba6d2a044a3045c68f7bf86438"/>
       <file name="CHANGES.md" role="doc" md5sum="bb155740d538ffefa1a7bea03ead44f5"/>
-      <file name="README.md" role="doc" md5sum="8aa034bca6f24b35be93bffd78a3474c"/>
+      <file name="README.md" role="doc" md5sum="b5789e274c073fdd749228d1f95c22b6"/>
     </dir>
   </contents>
   <dependencies>
