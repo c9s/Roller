@@ -44,27 +44,29 @@ abstract class GenericHandler extends BaseHandler
 
     public function expand($routes, $h)
     {
-        $routes->add( '/:resource(\.:format)' , array( $h , 'handleCreate' ), array( 
+        $class = is_object($h) ? get_class($h) : $h;
+
+        $routes->add( '/:resource(\.:format)' , array( $class , 'handleCreate' ), array( 
             ':method' => 'post',
             ':default' => array( 'format' => 'json' ),
         ));
 
-        $routes->add( '/:resource(\.:format)' , array( $h , 'handleFind' ), array( 
+        $routes->add( '/:resource(\.:format)' , array( $class , 'handleFind' ), array( 
             ':method' => 'get',
             ':default' => array( 'format' => 'json' ),
         ));
 
-        $routes->add( '/:resource/:id(\.:format)' , array( $h, 'handleUpdate'), array( 
+        $routes->add( '/:resource/:id(\.:format)' , array( $class, 'handleUpdate'), array( 
             ':method' => 'put',
             ':default' => array( 'format' => 'json' ),
         ));
 
-        $routes->add( '/:resource/:id(\.:format)' , array( $h, 'handleDelete'), array( 
+        $routes->add( '/:resource/:id(\.:format)' , array( $class, 'handleDelete'), array( 
             ':method' => 'delete',
             ':default' => array( 'format' => 'json' ),
         ));
 
-        $routes->add( '/:resource/:id(\.:format)' , array( $h, 'handleLoad'), array( 
+        $routes->add( '/:resource/:id(\.:format)' , array( $class, 'handleLoad'), array( 
             ':method' => 'get',
             ':default' => array( 'format' => 'json' ),
         ));

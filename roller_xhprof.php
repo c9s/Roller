@@ -8,6 +8,7 @@ xhprof_enable();
 // do something here
 $router = new Roller\Router( null, array( 
     'cache_id' => 'roller_xhprof',
+    'cache_dir' => 'cache',
 ));
 $restful = new Roller\Plugin\RESTful(array( 'prefix' => '/restful' ));
 $restful->registerResource( 'blog' , 'BlogResourceHandler' );
@@ -19,12 +20,10 @@ if($r) $r();
 // stop profiler
 $xhprof_data = xhprof_disable();
 
-$XHPROF_ROOT = '/Users/c9s/git/others/facebook/xhprof';
-
 // Saving the XHProf run
 // using the default implementation of iXHProfRuns.
-include_once $XHPROF_ROOT . "/xhprof_lib/utils/xhprof_lib.php";
-include_once $XHPROF_ROOT . "/xhprof_lib/utils/xhprof_runs.php";
+include_once "xhprof_lib/utils/xhprof_lib.php";
+include_once "xhprof_lib/utils/xhprof_runs.php";
 
 $xhprof_runs = new XHProfRuns_Default();
 

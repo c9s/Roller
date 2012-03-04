@@ -45,31 +45,32 @@ abstract class ResourceHandler extends BaseHandler
 	 */
 	public function expand($routes, $h, $r)
 	{
-		$routes->add( "/$r(\.:format)" , array($h,'handleFind'), 
+        $class = is_object($h) ? get_class($h) : $h;
+		$routes->add( "/$r(\.:format)" , array($class,'handleFind'), 
 			array( 
 				':get' => true , 
 				':default' => array( 'format' => 'json' ) 
 			));
 
-		$routes->add( '/' . $r . '(\.:format)' , array($h,'handleCreate'), 
+		$routes->add( '/' . $r . '(\.:format)' , array($class,'handleCreate'), 
 			array( 
 				':post' => true, 
 				':default' => array( 'format' => 'json' ) 
 			));
 
-		$routes->add( '/' . $r . '/:id(\.:format)' , array($h,'handleLoad'),
+		$routes->add( '/' . $r . '/:id(\.:format)' , array($class,'handleLoad'),
 			array( 
 				':get' => true, 
 				':default' => array( 'format' => 'json' )
 			));
 
-		$routes->add( '/' . $r . '/:id(\.:format)' , array($h,'handleUpdate'),
+		$routes->add( '/' . $r . '/:id(\.:format)' , array($class,'handleUpdate'),
 			array( 
 				':put' => true, 
 				':default' => array( 'format' => 'json' ) 
 			));
 
-		$routes->add( '/' . $r . '/:id(\.:format)' , array($h,'handleDelete'),
+		$routes->add( '/' . $r . '/:id(\.:format)' , array($class,'handleDelete'),
 			array( 
 				':delete' => true, 
 				':default' => array( 'format' => 'json' ) 
