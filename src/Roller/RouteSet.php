@@ -45,18 +45,22 @@ class RouteSet implements Iterator
     }
 
 
-    /** 
-     * xxx: write this in extension 
-     *
-     * @param string $path
-     * @param mixed $callback
-     * @param array $options
-     */
-    public function add($path, $callback, $options = array() )
+
+    private function buildRoute($path,$callback,$options = array() )
     {
+        $route = array(
+            'path' => null,
+            'args' => null,
+        );
+        $route['path']        = $path;
+
         if( is_string($callback) && false !== strpos($callback,':') ) {
             $callback = explode(':',$callback);
         }
+        $route['callback']    = $callback;
+
+
+
 
         $requirement = array();
         if( isset($options[':requirement']) ) {
@@ -68,51 +72,59 @@ class RouteSet implements Iterator
                 }
             }
         }
+        $route['requirement'] = $requirement;
 
-        $default = array();
-        if( isset($options[':default']) )
-            $default = $options[':default'];
 
-        $method = null; /* any method */
+        /* :secure option for https */
+        if( isset($options[':secure']) ) {
+            $route['secure'] = true;
+        }
+
+        if( isset($options[':default']) ) {
+            $route['default'] = $options[':default'];
+        }
+
         if( isset($options[':method']) ) {
-            $method = $options[':method'];
+            $route['method'] = $options[':method'];
         } elseif( isset($options[':post']) ) {
-            $method = 'post';
+            $route['method'] = 'post';
         } elseif( isset($options[':get']) ) {
-            $method = 'get';
+            $route['method'] = 'get';
         } elseif( isset($options[':head']) ) {
-            $method = 'head';
+            $route['method'] = 'head';
         } elseif( isset($options[':put']) ) {
-            $method = 'put';
+            $route['method'] = 'put';
         } elseif( isset($options[':delete']) ) {
-            $method = 'delete';
+            $route['method'] = 'delete';
         }
 
         /** 
          * arguments pass to constructor 
          */
-        $args = null;
         if( isset($options[':args']) ) {
-            $args = $options[':args'];
+            $route['args'] = $options[':args'];
         }
 
-
-        $route = array(
-            'path'        => $path,
-            'requirement' => $requirement,
-            'default'     => $default,
-            'callback'    => $callback,
-            'method'      => $method,
-            'args'        => $args,
-        );
-
-        $name = null;
+        // always have a name
         if( isset($options[':name']) ) {
-            $name = $route['name'] = $options[':name'];
+            $route['name'] = $options[':name'];
         } else {
-            $name = $route['name'] = preg_replace( '/\W/' , '_' , $route['path'] );
+            $route['name'] = preg_replace( '/\W/' , '_' , $route['path'] );
         }
-        return $this->routes[] = $this->routesMap[ $name ] = & $route;
+        return $route;
+    }
+
+    /** 
+     *
+     * @param string $path
+     * @param mixed $callback
+     * @param array $options
+     */
+    public function add($path, $callback, $options = array() )
+    {
+        // xxx: write this in extension 
+        $route = $this->buildRoute( $path ,$callback, $options );
+        return $this->routes[] = $this->routesMap[ $route['name'] ] = & $route;
     }
 
 
