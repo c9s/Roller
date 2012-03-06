@@ -48,10 +48,10 @@ class RouteCompilerTest extends PHPUnit_Framework_TestCase
             'path' => '/blog/:year/:month'
         ));
         $pattern = '#^
-    /blog
-    /(?P<year>[^/]+?)
-    /(?P<month>[^/]+?)
-$#xs';
+            /blog
+            /(?P<year>[^/]+?)
+            /(?P<month>[^/]+?)
+            $#xs';
         is($pattern,$route['compiled']);
     }
 }

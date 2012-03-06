@@ -60,8 +60,6 @@ class RouteSet implements Iterator
         $route['callback']    = $callback;
 
 
-
-
         $requirement = array();
         if( isset($options[':requirement']) ) {
             $requirement = $options[':requirement'];
@@ -84,17 +82,23 @@ class RouteSet implements Iterator
             $route['default'] = $options[':default'];
         }
 
+
         if( isset($options[':method']) ) {
             $route['method'] = $options[':method'];
-        } elseif( isset($options[':post']) ) {
+        } 
+        elseif( isset($options[':post']) ) {
             $route['method'] = 'post';
-        } elseif( isset($options[':get']) ) {
+        } 
+        elseif( isset($options[':get']) ) {
             $route['method'] = 'get';
-        } elseif( isset($options[':head']) ) {
+        } 
+        elseif( isset($options[':head']) ) {
             $route['method'] = 'head';
-        } elseif( isset($options[':put']) ) {
+        } 
+        elseif( isset($options[':put']) ) {
             $route['method'] = 'put';
-        } elseif( isset($options[':delete']) ) {
+        } 
+        elseif( isset($options[':delete']) ) {
             $route['method'] = 'delete';
         }
 
@@ -109,7 +113,7 @@ class RouteSet implements Iterator
         if( isset($options[':name']) ) {
             $route['name'] = $options[':name'];
         } else {
-            $route['name'] = preg_replace( '/\W/' , '_' , $route['path'] );
+            $route['name'] = preg_replace( '/\W+/' , '_' , $route['path'] );
         }
         return $route;
     }
