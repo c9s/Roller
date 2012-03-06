@@ -63,7 +63,7 @@ Add a new route with simple callback
 
 ```php
 <?php
-    $router->add( '/path/to/blog'  , function() { 
+    $router->add( '/blog/:id/:title'  , function($id,$title) { 
         return 'Blog';
     });
 ```
@@ -72,7 +72,7 @@ Add a new route with class callback
 
 ```php
 <?php
-    $router->add( '/path/to/blog'  , array('Controller','method') );
+    $router->add( '/blog/:year/:month/:id/:title'  , array('Controller','method') );
 ```
 
 Add a new route with class/action callback string:
@@ -106,18 +106,15 @@ An alias for GET method:
 
 ```php
 <?
-    $router->get( '/path/to/:year' , function() { ... } );
+    $router->get( '/path/to/:year' , function($year) { ... } );
 ```
 
 An alias for POST method:
 
 ```php
 <?
-    $router->post( '/path/to/:year' , function() { ... } );
+    $router->post( '/path/to/:year' , function($year) { ... } );
 ```
-
-
-
 
 
 META ATTRIBUTE

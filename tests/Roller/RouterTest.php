@@ -131,7 +131,6 @@ class RouterTest extends PHPUnit_Framework_TestCase
 
         ok(file_exists( 'tests/cache/_router_testing_' ));
 
-
         // the cache should be reloaded.
         $router = new Roller\Router( null , array( 
             'cache_id' => '_router_testing_',
@@ -143,6 +142,4 @@ class RouterTest extends PHPUnit_Framework_TestCase
 
         unlink( 'tests/cache/_router_testing_' );
     }
-
 }
-
