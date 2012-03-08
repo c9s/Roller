@@ -8,6 +8,8 @@ class RouteSet implements Iterator
 {
     public $routesMap = array();
 
+    public $before = array();
+
     public $routes = array();
 
     public $i = 0;
@@ -102,6 +104,10 @@ class RouteSet implements Iterator
             $route['method'] = 'delete';
         }
 
+        if( isset($options[':before']) ) {
+            $route['before'] = true;
+        }
+
         /** 
          * arguments pass to constructor 
          */
@@ -128,6 +134,11 @@ class RouteSet implements Iterator
     {
         // xxx: write this in extension 
         $route = $this->buildRoute( $path ,$callback, $options );
+
+        // push to front
+        if( isset($route['before']) ) {
+            array_unshift( $this->routes , $route );
+        }
         return $this->routes[] = $this->routesMap[ $route['name'] ] = & $route;
     }
 
