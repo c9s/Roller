@@ -5,7 +5,6 @@ Version 1.2.8 - Sun Mar  4 01:41:03 2012
 - MatchedRoute refactor.
 - Trim right slash when mounting.
 
-
 Version 1.2.2 - Sat Mar  3 21:50:58 2012
 
 - Add RouteException class.
