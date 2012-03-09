@@ -6,6 +6,12 @@
 #include "ext/pcre/php_pcre.h"
 #include "ext/standard/php_string.h"
 
+#define ZEND_HASH_KEY_EXISTS(hash,key,value) \
+    zend_hash_find(hash, key , sizeof(key), (void**)&value) == SUCCESS 
+
+#define ZEND_HASH_KEY_NOT_EXISTS(hash,key,value) \
+    zend_hash_find(hash, key , sizeof(key), (void**)&value) == FAILURE 
+
 // #define DEBUG 1
 
 static const zend_function_entry roller_functions[] = {
@@ -25,6 +31,8 @@ zend_module_entry roller_module_entry = {
 	PHP_ROLLER_VERSION,
     STANDARD_MODULE_PROPERTIES
 };
+
+
 
 #ifdef COMPILE_DL_ROLLER
 ZEND_GET_MODULE(roller)
@@ -97,7 +105,7 @@ PHP_FUNCTION(roller_dispatch)
 
 
         /* If 'compiled' key is not set, we should skip it */
-        if (zend_hash_find(route_hash, "compiled", sizeof("compiled"), (void**)&z_compiled) == FAILURE ) {
+        if (ZEND_HASH_KEY_EXISTS(route_hash,"compiled",z_compiled)) {
             continue;
         }
 
