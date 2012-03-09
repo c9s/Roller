@@ -6,12 +6,6 @@
 #include "ext/pcre/php_pcre.h"
 #include "ext/standard/php_string.h"
 
-#define ZEND_HASH_KEY_EXISTS(hash,key,value) \
-    zend_hash_find(hash, key , sizeof(key), (void**)&value)  
-
-#define ZEND_HASH_KEY_NOT_EXISTS(hash,key,value) \
-    zend_hash_find(hash, key , sizeof(key), (void**)&value)
-
 // #define DEBUG 1
 
 static const zend_function_entry roller_functions[] = {
@@ -31,8 +25,6 @@ zend_module_entry roller_module_entry = {
 	PHP_ROLLER_VERSION,
     STANDARD_MODULE_PROPERTIES
 };
-
-
 
 #ifdef COMPILE_DL_ROLLER
 ZEND_GET_MODULE(roller)
@@ -93,18 +85,8 @@ PHP_FUNCTION(roller_dispatch)
     {
         zval  **z_compiled;
         zval  **z_method;
-        HashTable *route_hash;
+        HashTable *route_hash = Z_ARRVAL_PP(z_route);
 
-
-        /* regex parameters */
-        char			 *regex;			/* Regular expression */
-        int				  regex_len;
-        pcre_cache_entry *pce;				/* Compiled regular expression */
-        long			  flags = 0;		/* Match control flags */
-        long			  start_offset = 0;	/* Where the new search starts */
-        int               global  = 0;
-
-        route_hash = Z_ARRVAL_PP(z_route);
 
 #ifdef DEBUG
         zval **z_path;
@@ -115,13 +97,12 @@ PHP_FUNCTION(roller_dispatch)
 
 
         /* If 'compiled' key is not set, we should skip it */
-        if (ZEND_HASH_KEY_EXISTS(route_hash,"compiled",z_compiled) == FAILURE ) {
+        if (zend_hash_find(route_hash, "compiled", sizeof("compiled"), (void**)&z_compiled) == FAILURE ) {
             continue;
         }
 
         /* check request method */
-        if( ZEND_HASH_KEY_EXISTS(route_hash,"method",z_method) == SUCCESS ) {
-        // if (zend_hash_find(route_hash, "method", sizeof("method"), (void**) &z_method) != FAILURE ) {
+        if (zend_hash_find(route_hash, "method", sizeof("method"), (void**) &z_method) != FAILURE ) {
             char *c_route_method = Z_STRVAL_PP(z_method);
 
             // If method is specified, we should check
@@ -130,8 +111,15 @@ PHP_FUNCTION(roller_dispatch)
                 ) continue;
         }
 
-        if (Z_TYPE_PP(z_compiled) == IS_STRING) 
-        {
+        if (Z_TYPE_PP(z_compiled) == IS_STRING) {
+
+            /* parameters */
+            char			 *regex;			/* Regular expression */
+            int				  regex_len;
+            pcre_cache_entry *pce;				/* Compiled regular expression */
+            long			  flags = 0;		/* Match control flags */
+            long			  start_offset = 0;	/* Where the new search starts */
+            int               global  = 0;
 
             regex = estrndup(Z_STRVAL_PP(z_compiled), Z_STRLEN_PP(z_compiled));
             regex_len = strlen(regex);
