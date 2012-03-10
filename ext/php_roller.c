@@ -171,6 +171,8 @@ PHP_FUNCTION(roller_build_route)
 
     if ( ZEND_HASH_FETCH(options_hash,":args",tmpval)  ) {
         add_assoc_bool( z_route , "args", 1 );
+    } else {
+        add_assoc_null( z_route , "args" );
     }
 
     if ( ZEND_HASH_FETCH(options_hash,":name",tmpval)  ) {

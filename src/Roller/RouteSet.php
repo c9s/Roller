@@ -133,15 +133,10 @@ class RouteSet implements Iterator
     public function add($path, $callback, $options = array() )
     {
         $route = null;
-        if( 0 && function_exists('roller_build_route') ) {
+        if( function_exists('roller_build_route') ) {
             $route = roller_build_route( $path, $callback , $options );
         } else {
             $route = $this->_buildRoute( $path ,$callback, $options );
-        }
-
-        // push to front
-        if( isset($route['before']) ) {
-            array_unshift( $this->routes , $route );
         }
         return $this->routes[] = $this->routesMap[ $route['name'] ] = & $route;
     }
