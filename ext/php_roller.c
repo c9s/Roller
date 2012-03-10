@@ -13,6 +13,7 @@
 
 static const zend_function_entry roller_functions[] = {
     PHP_FE(roller_dispatch, NULL)
+    PHP_FE(roller_build_route, NULL)
     PHP_FE_END
 };
 
@@ -59,15 +60,30 @@ PHP_FUNCTION(roller_build_route)
     zval * z_route;
     ALLOC_INIT_ZVAL(z_route);
     array_init(z_route);
-
-
     
-    zval * tmpval;
+    zval ** tmpval;
     if ( ZEND_HASH_FETCH(options_hash,":requirement",tmpval)  ) {
-        add_assoc_zval( z_route , "requirement" , tmpval );
+        add_assoc_zval( z_route , "requirement" , *tmpval );
+    } else {
+        // parse requirement from option hash
+        /*
+            foreach( $options as $k => $v ) {
+                if( $k[0] !== ':' ) {
+                    $requirement[ $k ] = $v;
+                }
+            }
+        */
+
+
+        for(zend_hash_internal_pointer_reset_ex(options_hash, &options_position); 
+                zend_hash_get_current_data_ex(options_hash, (void**) &options, &options_position) == SUCCESS; 
+                zend_hash_move_forward_ex(options_hash, &options_position))
+        {
+
+        }
     }
 
-    *return_value = *tmpval;
+    *return_value = *z_route;
     zval_copy_ctor(return_value);
     return;
 }

@@ -3,9 +3,10 @@
          backupGlobals="false"
          colors="true"
          verbose="true">
-  <testsuites>
-    <testsuite name="TestSuite 1">
-      <directory suffix="Test.php">tests</directory>
-    </testsuite>
-  </testsuites>
+
+    <testsuites>
+        <testsuite name="TestSuite 1">
+        <directory suffix="Test.php">tests</directory>
+        </testsuite>
+    </testsuites>
 </phpunit>
