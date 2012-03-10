@@ -37,8 +37,8 @@ ZEND_GET_MODULE(roller)
 
 PHP_FUNCTION(roller_build_route)
 {
-    zval * path;
-    int  path_len;
+    char * path;
+    int    path_len;
     zval * callback;
     zval * options;
 
@@ -144,6 +144,30 @@ PHP_FUNCTION(roller_build_route)
     if ( ZEND_HASH_FETCH(options_hash,":name",tmpval)  ) {
         add_assoc_zval( z_route , "name", *tmpval );
     }
+    else {
+        zval * replacement;
+        ALLOC_INIT_ZVAL(replacement);
+        Z_TYPE_P(replacement) = IS_STRING;
+        Z_STRVAL_P(replacement) = "_";
+        Z_STRLEN_P(replacement) = sizeof("_");
+
+        int result_len;
+        int replace_count;
+
+        if( *path == '/' ) {
+            ++path;
+            --path_len;
+        }
+
+        char * result = php_pcre_replace( 
+                "/\\W+/" , sizeof("/\\W+/"),  
+                path, path_len,
+                replacement, 0 ,
+                &result_len, -1, &replace_count
+        );
+        add_assoc_stringl( z_route, "name" , result, result_len , 0 );
+    }
+
 
     *return_value = *z_route;
     zval_copy_ctor(return_value);
