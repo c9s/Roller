@@ -130,7 +130,7 @@ class RouteSet implements Iterator
      * @param mixed $callback
      * @param array $options
      */
-    public function add($path, $callback, $options = array() )
+    public function any($path, $callback, $options = array() )
     {
         $route = null;
         if( function_exists('roller_build_route') ) {
@@ -142,7 +142,10 @@ class RouteSet implements Iterator
     }
 
 
-
+    public function add($path,$callback,$options = array() )
+    {
+        return $this->any( $path, $callback, $options );
+    }
 
     /**
      * find route by route path

@@ -7,9 +7,7 @@ class ExtensionTest extends PHPUnit_Framework_TestCase
     function setup()
     {
         if( ! extension_loaded('roller') ) {
-            dl('roller');
-            if( ! extension_loaded('roller') )
-                skip("Require roller extension to test");
+            skip("Require roller extension to test");
         }
     }
 
