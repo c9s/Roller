@@ -52,7 +52,7 @@ PHP_FUNCTION(roller_build_route)
     }
 
     HashTable *options_hash;
-    HashPosition *options_position;
+    HashPosition options_position;
 
     options_hash = Z_ARRVAL_P(options);
 
@@ -78,12 +78,19 @@ PHP_FUNCTION(roller_build_route)
             zend_hash_get_current_data_ex(options_hash, (void**) &options_value, &options_position) == SUCCESS; 
             zend_hash_move_forward_ex(options_hash, &options_position) )
         {
-            char *options_value = Z_STRVAL_PP(options_value);
+            // char *options_value = Z_STRVAL_PP(options_value);
 
             // fetch key
-            // if (zend_hash_get_current_key_ex(arr_hash, &key, &key_len, &index, 0, &pointer) 
+            char * key;
+            unsigned int    key_len;
+            unsigned long   index;
+            if (zend_hash_get_current_key_ex(
+                    options_hash, &key, &key_len, &index, 0, &options_position ) == HASH_KEY_IS_STRING ) 
+            {
+                // it's key, check if it's started with ':'
 
 
+            }
         }
     }
 
