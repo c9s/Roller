@@ -102,6 +102,17 @@ To add a new route with requirement and closure:
     ));
 ```
 
+Or by `any`:
+
+```php
+<?
+    $router->any( '/path/to/:year' , function($year) { 
+        return $year;
+    }, array( 
+        'year' => '\d+',
+    ));
+```
+
 An alias for GET method:
 
 ```php
