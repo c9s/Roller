@@ -73,6 +73,10 @@ PHP_FUNCTION(roller_build_route)
                 }
             }
         */
+        zval * z_requirements;
+        ALLOC_INIT_ZVAL( z_requirements );
+        array_init( z_requirements );
+
         zval ** options_value;
         for(zend_hash_internal_pointer_reset_ex(options_hash, &options_position); 
             zend_hash_get_current_data_ex(options_hash, (void**) &options_value, &options_position) == SUCCESS; 
@@ -88,11 +92,21 @@ PHP_FUNCTION(roller_build_route)
                     options_hash, &key, &key_len, &index, 0, &options_position ) == HASH_KEY_IS_STRING ) 
             {
                 // it's key, check if it's started with ':'
-
-
+                char * pos;
+                if( (pos = strchr(key,':')) == NULL ) {
+                    // add to requirement zval
+                    zval *tmp;
+                    ALLOC_INIT_ZVAL( tmp );
+                    MAKE_COPY_ZVAL( options_value , tmp );
+                    add_assoc_zval( z_requirements , key , tmp );
+                }
             }
         }
+        add_assoc_zval( z_route , "requirement" , z_requirements );
     }
+
+
+
 
     *return_value = *z_route;
     zval_copy_ctor(return_value);
