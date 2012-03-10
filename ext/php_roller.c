@@ -73,12 +73,16 @@ PHP_FUNCTION(roller_build_route)
                 }
             }
         */
-
-
+        zval ** options_value;
         for(zend_hash_internal_pointer_reset_ex(options_hash, &options_position); 
-                zend_hash_get_current_data_ex(options_hash, (void**) &options, &options_position) == SUCCESS; 
-                zend_hash_move_forward_ex(options_hash, &options_position))
+            zend_hash_get_current_data_ex(options_hash, (void**) &options_value, &options_position) == SUCCESS; 
+            zend_hash_move_forward_ex(options_hash, &options_position) )
         {
+            char *options_value = Z_STRVAL_PP(options_value);
+
+            // fetch key
+            // if (zend_hash_get_current_key_ex(arr_hash, &key, &key_len, &index, 0, &pointer) 
+
 
         }
     }
