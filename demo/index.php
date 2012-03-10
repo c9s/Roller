@@ -32,7 +32,7 @@ class MyGenericHandler extends GenericHandler
 
 }
 
-$router = new Roller\Router( array( 'cache_id' => 'router_demo' ));
+$router = new Roller\Router( null, array( 'cache_id' => 'router_demo' ));
 $restful = new Roller\Plugin\RESTful(array( 'prefix' => '/=' ));
 
 $restful->setGenericHandler( 'MyGenericHandler' );
