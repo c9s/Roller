@@ -114,6 +114,25 @@ PHP_FUNCTION(roller_build_route)
         add_assoc_zval( z_route , "default" , *tmpval );
     }
 
+    if ( ZEND_HASH_FETCH(options_hash,":method",tmpval)  ) {
+        add_assoc_zval( z_route , "method" , *tmpval );
+    }
+    else if ( ZEND_HASH_FETCH(options_hash,":post",tmpval) ) {
+        add_assoc_string( z_route, "method", "post", 0 );
+    }
+    else if ( ZEND_HASH_FETCH(options_hash,":get",tmpval) ) {
+        add_assoc_string( z_route, "method", "get", 0 );
+    }
+    else if ( ZEND_HASH_FETCH(options_hash,":head",tmpval) ) {
+        add_assoc_string( z_route, "method", "head", 0 );
+    }
+    else if ( ZEND_HASH_FETCH(options_hash,":delete",tmpval) ) {
+        add_assoc_string( z_route, "method", "delete", 0 );
+    }
+    else if ( ZEND_HASH_FETCH(options_hash,":put",tmpval) ) {
+        add_assoc_string( z_route, "method", "put", 0 );
+    }
+
 
     *return_value = *z_route;
     zval_copy_ctor(return_value);
