@@ -19,6 +19,7 @@ class ExtensionTest extends PHPUnit_Framework_TestCase
             'blog' => '\w+',
             ':secure' => true,
             ':post' => true,
+            ':name' => 'blog_route',
             ':default' => array( 
                 'blog' => '123'
             ),
@@ -29,6 +30,7 @@ class ExtensionTest extends PHPUnit_Framework_TestCase
         ok( $route['default'] );
         is( 123, $route['default']['blog'] );
         is( 'post' , $route['method'] );
+        is( 'blog_route' , $route['name'] );
     }
         
 

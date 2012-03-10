@@ -133,6 +133,17 @@ PHP_FUNCTION(roller_build_route)
         add_assoc_string( z_route, "method", "put", 0 );
     }
 
+    if ( ZEND_HASH_FETCH(options_hash,":before",tmpval)  ) {
+        add_assoc_bool( z_route , "before", 1 );
+    }
+
+    if ( ZEND_HASH_FETCH(options_hash,":args",tmpval)  ) {
+        add_assoc_bool( z_route , "args", 1 );
+    }
+
+    if ( ZEND_HASH_FETCH(options_hash,":name",tmpval)  ) {
+        add_assoc_zval( z_route , "name", *tmpval );
+    }
 
     *return_value = *z_route;
     zval_copy_ctor(return_value);
