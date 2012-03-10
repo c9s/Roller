@@ -106,6 +106,13 @@ PHP_FUNCTION(roller_build_route)
     }
 
 
+    if ( ZEND_HASH_FETCH(options_hash,":secure",tmpval)  ) {
+        add_assoc_bool( z_route , "secure" , 1 );
+    }
+
+    if ( ZEND_HASH_FETCH(options_hash,":default",tmpval)  ) {
+        add_assoc_zval( z_route , "default" , *tmpval );
+    }
 
 
     *return_value = *z_route;
