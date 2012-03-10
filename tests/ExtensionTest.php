@@ -24,8 +24,12 @@ class ExtensionTest extends PHPUnit_Framework_TestCase
             ),
         ));
         ok( $route );
-        var_dump( $route ); 
+        is( 'path_to_blog', $route['name'] );
+        ok( $route['callback'] );
+        ok( $route['secure'] );
     }
+
+
 
     function testBuildRequirement()
     {

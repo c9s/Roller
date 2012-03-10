@@ -60,6 +60,38 @@ PHP_FUNCTION(roller_build_route)
     zval * z_route;
     ALLOC_INIT_ZVAL(z_route);
     array_init(z_route);
+
+    // copy path
+    add_assoc_string( z_route , "path" , path, 1);
+
+    char * p;
+    if( Z_TYPE_P(callback) == IS_STRING 
+            && (p = strchr(Z_STRVAL_P(callback),':')) != NULL )
+    {
+        char * callback_str;
+        int    callback_len;
+
+        char * className;
+        char * methodName;
+        zval * z_cb;
+
+        callback_str = Z_STRVAL_P(callback);
+        callback_len = Z_STRLEN_P(callback);
+
+        className  = estrndup( callback_str, p - callback_str );
+        methodName = estrndup( callback_str + ( p - callback_str ) + 1 , callback_len - ( p - callback_str ) );
+
+        ALLOC_INIT_ZVAL( z_cb );
+        array_init( z_cb );
+        add_index_string( z_cb , 0 , className , 1 );
+        add_index_string( z_cb , 1 , methodName , 1 );
+        add_assoc_zval( z_route , "callback" , z_cb );
+    }
+    else {
+        add_assoc_zval( z_route , "callback" , callback );
+    }
+
+
     
     zval ** tmpval;
     if ( ZEND_HASH_FETCH(options_hash,":requirement",tmpval)  ) {
@@ -146,11 +178,13 @@ PHP_FUNCTION(roller_build_route)
     }
     else {
         zval * replacement;
-        ALLOC_INIT_ZVAL(replacement);
-        Z_TYPE_P(replacement) = IS_STRING;
-        Z_STRVAL_P(replacement) = "_";
-        Z_STRLEN_P(replacement) = sizeof("_");
+        MAKE_STD_ZVAL(replacement);
 
+        replacement->type = IS_STRING;
+        replacement->value.str.len = strlen("_");
+        replacement->value.str.val = estrdup("_");
+
+        char * result;
         int result_len;
         int replace_count;
 
@@ -158,16 +192,14 @@ PHP_FUNCTION(roller_build_route)
             ++path;
             --path_len;
         }
-
-        char * result = php_pcre_replace( 
+        result = php_pcre_replace( 
                 "/\\W+/" , sizeof("/\\W+/"),  
                 path, path_len,
                 replacement, 0 ,
-                &result_len, -1, &replace_count
+                &result_len, -1 , &replace_count
         );
-        add_assoc_stringl( z_route, "name" , result, result_len , 0 );
+        add_assoc_string( z_route, "name" , result, 1);
     }
-
 
     *return_value = *z_route;
     zval_copy_ctor(return_value);

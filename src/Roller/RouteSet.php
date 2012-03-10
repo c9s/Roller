@@ -48,7 +48,7 @@ class RouteSet implements Iterator
 
 
 
-    private function buildRoute($path,$callback,$options = array() )
+    protected function _buildRoute($path,$callback,$options = array() )
     {
         $route = array(
             'path' => null,
@@ -132,8 +132,12 @@ class RouteSet implements Iterator
      */
     public function add($path, $callback, $options = array() )
     {
-        // xxx: write this in extension 
-        $route = $this->buildRoute( $path ,$callback, $options );
+        $route = null;
+        if( 0 && function_exists('roller_build_route') ) {
+            $route = roller_build_route( $path, $callback , $options );
+        } else {
+            $route = $this->_buildRoute( $path ,$callback, $options );
+        }
 
         // push to front
         if( isset($route['before']) ) {
