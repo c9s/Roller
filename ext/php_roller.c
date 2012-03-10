@@ -6,6 +6,9 @@
 #include "ext/pcre/php_pcre.h"
 #include "ext/standard/php_string.h"
 
+#define ZEND_HASH_FETCH(hash,key,ret) \
+    zend_hash_find(hash, key, sizeof(key), (void**)&ret) == SUCCESS
+
 // #define DEBUG 1
 
 static const zend_function_entry roller_functions[] = {
@@ -29,6 +32,45 @@ zend_module_entry roller_module_entry = {
 #ifdef COMPILE_DL_ROLLER
 ZEND_GET_MODULE(roller)
 #endif
+
+
+PHP_FUNCTION(roller_build_route)
+{
+    zval * path;
+    int  path_len;
+    zval * callback;
+    zval * options;
+
+    // private function buildRoute($path,$callback,$options = array() )
+    if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "sz|a", 
+                    &path,  &path_len,
+                    &callback,
+                    &options
+                    ) == FAILURE) {
+        RETURN_FALSE;
+    }
+
+    HashTable *options_hash;
+    HashPosition *options_position;
+
+    options_hash = Z_ARRVAL_P(options);
+
+    // allocate new zval
+    zval * z_route;
+    ALLOC_INIT_ZVAL(z_route);
+    array_init(z_route);
+
+
+    
+    zval * tmpval;
+    if ( ZEND_HASH_FETCH(options_hash,":requirement",tmpval)  ) {
+        add_assoc_zval( z_route , "requirement" , tmpval );
+    }
+
+    *return_value = *tmpval;
+    zval_copy_ctor(return_value);
+    return;
+}
 
 PHP_FUNCTION(roller_dispatch)
 {

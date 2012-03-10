@@ -1,3 +1,7 @@
 #!/bin/bash
-make && \
-    DYLD_LIBRARY_PATH=`pwd`/modules phpunit -d extension=roller.so tests
+SRCDIR=$(PWD)
+EXTDIR=$(PWD)/ext
+cd $EXTDIR && make && (
+    cd $SRCDIR
+    DYLD_LIBRARY_PATH=$EXTDIR/modules phpunit -d extension=roller.so tests
+)
