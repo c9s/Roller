@@ -130,8 +130,8 @@ An alias for POST method:
 
 META ATTRIBUTE
 --------------
-Meta attributes are started without ':' prefix. currently, Roller supports: 
-`method`, `default`, `requirement`, `post`, `get` attributes.
+Meta attributes are started with ':' prefix. currently, Roller currently
+supports: `:method`, `:default`, `:requirement`, `:post`, `:get` attributes.
 
 To add a new route with requirement and default value:
 
