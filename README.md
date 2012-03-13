@@ -141,7 +141,7 @@ To add a new route with request method (like POST method):
     $router->add( '/path/to/:year' , array('Callback','method') , array( 
         'year' => '\d+',
 
-        ':method' => 'post,
+        ':method' => 'post',
         ':default' => array(
             'year' => 2000,
         ),
