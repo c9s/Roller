@@ -48,6 +48,11 @@ class RouteSet implements Iterator
 
 
 
+
+
+    /**
+     * using pure php to build route
+     */
     protected function _buildRoute($path,$callback,$options = array() )
     {
         $route = array(
