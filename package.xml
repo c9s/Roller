@@ -10,15 +10,15 @@
     <email>cornelius.howl@gmail.com</email>
     <active>yes</active>
   </lead>
-  <date>2012-03-14</date>
-  <time>13:05:52</time>
+  <date>2012-03-17</date>
+  <time>12:38:30</time>
   <version>
-    <release>1.3.0</release>
-    <api>1.3.0</api>
+    <release>1.4.0</release>
+    <api>1.4.0</api>
   </version>
   <stability>
-    <release>beta</release>
-    <api>beta</api>
+    <release>stable</release>
+    <api>stable</api>
   </stability>
   <license>PHP</license>
   <notes>-</notes>
@@ -27,11 +27,13 @@
       <file name="tests/bootstrap.php" role="test" md5sum="b805c1c4ad52d54cb97ceef8f42e13bb"/>
       <file name="tests/ExtensionTest.php" role="test" md5sum="77cb51f42fe7d97a6304b9c0d677f351"/>
       <file name="tests/RESTfulTest.php" role="test" md5sum="48a301816befeab51b964db3baa7d273"/>
+      <file name="tests/Roller/Annotation/ClassReaderTest.php" role="test" md5sum="8d67c46483bc048bd8a5530b9f1b2d57"/>
       <file name="tests/Roller/Dumper/ConsoleDumperTest.php" role="test" md5sum="2beda835f820ac3e82414eac7f86c369"/>
       <file name="tests/Roller/RouteCompilerTest.php" role="test" md5sum="f3e5a873bb2dd1e43ba053d2a03e2f1a"/>
       <file name="tests/Roller/RouterApcTest.php" role="test" md5sum="d28016eae7d1a28eb7be3778d78b35f4"/>
       <file name="tests/Roller/RouterTest.php" role="test" md5sum="3a2e9fc5e3d964f744c988432a27ee1c"/>
       <file name="tests/Roller/RouteSetTest.php" role="test" md5sum="c9272106ff8e718f5fd461a397287014"/>
+      <file name="src/Roller/Annotations/Route.php" role="php" md5sum="f829a5ade6dc9ce52edbc5212846d3a2"/>
       <file name="src/Roller/ClosureSerializer.php" role="php" md5sum="7956d38e0e58c2f5c59a469777e8d1bc"/>
       <file name="src/Roller/Controller.php" role="php" md5sum="c8739c9b159310e04b6ae59925d8e274"/>
       <file name="src/Roller/Dumper/ConsoleDumper.php" role="php" md5sum="eb6415684ac8965c9fd11c07b3f8918d"/>
@@ -45,10 +47,10 @@
       <file name="src/Roller/Plugin/RESTful.php" role="php" md5sum="b14e7a518138d50597d841841c9a09e5"/>
       <file name="src/Roller/PluginInterface.php" role="php" md5sum="e18eacc88ca940293cb510bcd6806eb6"/>
       <file name="src/Roller/RouteCompiler.php" role="php" md5sum="0d7843927b3c8686a492bd3519ab6d84"/>
-      <file name="src/Roller/Router.php" role="php" md5sum="0ae038583fcaa4c22bac5c0d9a1389b7"/>
-      <file name="src/Roller/RouteSet.php" role="php" md5sum="7512894b79111a24b9db7cf5838019ab"/>
+      <file name="src/Roller/Router.php" role="php" md5sum="72774f68e9060d7cabee135cb0982388"/>
+      <file name="src/Roller/RouteSet.php" role="php" md5sum="35e38c66a9c1422df3fab66295d9d006"/>
       <file name="CHANGES.md" role="doc" md5sum="fccbafddd6c60e2e1726129e514e3c84"/>
-      <file name="README.md" role="doc" md5sum="84278c100c740fdcc57c0d5a1e48e075"/>
+      <file name="README.md" role="doc" md5sum="05626f242692f8973ec7d01748280476"/>
       <file name="notes.md" role="doc" md5sum="d41d8cd98f00b204e9800998ecf8427e"/>
     </dir>
   </contents>
@@ -70,6 +72,11 @@
         <channel>pear.corneltek.com</channel>
         <min>0.0.0</min>
       </package>
+      <package>
+        <name>DoctrineCommon</name>
+        <channel>pear.doctrine-project.org</channel>
+        <min>0.0.0</min>
+      </package>
     </required>
   </dependencies>
   <phprelease>
@@ -77,11 +84,13 @@
       <install name="tests/bootstrap.php" as="bootstrap.php"/>
       <install name="tests/ExtensionTest.php" as="ExtensionTest.php"/>
       <install name="tests/RESTfulTest.php" as="RESTfulTest.php"/>
+      <install name="tests/Roller/Annotation/ClassReaderTest.php" as="Roller/Annotation/ClassReaderTest.php"/>
       <install name="tests/Roller/Dumper/ConsoleDumperTest.php" as="Roller/Dumper/ConsoleDumperTest.php"/>
       <install name="tests/Roller/RouteCompilerTest.php" as="Roller/RouteCompilerTest.php"/>
       <install name="tests/Roller/RouterApcTest.php" as="Roller/RouterApcTest.php"/>
       <install name="tests/Roller/RouterTest.php" as="Roller/RouterTest.php"/>
       <install name="tests/Roller/RouteSetTest.php" as="Roller/RouteSetTest.php"/>
+      <install name="src/Roller/Annotations/Route.php" as="Roller/Annotations/Route.php"/>
       <install name="src/Roller/ClosureSerializer.php" as="Roller/ClosureSerializer.php"/>
       <install name="src/Roller/Controller.php" as="Roller/Controller.php"/>
       <install name="src/Roller/Dumper/ConsoleDumper.php" as="Roller/Dumper/ConsoleDumper.php"/>
