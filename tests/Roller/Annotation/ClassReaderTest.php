@@ -26,7 +26,6 @@ class ClassReaderTest extends PHPUnit_Framework_TestCase
 
     function test()
     {
-        AnnotationRegistry::registerAutoloadNamespace('Roller\Annotations\\', 'src');
         $router = new Roller\Router;
         $router->importAnnotationMethods( 'AnnotationTestController' , '/Action$/' );
         $route = $router->dispatch('/');

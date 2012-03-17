@@ -281,7 +281,10 @@ class RouteSet implements Iterator
     public function getAnnotationReader()
     {
         static $reader;
+        if( $reader )
+            return $reader;
         $reader = new \Doctrine\Common\Annotations\AnnotationReader();
+        class_exists('Roller\Annotations\Route',true);
         return $reader;
     }
 

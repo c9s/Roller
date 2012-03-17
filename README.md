@@ -20,7 +20,7 @@ FEATURES
 - High performance (through PHP extension, can dispatch **1607%** faster than pure php version)
 - High unit test coverage, coverage > **88%**.
 - Ready for Frameworks.
-
+- Annotation reader support.
 
 
 ROUTE CONSOLE DUMPER
@@ -228,6 +228,39 @@ $route = $r->dispatch( '/path/to/...' );    // get YourRoute object.
 ```
 
 
+Use Annotation Reader for controllers
+-------------------------------------
+
+```php
+<?php
+
+class AnnotationTestController {
+
+    /**
+     * @Route("/hello/:name", name="_hello", requirements={"name" = ".+"}, vars={ "k" = 123, "b" = 234 })
+     */
+    function helloAction($name) { 
+        return $name;
+    }
+
+    /**
+     * @Route("/")
+     */
+    function indexAction() {
+        return 'index';
+    }
+}
+
+$router = new Roller\Router;
+$router->importAnnotationMethods( 'AnnotationTestController' , '/Action$/' );
+$route = $router->dispatch('/');
+$route(); // returns 'index'
+
+$route = $router->dispatch('/hello/John');
+$route();  // returns "John"
+```
+
+
 Cache
 -----
 
@@ -250,8 +283,8 @@ To enable file cache:
     ));
 ```
 
-RESTful
--------
+RESTful interface
+-----------------
 
 Roller Router has a built-in RESTful route generator, it's pretty easy to
 define a bunch of RESTful routes, Roller Router also provides a simple RESTful
