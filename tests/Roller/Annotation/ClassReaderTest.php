@@ -7,8 +7,15 @@ class AnnotationTestController {
     /**
      * @Route("/hello/:name", name="_hello", requirements={"name" = ".+"}, vars={ "k" = 123, "b" = 234 })
      */
-    function helloAction() { 
+    function helloAction($name) { 
+        return $name;
+    }
 
+    /**
+     * @Route("/")
+     */
+    function indexAction() {
+        return 'index';
     }
 
 }
@@ -20,21 +27,15 @@ class ClassReaderTest extends PHPUnit_Framework_TestCase
     function test()
     {
         AnnotationRegistry::registerAutoloadNamespace('Roller\Annotations\\', 'src');
+        $router = new Roller\Router;
+        $router->importAnnotationMethods( 'AnnotationTestController' , '/Action$/' );
+        $route = $router->dispatch('/');
+        ok( $route );
+        is( 'index' , $route() );
 
-        // AnnotationRegistry::loadAnnotationClass('Roller\Annotations\Route');
-        $reader = new \Doctrine\Common\Annotations\AnnotationReader();
-
-        $reflClass = new ReflectionClass('AnnotationTestController');
-        $reflMethod = $reflClass->getMethod('helloAction');
-        // $classAnnotations = $reader->getClassAnnotations($reflClass);
-        $methodAnnotations = $reader->getMethodAnnotations($reflMethod);
-
-        foreach ($methodAnnotations as $annot) {
-            var_dump( $annot ); 
-        }
-
-
-        
+        $route = $router->dispatch('/hello/John');
+        ok( $route );
+        is( 'John' , $route() );
     }
 }
 

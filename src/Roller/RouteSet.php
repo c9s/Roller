@@ -3,6 +3,8 @@ namespace Roller;
 use Iterator;
 use Roller\RouteCompiler;
 use Exception;
+use ReflectionClass;
+use ReflectionMethod;
 
 class RouteSet implements Iterator
 {
@@ -46,9 +48,52 @@ class RouteSet implements Iterator
         return $this->add( $path, $callback, $options );
     }
 
+    public function importAnnotationFromReflectionMethod( ReflectionMethod $reflMethod ) 
+    {
+        $reader = $this->getAnnotationReader();
+        $methodAnnotations = $reader->getMethodAnnotations($reflMethod);
+        $cnt = 0;
+        foreach( $methodAnnotations as $ma ) {
+            $route = $ma->toRoute();
+            $route['callback'] = array( 
+                $reflMethod->class,
+                $reflMethod->name,
+            );
+            $this->routes[] = $this->routeMap[ $ma->name ] = $route;
+            $cnt++;
+        }
+        return $cnt;
+    }
 
+    public function importAnnotationMethods($class,$methods = null)
+    {
+        $reader = $this->getAnnotationReader();
+        $reflClass = new ReflectionClass($class);
 
-
+        if( is_array($methods) ) {
+            foreach( $methods as $method ) {
+                $reflMethod = $reflClass->getMethod($method);
+                $this->importAnnotationFromReflectionMethod( $reflMethod );
+            }
+        }
+        elseif( is_string($methods) && $methods[0] == '/' ) {
+            $pattern = $methods;
+            $methods = $reflClass->getMethods( ReflectionMethod::IS_PUBLIC );
+            $methods = array_filter( $methods , function($m) use ($pattern) { 
+                return preg_match( $pattern , $m->getName() );
+            });
+            foreach( $methods as $reflMethod ) {
+                $this->importAnnotationFromReflectionMethod( $reflMethod );
+            }
+        }
+        elseif ( is_string( $methods ) ) {
+            $reflMethod = $reflClass->getMethod( $methods );
+            $this->importAnnotationFromReflectionMethod( $reflMethod );
+        }
+        else {
+            throw new Exception("Unknown methods type.");
+        }
+    }
 
     /**
      * using pure php to build route
@@ -128,6 +173,10 @@ class RouteSet implements Iterator
         }
         return $route;
     }
+
+
+
+
 
     /** 
      *
@@ -226,6 +275,14 @@ class RouteSet implements Iterator
         $a->routes = $data['routes'];
         $a->i = $data['i'];
         return $a;
+    }
+
+
+    public function getAnnotationReader()
+    {
+        static $reader;
+        $reader = new \Doctrine\Common\Annotations\AnnotationReader();
+        return $reader;
     }
 
 

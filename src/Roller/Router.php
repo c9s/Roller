@@ -214,7 +214,6 @@ class Router
 		return false;
 	}
 
-
     /**
      * dispatch methods to plugins (mixin) and routeset methods
      */
