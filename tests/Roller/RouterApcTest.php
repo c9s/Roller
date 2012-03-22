@@ -8,6 +8,8 @@ class RouterApcTest extends PHPUnit_Framework_TestCase
     {
         if( ! extension_loaded('apc') )
             skip('apc required.');
+        if( ! ini_get('apc.enable_cli') )
+            skip('apc.enable_cli required');
     }
 
 	function testApcCache()
