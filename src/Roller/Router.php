@@ -112,6 +112,30 @@ class Router
         }
     }
 
+    /**
+     * We define get, post, any methods because __call is slower (2 times)
+     */
+    public function get($path,$callback,$options=array() )
+    {
+        if( $this->hasCache )
+            return;
+        return $this->routes->get( $path, $callback, $options );
+    }
+
+    public function post($path,$callback,$options=array() )
+    {
+        if( $this->hasCache )
+            return;
+        return $this->routes->post( $path, $callback, $options );
+    }
+
+    public function any($path,$callback,$options=array() )
+    {
+        if( $this->hasCache )
+            return;
+        return $this->routes->any( $path, $callback, $options );
+    }
+
     public function add($path,$callback,$options=array() )
     {
         if( $this->hasCache )
