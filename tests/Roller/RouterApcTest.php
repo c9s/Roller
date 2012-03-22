@@ -1,13 +1,13 @@
 <?php
-
-
+/**
+ * @requires extension apc
+ */
 class RouterApcTest extends PHPUnit_Framework_TestCase
 {
     function setup()
     {
-        if (!extension_loaded('apc')) {
-            $this->markTestSkipped( 'The apc extension is not available.' );
-        }
+        if( ! extension_loaded('apc') )
+            skip('apc required.');
     }
 
 	function testApcCache()
