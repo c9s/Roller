@@ -58,9 +58,14 @@ abstract class BaseHandler
                 @header('content-type: application/json; charset=utf8;');
 				return json_encode( $data );
 			break;
+            case 'yml':
 			case 'yaml':
                 @header('content-type: application/yaml; charset=utf8;');
 				return yaml_emit( $data );
+            case 'xml':
+                @header('content-type: text/xml; charset=utf8;');
+                $ser = new \SerializerKit\XmlSerializer;
+                return $ser->encode( $data );
 			break;
 		}
 	}

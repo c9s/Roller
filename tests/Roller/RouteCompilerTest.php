@@ -3,7 +3,7 @@
 class RouteCompilerTest extends PHPUnit_Framework_TestCase
 {
 
-    function test()
+    function testOptional()
     {
         $route = Roller\RouteCompiler::compile(array( 
             'path' => '/blog/:id(.:format)',
@@ -12,11 +12,18 @@ class RouteCompilerTest extends PHPUnit_Framework_TestCase
             )
         ));
 
-        # echo $route['compiled'];
         ok( preg_match( $route['compiled'] , '/blog/23.json', $matched ) );
+        is( '23'   , $matched['id'] );
+        is( 'json' , $matched['format'] );
 
-        is( '23', $matched['id'] );
-        is( 'json', $matched['format'] );
+        ok( preg_match( $route['compiled'] , '/blog/31.xml', $matched ) );
+        is( '31'  , $matched['id'] );
+        is( 'xml' , $matched['format'] );
+
+        ok( preg_match( $route['compiled'] , '/blog/foo.yaml', $matched ) );
+        is( 'foo'  , $matched['id'] );
+        is( 'yaml' , $matched['format'] );
+
 
         ok( preg_match( $route['compiled'] , 
             '/blog/24.json', $matched ) );
