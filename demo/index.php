@@ -32,7 +32,9 @@ class MyGenericHandler extends GenericHandler
 
 }
 
-$router = new Roller\Router( null, array( 'cache_id' => 'router_demo' ));
+$router = new Roller\Router( null, array( 
+    // 'cache_id' => 'router_demo'
+));
 
 $restful = new Roller\Plugin\RESTful(array( 'prefix' => '/=' ));
 $restful->setGenericHandler( 'MyGenericHandler' );
@@ -46,5 +48,6 @@ $router->add('/',function() {
 });
 
 $r = $router->dispatch( isset($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : '/' );
+var_dump( $r ); 
 if( $r )
     echo $r();

@@ -46,7 +46,7 @@ abstract class ResourceHandler extends BaseHandler
 	public function expand($routes, $h, $r)
 	{
         $class = is_object($h) ? get_class($h) : $h;
-		$routes->add( "/$r(\.:format)" , array($class,'handleFind'), 
+		$routes->add("/$r(\.:format)", array($class,'handleFind'), 
 			array( 
 				':get' => true , 
 				':default' => array( 'format' => 'json' ) 
