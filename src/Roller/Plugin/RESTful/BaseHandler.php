@@ -60,7 +60,7 @@ abstract class BaseHandler
 			break;
             case 'yml':
 			case 'yaml':
-                @header('content-type: application/yaml; charset=utf8;');
+                @header('content-type: text/yaml; charset=utf8;');
 				return yaml_emit( $data );
             case 'xml':
                 @header('content-type: text/xml; charset=utf8;');
