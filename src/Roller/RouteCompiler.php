@@ -63,7 +63,9 @@ class RouteCompiler
                 $subroute = self::compilePattern($optional,array(
                     'default' => @$options['default'],
                     'requirement' => @$options['requirement'],
+					'variables' => @$options['variables'],
                 ));
+
 
                 $tokens[] = array( 
                     'optional',
@@ -71,6 +73,9 @@ class RouteCompiler
                     $subroute['regex'],
                 );
                 // $regexp = 
+				foreach( $subroute['variables'] as $var ) {
+					$variables[] = $var;
+				}
             }
             else {
                 // field name (variable name)

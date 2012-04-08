@@ -12,6 +12,10 @@ class RouteCompilerTest extends PHPUnit_Framework_TestCase
             )
         ));
 
+        ok( $route['variables'] );
+        ok( in_array('format',$route['variables'] ) );
+        ok( in_array('id',$route['variables'] ) );
+
         ok( preg_match( $route['compiled'] , '/blog/23.json', $matched ) );
         is( '23'   , $matched['id'] );
         is( 'json' , $matched['format'] );

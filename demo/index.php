@@ -48,6 +48,10 @@ $router->add('/',function() {
 });
 
 $r = $router->dispatch( isset($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : '/' );
+#  var_dump( $_SERVER['PATH_INFO'] ); 
+#  var_dump( $r['compiled'] ); 
+#  var_dump( $r['vars'] ); 
 var_dump( $r ); 
+
 if( $r )
     echo $r();
