@@ -11,10 +11,10 @@
     <active>yes</active>
   </lead>
   <date>2012-04-09</date>
-  <time>17:01:18</time>
+  <time>17:12:28</time>
   <version>
-    <release>1.5.1</release>
-    <api>1.5.1</api>
+    <release>1.6.0</release>
+    <api>1.6.0</api>
   </version>
   <stability>
     <release>stable</release>
@@ -26,7 +26,7 @@
     <dir name="/">
       <file name="tests/bootstrap.php" role="test" md5sum="b805c1c4ad52d54cb97ceef8f42e13bb"/>
       <file name="tests/ExtensionTest.php" role="test" md5sum="77cb51f42fe7d97a6304b9c0d677f351"/>
-      <file name="tests/RESTfulTest.php" role="test" md5sum="48a301816befeab51b964db3baa7d273"/>
+      <file name="tests/RESTfulTest.php" role="test" md5sum="e1490e7abc06a64d0bfcbb5a33a15cab"/>
       <file name="tests/Roller/Annotation/ClassReaderTest.php" role="test" md5sum="8d67c46483bc048bd8a5530b9f1b2d57"/>
       <file name="tests/Roller/Dumper/ConsoleDumperTest.php" role="test" md5sum="2beda835f820ac3e82414eac7f86c369"/>
       <file name="tests/Roller/RouteCompilerTest.php" role="test" md5sum="dd428eddb11f4f48f01702162b6f090d"/>
@@ -42,8 +42,8 @@
       <file name="src/Roller/Exception/RouterException.php" role="php" md5sum="47f7624f9454e42c11b5e1f9afe54365"/>
       <file name="src/Roller/MatchedRoute.php" role="php" md5sum="d3c3840c31046b911f4320377be3a936"/>
       <file name="src/Roller/Plugin/RESTful/BaseHandler.php" role="php" md5sum="61db9bc57a7580a5132fb2e8ad7fc3e8"/>
-      <file name="src/Roller/Plugin/RESTful/GenericHandler.php" role="php" md5sum="32710a4e839b278f0456b18c8d16e476"/>
-      <file name="src/Roller/Plugin/RESTful/ResourceHandler.php" role="php" md5sum="e2c70bbfc3c26c20e31db6dbb5c63233"/>
+      <file name="src/Roller/Plugin/RESTful/GenericHandler.php" role="php" md5sum="22269db2f6b93540d81f9d914903a6fa"/>
+      <file name="src/Roller/Plugin/RESTful/ResourceHandler.php" role="php" md5sum="3dd34d46c4c2fabdee0ac57e33366a9c"/>
       <file name="src/Roller/Plugin/RESTful.php" role="php" md5sum="b14e7a518138d50597d841841c9a09e5"/>
       <file name="src/Roller/PluginInterface.php" role="php" md5sum="e18eacc88ca940293cb510bcd6806eb6"/>
       <file name="src/Roller/RouteCompiler.php" role="php" md5sum="e26fbc57f35653649136631b4531a77f"/>
