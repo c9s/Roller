@@ -11,8 +11,11 @@ abstract class BaseHandler
     /**
      * HTTP Status Code:
      *
-     * http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
-     * http://restpatterns.org/HTTP_Status_Codes
+     * @link http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
+     * @link http://restpatterns.org/HTTP_Status_Codes
+     *
+     * REST Pattern
+     * @link http://restpatterns.org/
      */
 
     public function codeOk() 
