@@ -55,7 +55,7 @@ abstract class BaseHandler
 
     public function returnError($format,$message = null)
     {
-        $this->codeBadRequest($message);
+        $this->codeBadRequest();
         return $this->renderFormat(array( 
             'success' => false,
             'errors' => $message,
