@@ -334,7 +334,7 @@ RESTful CRUD works:
 	class BlogResourceHandler extends ResourceHandler
 	{
 		public function create()    { 
-            print_r( $_POST );
+            $this->codeCreated();
             return array( 'id' => 1 );
         }
 
@@ -363,6 +363,16 @@ RESTful CRUD works:
 		}
 	}
 ```
+
+For the status code, see the list below:
+
+- codeOk (200)
+- codeCreated (201)
+- codeAccepted (202)
+- codeNoContent (204) 
+- codeBadRequest (400)
+- codeForbidden (403)
+- codeNotFound (404)
 
 Before you dispatch URLs, router object calls the `expand` method of `ResourceHandler` class, which
 generates RESTful routes into the routeset of router object. And below is the generated URLs:
