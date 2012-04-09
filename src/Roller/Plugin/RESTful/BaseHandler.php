@@ -72,7 +72,7 @@ abstract class BaseHandler
 		return get_class($this);
 	}
 
-    public function getPutVars()
+    public function parseInput()
     {
         static $params;
         $params = array();

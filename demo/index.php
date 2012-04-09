@@ -20,12 +20,14 @@ class MyGenericHandler extends GenericHandler
     }
 
     public function update($resource,$id) { 
-        $put = $this->getPutVars();
-        print_r( $put ); 
-        return array( 'id' => $id );
+        $put = $this->parseInput();
+        return $put;
+        // return array( 'id' => $id );
     }
 
     public function delete($resource,$id) { 
+        $args = $this->parseInput();
+        // print_r($args);
         return array( 'id' => $id );
     }
 

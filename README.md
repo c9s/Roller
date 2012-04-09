@@ -340,7 +340,7 @@ RESTful CRUD works:
 
 		public function update($id) 
         {
-            $put = $this->getPutVars();
+            $put = $this->parseInput();
             return array( 'id' => 1 );
         }
 
