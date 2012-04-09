@@ -81,31 +81,31 @@ abstract class ResourceHandler extends BaseHandler
 	public function handleFind($format)
 	{
 		$this->data = $this->find();
-		return $this->returnSuccess($format, "Record find success.");
+		return $this->renderFormat($this->data ,$format );
 	}
 
 	public function handleCreate($format) 
 	{
 		$this->data = $this->create();
-		return $this->returnSuccess($format, "Record $id created.");
+		return $this->renderFormat($this->data ,$format );
 	}
 
 	public function handleUpdate($id,$format)
 	{
 		$this->data = $this->update($id);
-		return $this->returnSuccess($format, "Record $id updated.");
+		return $this->renderFormat($this->data ,$format );
 	}
 
 	public function handleLoad($id,$format)
 	{
 		$this->data = $this->load($id);
-		return $this->returnSuccess($format, "Record $id loaded.");
+		return $this->renderFormat($this->data ,$format );
 	}
 
 	public function handleDelete($id,$format)
 	{
 		$this->data = $this->load($id);
-		return $this->returnSuccess($format, "Record $id deleted.");
+		return $this->renderFormat($this->data ,$format );
 	}
 
 

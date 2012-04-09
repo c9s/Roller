@@ -15,31 +15,31 @@ abstract class GenericHandler extends BaseHandler
 	public function handleFind($resource,$format)
 	{
 		$this->data = $this->find($resource);
-		return $this->returnSuccess($format, "Record find success.");
+		return $this->renderFormat($this->data ,$format );
 	}
 
 	public function handleCreate($resource,$format) 
 	{
 		$this->data = $this->create($resource);
-		return $this->returnSuccess($format, "Record $id created.");
+		return $this->renderFormat($this->data ,$format );
 	}
 
 	public function handleUpdate($resource,$id,$format)
 	{
 		$this->data = $this->update($resource,$id);
-		return $this->returnSuccess($format, "Record $id updated.");
+		return $this->renderFormat($this->data ,$format );
 	}
 
 	public function handleLoad($resource,$id,$format)
 	{
 		$this->data = $this->load($resource,$id);
-		return $this->returnSuccess($format, "Record $id loaded.");
+		return $this->renderFormat($this->data ,$format );
 	}
 
 	public function handleDelete($resource,$id,$format)
 	{
 		$this->data = $this->load($resource,$id);
-		return $this->returnSuccess($format, "Record $id deleted.");
+		return $this->renderFormat($this->data ,$format );
 	}
 
     public function expand($routes, $h)
