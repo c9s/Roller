@@ -11,10 +11,10 @@
     <active>yes</active>
   </lead>
   <date>2012-04-09</date>
-  <time>03:56:47</time>
+  <time>17:01:18</time>
   <version>
-    <release>1.5.0</release>
-    <api>1.5.0</api>
+    <release>1.5.1</release>
+    <api>1.5.1</api>
   </version>
   <stability>
     <release>stable</release>
@@ -41,7 +41,7 @@
       <file name="src/Roller/Exception/RouteException.php" role="php" md5sum="c2821b1a76753aea22e11c5e7b310873"/>
       <file name="src/Roller/Exception/RouterException.php" role="php" md5sum="47f7624f9454e42c11b5e1f9afe54365"/>
       <file name="src/Roller/MatchedRoute.php" role="php" md5sum="d3c3840c31046b911f4320377be3a936"/>
-      <file name="src/Roller/Plugin/RESTful/BaseHandler.php" role="php" md5sum="057e6e6f972276796ad4aa2b980eab78"/>
+      <file name="src/Roller/Plugin/RESTful/BaseHandler.php" role="php" md5sum="61db9bc57a7580a5132fb2e8ad7fc3e8"/>
       <file name="src/Roller/Plugin/RESTful/GenericHandler.php" role="php" md5sum="32710a4e839b278f0456b18c8d16e476"/>
       <file name="src/Roller/Plugin/RESTful/ResourceHandler.php" role="php" md5sum="e2c70bbfc3c26c20e31db6dbb5c63233"/>
       <file name="src/Roller/Plugin/RESTful.php" role="php" md5sum="b14e7a518138d50597d841841c9a09e5"/>
@@ -50,7 +50,7 @@
       <file name="src/Roller/Router.php" role="php" md5sum="626c59364eeeb8f949ad6940ffcce82c"/>
       <file name="src/Roller/RouteSet.php" role="php" md5sum="35e38c66a9c1422df3fab66295d9d006"/>
       <file name="CHANGES.md" role="doc" md5sum="fccbafddd6c60e2e1726129e514e3c84"/>
-      <file name="README.md" role="doc" md5sum="05626f242692f8973ec7d01748280476"/>
+      <file name="README.md" role="doc" md5sum="a3ffa40153b94aa95bf7c5db9b5a66c5"/>
       <file name="notes.md" role="doc" md5sum="d41d8cd98f00b204e9800998ecf8427e"/>
     </dir>
   </contents>
