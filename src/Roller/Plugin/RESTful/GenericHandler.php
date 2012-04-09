@@ -38,7 +38,7 @@ abstract class GenericHandler extends BaseHandler
 
 	public function handleDelete($resource,$id,$format)
 	{
-		$this->data = $this->load($resource,$id);
+		$this->data = $this->delete($resource,$id);
 		return $this->renderFormat($this->data ,$format );
 	}
 

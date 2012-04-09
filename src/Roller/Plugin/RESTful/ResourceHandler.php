@@ -104,7 +104,7 @@ abstract class ResourceHandler extends BaseHandler
 
 	public function handleDelete($id,$format)
 	{
-		$this->data = $this->load($id);
+		$this->data = $this->delete($id);
 		return $this->renderFormat($this->data ,$format );
 	}
 
