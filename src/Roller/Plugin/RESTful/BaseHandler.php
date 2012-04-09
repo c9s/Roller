@@ -1,9 +1,6 @@
 <?php
 namespace Roller\Plugin\RESTful;
 
-
-
-
 abstract class BaseHandler
 {
 	public $message;
@@ -74,6 +71,19 @@ abstract class BaseHandler
 	{
 		return get_class($this);
 	}
+
+    public function getPutVars()
+    {
+        static $params;
+        $params = array();
+        parse_str( $this->readInput() , $params );
+        return $params;
+    }
+
+    public function readInput()
+    {
+        return file_get_contents('php://input');
+    }
 
 }
 

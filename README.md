@@ -333,12 +333,22 @@ RESTful CRUD works:
 
 	class BlogResourceHandler extends ResourceHandler
 	{
-		public function create()    { return array( 'id' => 1 ); }
+		public function create()    { 
+            print_r( $_POST );
+            return array( 'id' => 1 );
+        }
 
-		public function update($id) { return array( 'id' => 1 ); }
+		public function update($id) 
+        {
+            $put = $this->getPutVars();
+            return array( 'id' => 1 );
+        }
 
 		// delete a record.
-		public function delete($id) { return array( 'id' => 1 ); }
+		public function delete($id) 
+        {
+            return array( 'id' => 1 );
+        }
 
 		// load one record
 		public function load($id)   { return array( 'id' => $id , 'title' => 'title' ); }

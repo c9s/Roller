@@ -10,6 +10,7 @@ use Roller\Plugin\RESTful\GenericHandler;
 
 class MyGenericHandler extends GenericHandler
 {
+
     public function create($resource) { 
         return array( 'id' => 99 );
     }
@@ -19,6 +20,8 @@ class MyGenericHandler extends GenericHandler
     }
 
     public function update($resource,$id) { 
+        $put = $this->getPutVars();
+        print_r( $put ); 
         return array( 'id' => $id );
     }
 
