@@ -7,6 +7,29 @@ abstract class BaseHandler
 
 	public $data;
 
+    public function __construct()
+    {
+        $this->init();
+        if( false === $this->authenticate() ) {
+            $this->codeForbidden();
+            die('Permission Denied.');
+        }
+    }
+
+
+    /**
+     * init function
+     */
+    public function init()
+    {
+
+    }
+
+
+    public function authenticate()
+    {
+        return true;
+    }
 
     /**
      * HTTP Status Code:
