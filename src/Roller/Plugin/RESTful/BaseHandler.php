@@ -1,11 +1,11 @@
 <?php
 namespace Roller\Plugin\RESTful;
 
-abstract class BaseHandler 
+abstract class BaseHandler
 {
-	public $message;
+    public $message;
 
-	public $data;
+    public $data;
 
     public function __construct()
     {
@@ -88,39 +88,39 @@ abstract class BaseHandler
         ), $format);
     }
 
-	public function returnSuccess($format,$message = null)
-	{
-		return $this->renderFormat( 
-			array( 
-				'success' => true,
-				'data' => $this->data,
-				'message' => $this->message ?: $message,
-			), $format );
-	}
+    public function returnSuccess($format,$message = null)
+    {
+        return $this->renderFormat( 
+            array( 
+                'success' => true,
+                'data' => $this->data,
+                'message' => $this->message ?: $message,
+            ), $format );
+    }
 
-	public function renderFormat($data, $format)
-	{
-		switch($format) {
-			case 'json':
+    public function renderFormat($data, $format)
+    {
+        switch($format) {
+            case 'json':
                 @header('content-type: application/json; charset=utf8;');
-				return json_encode( $data );
-			break;
+                return json_encode( $data );
+            break;
             case 'yml':
-			case 'yaml':
+            case 'yaml':
                 @header('content-type: text/yaml; charset=utf8;');
-				return yaml_emit( $data );
+                return yaml_emit( $data );
             case 'xml':
                 @header('content-type: text/xml; charset=utf8;');
                 $ser = new \SerializerKit\XmlSerializer;
                 return $ser->encode( $data );
-			break;
-		}
-	}
+            break;
+        }
+    }
 
-	public function getClass()
-	{
-		return get_class($this);
-	}
+    public function getClass()
+    {
+        return get_class($this);
+    }
 
     public function parseInput()
     {
