@@ -1,7 +1,9 @@
 <?php
 namespace Roller\Plugin\RESTful;
+use Roller\Controller;
 
-abstract class BaseHandler
+
+abstract class BaseHandler extends Controller
 {
     public $message;
 
@@ -10,9 +12,6 @@ abstract class BaseHandler
     public function __construct()
     {
         $this->init();
-
-
-
         if( false === $this->authenticate() ) {
             $this->codeForbidden();
             die('Permission Denied.');
@@ -43,7 +42,6 @@ abstract class BaseHandler
      * REST Pattern
      * @link http://restpatterns.org/
      */
-
     public function codeOk() 
     {
         header("HTTP/1.1 200 OK");
@@ -79,61 +77,8 @@ abstract class BaseHandler
         header('HTTP/1.1 404 Not Found');
     }
 
-    public function returnError($format,$message = null)
-    {
-        $this->codeBadRequest();
-        return $this->renderFormat(array( 
-            'success' => false,
-            'errors' => $message,
-        ), $format);
-    }
-
-    public function returnSuccess($format,$message = null)
-    {
-        return $this->renderFormat( 
-            array( 
-                'success' => true,
-                'data' => $this->data,
-                'message' => $this->message ?: $message,
-            ), $format );
-    }
-
-    public function renderFormat($data, $format)
-    {
-        switch($format) {
-            case 'json':
-                @header('content-type: application/json; charset=utf8;');
-                return json_encode( $data );
-            break;
-            case 'yml':
-            case 'yaml':
-                @header('content-type: text/yaml; charset=utf8;');
-                return yaml_emit( $data );
-            case 'xml':
-                @header('content-type: text/xml; charset=utf8;');
-                $ser = new \SerializerKit\XmlSerializer;
-                return $ser->encode( $data );
-            break;
-        }
-    }
-
     public function getClass()
     {
         return get_class($this);
     }
-
-    public function parseInput()
-    {
-        static $params;
-        $params = array();
-        parse_str( $this->readInput() , $params );
-        return $params;
-    }
-
-    public function readInput()
-    {
-        return file_get_contents('php://input');
-    }
-
 }
-
