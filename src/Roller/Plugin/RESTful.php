@@ -15,7 +15,7 @@ Notes:
 
 
     Define a way to specify handler,
-*/
+ */
 class RESTful implements PluginInterface
 {
 
@@ -82,16 +82,15 @@ class RESTful implements PluginInterface
         // Update       => PUT  /restful/posts
         // Delete       => DELETE /restful/posts/:id
         foreach( $this->resources as $r => $hClass ) {
-			$h = new $hClass;
-			$h->expand( $routes, $h , $r );
+            $hClass::expand( $routes, $hClass , $r );
         }
 
         if( $this->genericHandler ) {
-            $h = new $this->genericHandler;
-            $h->expand( $routes, $h );
+            $hClass = $this->genericHandler;
+            $hClass::expand( $routes, $hClass );
         }
 
-		$router->mount( $this->prefix , $routes );
+        $router->mount( $this->prefix , $routes );
     }
 
     public function afterCompile($router)

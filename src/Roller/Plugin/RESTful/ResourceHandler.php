@@ -36,14 +36,14 @@ abstract class ResourceHandler extends BaseHandler
 
 
 	/**
-	 * expand resource handlers to routeset,
+	 * Expand resource handlers to routeset,
 	 * in here, we define how to expand RESTful URLs from resource id, 
 	 * and which is customizable.
 	 *
 	 * @param RouteSet $routes
 	 * @param string $r resource identifier.
 	 */
-	public function expand($routes, $h, $r)
+	static function expand($routes, $h, $r)
 	{
         $class = is_object($h) ? get_class($h) : $h;
 		$routes->add("/$r(.:format)", array($class,'handleFind'), 

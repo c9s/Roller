@@ -1,7 +1,7 @@
 <?php
 namespace Roller\Plugin\RESTful;
 
-abstract class BaseHandler
+abstract class BaseHandler 
 {
 	public $message;
 
@@ -10,6 +10,9 @@ abstract class BaseHandler
     public function __construct()
     {
         $this->init();
+
+
+
         if( false === $this->authenticate() ) {
             $this->codeForbidden();
             die('Permission Denied.');

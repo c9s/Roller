@@ -42,7 +42,7 @@ abstract class GenericHandler extends BaseHandler
 		return $this->renderFormat($this->data ,$format );
 	}
 
-    public function expand($routes, $h)
+    static function expand($routes, $h)
     {
         $class = is_object($h) ? get_class($h) : $h;
 
