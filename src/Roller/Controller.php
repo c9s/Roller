@@ -84,15 +84,15 @@ abstract class Controller
     {
         switch($format) {
             case 'json':
-                @header('content-type: application/json; charset=utf8;');
+                @header('content-type: application/json; charset=utf-8;');
                 return json_encode( $data );
             break;
             case 'yml':
             case 'yaml':
-                @header('content-type: text/yaml; charset=utf8;');
+                @header('content-type: text/yaml; charset=utf-8;');
                 return yaml_emit( $data );
             case 'xml':
-                @header('content-type: text/xml; charset=utf8;');
+                @header('content-type: text/xml; charset=utf-8;');
                 $ser = new \SerializerKit\XmlSerializer;
                 return $ser->encode( $data );
             break;
