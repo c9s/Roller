@@ -1,0 +1,17 @@
+{
+    "name": "c9s/Roller",
+    "homepage": "http://github.com/c9s/Roller",
+    "description": "High performance PHP router",
+    "require": {
+        "php": ">=5.3.0"
+    },
+    "license": "BSD",
+    "authors": [
+        {
+            "name": "Yo-An Lin",
+            "email": "cornelius.howl@gmail.com",
+            "homepage": "http://c9s.me"
+        }
+    ],
+    "autoload": { "psr-0": { "Roller": "src" } }
+}

@@ -53,9 +53,7 @@ $router->add('/',function() {
 });
 
 $r = $router->dispatch( isset($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : '/' );
-#  var_dump( $_SERVER['PATH_INFO'] ); 
-#  var_dump( $r['compiled'] ); 
-#  var_dump( $r['vars'] ); 
-
 if( $r )
     echo $r();
+else
+    die('Page not found');
