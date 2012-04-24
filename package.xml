@@ -10,11 +10,11 @@
     <email>cornelius.howl@gmail.com</email>
     <active>yes</active>
   </lead>
-  <date>2012-04-10</date>
-  <time>13:01:11</time>
+  <date>2012-04-24</date>
+  <time>23:25:03</time>
   <version>
-    <release>1.7.0</release>
-    <api>1.7.0</api>
+    <release>1.8.1</release>
+    <api>1.8.1</api>
   </version>
   <stability>
     <release>stable</release>
@@ -35,22 +35,22 @@
       <file name="tests/Roller/RouteSetTest.php" role="test" md5sum="c9272106ff8e718f5fd461a397287014"/>
       <file name="src/Roller/Annotations/Route.php" role="php" md5sum="f829a5ade6dc9ce52edbc5212846d3a2"/>
       <file name="src/Roller/ClosureSerializer.php" role="php" md5sum="7956d38e0e58c2f5c59a469777e8d1bc"/>
-      <file name="src/Roller/Controller.php" role="php" md5sum="c8739c9b159310e04b6ae59925d8e274"/>
+      <file name="src/Roller/Controller.php" role="php" md5sum="d768332f740ba63a07c6c9d54243b072"/>
       <file name="src/Roller/Dumper/ConsoleDumper.php" role="php" md5sum="eb6415684ac8965c9fd11c07b3f8918d"/>
       <file name="src/Roller/Dumper/PhpDumper.php" role="php" md5sum="525e37836f76b5ecf28054ebb23b7926"/>
       <file name="src/Roller/Exception/RouteException.php" role="php" md5sum="c2821b1a76753aea22e11c5e7b310873"/>
       <file name="src/Roller/Exception/RouterException.php" role="php" md5sum="47f7624f9454e42c11b5e1f9afe54365"/>
       <file name="src/Roller/MatchedRoute.php" role="php" md5sum="d3c3840c31046b911f4320377be3a936"/>
-      <file name="src/Roller/Plugin/RESTful/BaseHandler.php" role="php" md5sum="0373640e17ea585fff7e6a4c37a44494"/>
-      <file name="src/Roller/Plugin/RESTful/GenericHandler.php" role="php" md5sum="7b4542502a7ae84b4c08fa7eb7ea0b1d"/>
-      <file name="src/Roller/Plugin/RESTful/ResourceHandler.php" role="php" md5sum="c98fc28d5710deb1db9c04772265fd28"/>
-      <file name="src/Roller/Plugin/RESTful.php" role="php" md5sum="b14e7a518138d50597d841841c9a09e5"/>
+      <file name="src/Roller/Plugin/RESTful/BaseHandler.php" role="php" md5sum="391866205e412dd709939c87ad7c93de"/>
+      <file name="src/Roller/Plugin/RESTful/GenericHandler.php" role="php" md5sum="4faec8e5a76a04443f6964ffd8863c7d"/>
+      <file name="src/Roller/Plugin/RESTful/ResourceHandler.php" role="php" md5sum="0e02114e56c2391803b23f60933e7329"/>
+      <file name="src/Roller/Plugin/RESTful.php" role="php" md5sum="a4f59aedb1c049d6acf0a17f1c0e178e"/>
       <file name="src/Roller/PluginInterface.php" role="php" md5sum="e18eacc88ca940293cb510bcd6806eb6"/>
       <file name="src/Roller/RouteCompiler.php" role="php" md5sum="e26fbc57f35653649136631b4531a77f"/>
       <file name="src/Roller/Router.php" role="php" md5sum="626c59364eeeb8f949ad6940ffcce82c"/>
       <file name="src/Roller/RouteSet.php" role="php" md5sum="35e38c66a9c1422df3fab66295d9d006"/>
       <file name="CHANGES.md" role="doc" md5sum="fccbafddd6c60e2e1726129e514e3c84"/>
-      <file name="README.md" role="doc" md5sum="a6db7d7774c0dda06da8f9054fa64f5d"/>
+      <file name="README.md" role="doc" md5sum="f0980abf3f3cfe7f9343144803c7850b"/>
       <file name="notes.md" role="doc" md5sum="d41d8cd98f00b204e9800998ecf8427e"/>
     </dir>
   </contents>
