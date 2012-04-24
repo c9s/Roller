@@ -410,7 +410,7 @@ Here is how RESTful route generator works:
 ```php
 <?php
 
-	public function expand($routes, $h, $r)
+	static function expand($routes, $h, $r)
 	{
 		$routes->add( "/$r(\.:format)" , array($h,'handleFind'), 
 			array( 
@@ -454,7 +454,7 @@ use Roller\Plugin\RESTful\ResourceHandler;
 class YourResourceHandler extends ResourceHandler {
 
 	// define your own expand method
-	function expand( $routes , $handlerClass, $resourceId ) {
+	static function expand( $routes , $handlerClass, $resourceId ) {
 
 	}
 
@@ -496,3 +496,8 @@ Now you should be able to run phpunit =)
 
     $ phpunit tests
 
+
+TODO
+----
+- Expandable Controller (route table inside)
+- Auto Expandable Controller (expand routes automatically, based on method name)
