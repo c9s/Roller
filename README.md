@@ -12,6 +12,7 @@ FEATURES
 
 - Highly customizable
 - Flexible
+- Simple DSL (Sinatra-like syntax)
 - APC cache support.
 - File cache support.
 - Built-in **RESTful** route generator, resource handler.
@@ -51,6 +52,29 @@ installer to install:
 
 SYNOPSIS
 --------
+
+Roller router provides a simple DSL for you to declare sinatra-like routes:
+
+```php
+<?php
+require 'bootstrap.php';
+require 'Roller/DSL.php';
+
+on('/path/to/:date',function() {
+
+
+    return 'your content';
+});
+
+on('/path/to/:year', [ 'year' => '\d+' ] ,function() {
+
+    return 'your content';
+});
+
+dispatch( $_SERVER['PATH_INFO'] );
+```
+
+More usage:
 
 Initialize a router:
 
