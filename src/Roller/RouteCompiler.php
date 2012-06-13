@@ -63,7 +63,7 @@ class RouteCompiler
                 $subroute = self::compilePattern($optional,array(
                     'default' => @$options['default'],
                     'requirement' => @$options['requirement'],
-					'variables' => @$options['variables'],
+                    'variables' => @$options['variables'],
                 ));
 
 
@@ -73,9 +73,9 @@ class RouteCompiler
                     $subroute['regex'],
                 );
                 // $regexp = 
-				foreach( $subroute['variables'] as $var ) {
-					$variables[] = $var;
-				}
+                foreach( $subroute['variables'] as $var ) {
+                    $variables[] = $var;
+                }
             }
             else {
                 // field name (variable name)
@@ -177,9 +177,20 @@ class RouteCompiler
         return $options;
     }
 
+
+    /**
+     * @param string $string path string
+     *
+     * @return array matched results
+     */
     static function splitTokens($string)
     {
-        preg_match_all('#(?:.:([\w\d_]+)|\((.*)\))#', $string, $matches, PREG_OFFSET_CAPTURE | PREG_SET_ORDER);
+        // split with ":variable" and path
+        preg_match_all('#(?:
+            .:([\w\d_]+)
+            |
+            \((.*)\)
+        )#x', $string, $matches, PREG_OFFSET_CAPTURE | PREG_SET_ORDER);
         return $matches;
     }
 
