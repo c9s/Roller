@@ -36,8 +36,6 @@ class Router
     public $cacheId;
 
 
-    public $enableExtension = true;
-
     public $extensionSupport = false;
 
     /**
@@ -73,7 +71,7 @@ class Router
             throw new RouterException('Router constructor argument #1 is not a Roller\RouteSet object.');
         }
 
-        if( $this->enableExtension && extension_loaded('roller') ) {
+        if( isset($options['enable_extension']) && extension_loaded('roller') ) {
             $this->extensionSupport = true;
         }
 
