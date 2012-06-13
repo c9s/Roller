@@ -180,10 +180,8 @@ class RouteSet implements Iterator
     }
 
 
-
-
-
     /** 
+     * Add path rule with *ANY* request method
      *
      * @param string $path
      * @param mixed $callback
@@ -201,6 +199,15 @@ class RouteSet implements Iterator
     }
 
 
+
+    /**
+     * Path rule Add method,
+     * an alias from any() method
+     *
+     * @param string $path
+     * @param mixed $callback
+     * @param array $options
+     */
     public function add($path,$callback,$options = array() )
     {
         return $this->any( $path, $callback, $options );
@@ -209,6 +216,7 @@ class RouteSet implements Iterator
     /**
      * find route by route path
      *
+     * @param string $path
      */
     public function findRouteByPath( $path ) 
     {
