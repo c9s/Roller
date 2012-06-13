@@ -94,7 +94,7 @@ PHP_FUNCTION(roller_build_route)
 
     
     zval ** tmpval;
-    if ( ZEND_HASH_FETCH(options_hash,":requirement",tmpval)  ) {
+    if ( ZEND_HASH_FETCH(options_hash,"requirement",tmpval)  ) {
         add_assoc_zval( z_route , "requirement" , *tmpval );
     } else {
         // parse requirement from option hash
@@ -123,9 +123,15 @@ PHP_FUNCTION(roller_build_route)
             if (zend_hash_get_current_key_ex(
                     options_hash, &key, &key_len, &index, 0, &options_position ) == HASH_KEY_IS_STRING ) 
             {
-                // it's key, check if it's started with ':'
+
+                /**
+                 * If :key is supplied, it's a requirement. 
+                 *
+                 * We should check first char only.
+                 * */
                 char * pos;
-                if( (pos = strchr(key,':')) == NULL ) {
+                if( *key == ':' ) {
+                    // if( (pos = strchr(key,':')) != NULL ) {
                     // add to requirement zval
                     zval *tmp;
                     ALLOC_INIT_ZVAL( tmp );
@@ -138,44 +144,44 @@ PHP_FUNCTION(roller_build_route)
     }
 
 
-    if ( ZEND_HASH_FETCH(options_hash,":secure",tmpval)  ) {
+    if ( ZEND_HASH_FETCH(options_hash,"secure",tmpval)  ) {
         add_assoc_bool( z_route , "secure" , 1 );
     }
 
-    if ( ZEND_HASH_FETCH(options_hash,":default",tmpval)  ) {
+    if ( ZEND_HASH_FETCH(options_hash,"default",tmpval)  ) {
         add_assoc_zval( z_route , "default" , *tmpval );
     }
 
-    if ( ZEND_HASH_FETCH(options_hash,":method",tmpval)  ) {
+    if ( ZEND_HASH_FETCH(options_hash,"method",tmpval)  ) {
         add_assoc_zval( z_route , "method" , *tmpval );
     }
-    else if ( ZEND_HASH_FETCH(options_hash,":post",tmpval) ) {
+    else if ( ZEND_HASH_FETCH(options_hash,"post",tmpval) ) {
         add_assoc_string( z_route, "method", "post", 0 );
     }
-    else if ( ZEND_HASH_FETCH(options_hash,":get",tmpval) ) {
+    else if ( ZEND_HASH_FETCH(options_hash,"get",tmpval) ) {
         add_assoc_string( z_route, "method", "get", 0 );
     }
-    else if ( ZEND_HASH_FETCH(options_hash,":head",tmpval) ) {
+    else if ( ZEND_HASH_FETCH(options_hash,"head",tmpval) ) {
         add_assoc_string( z_route, "method", "head", 0 );
     }
-    else if ( ZEND_HASH_FETCH(options_hash,":delete",tmpval) ) {
+    else if ( ZEND_HASH_FETCH(options_hash,"delete",tmpval) ) {
         add_assoc_string( z_route, "method", "delete", 0 );
     }
-    else if ( ZEND_HASH_FETCH(options_hash,":put",tmpval) ) {
+    else if ( ZEND_HASH_FETCH(options_hash,"put",tmpval) ) {
         add_assoc_string( z_route, "method", "put", 0 );
     }
 
-    if ( ZEND_HASH_FETCH(options_hash,":before",tmpval)  ) {
+    if ( ZEND_HASH_FETCH(options_hash,"before",tmpval)  ) {
         add_assoc_bool( z_route , "before", 1 );
     }
 
-    if ( ZEND_HASH_FETCH(options_hash,":args",tmpval)  ) {
+    if ( ZEND_HASH_FETCH(options_hash,"args",tmpval)  ) {
         add_assoc_bool( z_route , "args", 1 );
     } else {
         add_assoc_null( z_route , "args" );
     }
 
-    if ( ZEND_HASH_FETCH(options_hash,":name",tmpval)  ) {
+    if ( ZEND_HASH_FETCH(options_hash,"name",tmpval)  ) {
         add_assoc_zval( z_route , "name", *tmpval );
     }
     else {

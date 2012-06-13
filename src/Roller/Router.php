@@ -198,11 +198,12 @@ class Router
             $this->hasCache = true;
         }
 
+        $routeClass = $this->matchedRouteClass;
+
         if( $this->enableExtension && function_exists('roller_dispatch') ) {
             $route = roller_dispatch( $this->routes->routes , $path );
-            $class = $this->matchedRouteClass;
             if( $route ) {
-                return new $class($this,$route,$path);
+                return new $routeClass($this,$route,$path);
             }
             else {
                 return false;
@@ -234,8 +235,7 @@ class Router
                     }
 
                     // matched!
-                    $class = $this->matchedRouteClass;
-                    return new $class($this,$route,$path);
+                    return new $routeClass($this,$route,$path);
                 }
             }
         }

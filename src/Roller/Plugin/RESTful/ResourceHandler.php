@@ -48,32 +48,32 @@ abstract class ResourceHandler extends BaseHandler
         $class = is_object($h) ? get_class($h) : $h;
         $routes->add("/$r(.:format)", array($class,'handleFind'), 
             array( 
-                ':get' => true , 
-                ':default' => array( 'format' => 'json' ) 
+                'get' => true , 
+                'default' => array( 'format' => 'json' ) 
             ));
 
         $routes->add( '/' . $r . '(.:format)' , array($class,'handleCreate'), 
             array( 
-                ':post' => true, 
-                ':default' => array( 'format' => 'json' ) 
+                'post' => true, 
+                'default' => array( 'format' => 'json' ) 
             ));
 
         $routes->add( '/' . $r . '/:id(.:format)' , array($class,'handleLoad'),
             array( 
-                ':get' => true, 
-                ':default' => array( 'format' => 'json' )
+                'get' => true, 
+                'default' => array( 'format' => 'json' )
             ));
 
         $routes->add( '/' . $r . '/:id(.:format)' , array($class,'handleUpdate'),
             array( 
-                ':put' => true, 
-                ':default' => array( 'format' => 'json' ) 
+                'put' => true, 
+                'default' => array( 'format' => 'json' ) 
             ));
 
         $routes->add( '/' . $r . '/:id(.:format)' , array($class,'handleDelete'),
             array( 
-                ':delete' => true, 
-                ':default' => array( 'format' => 'json' ) 
+                'delete' => true, 
+                'default' => array( 'format' => 'json' ) 
             ));
     }
 
