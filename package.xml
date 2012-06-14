@@ -11,10 +11,10 @@
     <active>yes</active>
   </lead>
   <date>2012-06-14</date>
-  <time>17:56:07</time>
+  <time>18:14:11</time>
   <version>
-    <release>1.8.1</release>
-    <api>1.8.1</api>
+    <release>1.9.0</release>
+    <api>1.9.0</api>
   </version>
   <stability>
     <release>stable</release>
@@ -35,13 +35,13 @@
       <file name="tests/Roller/RouteSetTest.php" role="test" md5sum="367837b2609059cbd99952d346a144b0"/>
       <file name="src/Roller/Annotations/Route.php" role="php" md5sum="f829a5ade6dc9ce52edbc5212846d3a2"/>
       <file name="src/Roller/ClosureSerializer.php" role="php" md5sum="7956d38e0e58c2f5c59a469777e8d1bc"/>
-      <file name="src/Roller/Controller.php" role="php" md5sum="0687d75ad7a5c38fb3af5cc7103cc8ff"/>
+      <file name="src/Roller/Controller.php" role="php" md5sum="e4478c3225a28299c5be2ec8d19914f4"/>
       <file name="src/Roller/DSL.php" role="php" md5sum="a1cb75d1c222997beedef7458cbee50f"/>
       <file name="src/Roller/Dumper/ConsoleDumper.php" role="php" md5sum="eb6415684ac8965c9fd11c07b3f8918d"/>
       <file name="src/Roller/Dumper/PhpDumper.php" role="php" md5sum="525e37836f76b5ecf28054ebb23b7926"/>
       <file name="src/Roller/Exception/RouteException.php" role="php" md5sum="c2821b1a76753aea22e11c5e7b310873"/>
       <file name="src/Roller/Exception/RouterException.php" role="php" md5sum="47f7624f9454e42c11b5e1f9afe54365"/>
-      <file name="src/Roller/MatchedRoute.php" role="php" md5sum="b70657d3a2fd3dc75e1ff2864d3b6d8c"/>
+      <file name="src/Roller/MatchedRoute.php" role="php" md5sum="fcd8dc3f972e09768654e27ea79fe9b1"/>
       <file name="src/Roller/Plugin/RESTful/BaseHandler.php" role="php" md5sum="391866205e412dd709939c87ad7c93de"/>
       <file name="src/Roller/Plugin/RESTful/GenericHandler.php" role="php" md5sum="c83f97b041cce6e7d8b7f22e26b5ff7b"/>
       <file name="src/Roller/Plugin/RESTful/ResourceHandler.php" role="php" md5sum="78a9bcb90a6ec8d70e81f46fa0e1e1c8"/>
