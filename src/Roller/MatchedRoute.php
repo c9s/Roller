@@ -66,12 +66,21 @@ class MatchedRoute
      * @param ReflectionClass $rc Reflection class of controller class
      * @param array $args arguments for controller constructor.
      */
-    public function createController($rc,$args = null) 
+    public function createObjectFromReflection($rc,$args = null) 
     {
         return $args ? $rc->newInstanceArgs($args) : $rc->newInstance();
     }
 
 
+
+
+    public function getCallbackParameters($callback)
+    {
+        list($object,$method) = $callback;
+        $rc = new ReflectionObject( $cb );
+        $rm = $rc->getMethod($method);
+        return $rm->getParameters();
+    }
 
     /**
      * Build callback array 
@@ -107,7 +116,7 @@ class MatchedRoute
             $rm = $rc->getMethod('run');
             $rps = $rm->getParameters();
 
-            $this->controller = $this->createController( $rc, $args );
+            $this->controller = $this->createObjectFromReflection( $rc, $args );
             $cb = array( $controller, 'run');
             return $rps;
         }
