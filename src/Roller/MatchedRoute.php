@@ -134,7 +134,7 @@ class MatchedRoute
         // validation action method prototype
         $vars = $this->getVars();
 
-        // reflection parameters
+        // reflection parameters of the function or method
         $rps = $this->initCallback( $cb , $args );
 
         // check callback function
@@ -142,6 +142,7 @@ class MatchedRoute
             throw new RouteException( 'This route callback is not a valid callback.' , $this->route );
 
         // get relection method parameter prototype for checking...
+        // and create arguments array
         $arguments = array();
         foreach( $rps as $param ) {
             $n = $param->getName();
@@ -158,18 +159,14 @@ class MatchedRoute
                 throw new RouteException( 'parameter is not defined.',  $this->route );
             }
         }
+
         if( $this->controller && is_a($this->controller,'Roller\Controller') ) {
             $this->controller->route = $this;
             $this->controller->router = $this->router;
-            $this->controller->before();
+            return $this->controller->runWrapper($cb,$arguments);
+        } else {
+            return call_user_func_array($cb, $arguments );
         }
-
-        $ret = call_user_func_array($cb, $arguments );
-
-        if( $this->controller && is_a($this->controller,'Roller\Controller') ) {
-            $this->controller->after();
-        }
-        return $ret;
     }
 
     public function getRequirement()

@@ -34,12 +34,13 @@ abstract class Controller
 
     public function finalize() { }
 
-    public function runWrapper($actionMethod,$arguments)
+    public function runWrapper($callable,$arguments)
     {
         $this->before();
-        call_user_func_array(array($this,$actionMethod),$arguments);
+        $response = call_user_func_array($callable,$arguments);
         $this->after();
         $this->finalize();
+        return $response;
     }
 
     public function getRoute()
