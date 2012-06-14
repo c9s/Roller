@@ -24,21 +24,23 @@ abstract class Controller
     }
 
 
-    public function init()
+    public function init() { }
+
+    public function before() { }
+
+    public function after() { }
+
+    public function run() { }
+
+    public function finalize() { }
+
+    public function runWrapper($actionMethod,$arguments)
     {
-
+        $this->before();
+        call_user_func_array(array($this,$actionMethod),$arguments);
+        $this->after();
+        $this->finalize();
     }
-
-    public function before()
-    {
-
-    }
-
-    public function after() 
-    {
-
-    }
-
 
     public function getRoute()
     {

@@ -25,7 +25,7 @@ class MatchedRoute
     /**
      * Route data array()
      */
-	public $route;
+    public $route;
 
 
     /**
@@ -49,63 +49,75 @@ class MatchedRoute
     /**
      * @param Roller\Router $router router object.
      * @param array $route route hash.
+     * @param string $path route path.
      */
-	public function __construct($router,$route,$path)
-	{
+    public function __construct($router,$route,$path)
+    {
         $this->router = $router;
-		$this->route = $route;
+        $this->route = $route;
         $this->path = $path;
-	}
+    }
 
 
+
+    /**
+     * Create controller object.
+     *
+     * @param ReflectionClass $rc Reflection class of controller class
+     * @param array $args arguments for controller constructor.
+     */
     public function createController($rc,$args = null) 
     {
         return $args ? $rc->newInstanceArgs($args) : $rc->newInstance();
     }
 
+
+
+    /**
+     * Build callback array 
+     * 
+     * @param mixed $cb callback object, can be array(object,method) or a Controller object
+     * @param array $args arguments for contructor.
+     * @return ReflectionParameters
+     */
     public function initCallback( & $cb, $args)
     {
         $rps = null;
-		if( is_array($cb) ) {
+        if( is_array($cb) ) {
             $rc = new ReflectionClass( $cb[0] );
+
+            // if the first argument is a class name string, 
+            // then create the controller object.
             if( is_string($cb[0]) ) {
-                $obj = $args ? $rc->newInstanceArgs($args) : $rc->newInstance();
-                $this->controller = $obj;
-                $cb[0] = $obj;
-            }
-            else {
+                $cb[0] = $this->controller = $args ? $rc->newInstanceArgs($args) : $rc->newInstance();
+            } else {
                 $this->controller = $cb[0];
             }
 
+            // check controller action method
             if( $this->controller && ! method_exists( $this->controller ,$cb[1]) ) {
                 throw new RouteException("Method " . 
                     get_class($this->controller) . "->{$cb[1]} does not exist.", $this->route );
             }
 
-            $rm = $rc->getMethod($cb[1]);
+            return $rc->getMethod($cb[1])->getParameters();
+        }
+        elseif( is_a($cb,'Roller\Controller') ) {
+            $rc = new ReflectionClass( $cb );
+            $rm = $rc->getMethod('run');
             $rps = $rm->getParameters();
-		}
-		elseif( is_a($cb,'Roller\Controller') ) {
-			$rc = new ReflectionClass( $cb );
-			$rm = $rc->getMethod('run');
-			$rps = $rm->getParameters();
 
             $this->controller = $this->createController( $rc, $args );
             $cb = array( $controller, 'run');
-		}
-		elseif( is_a($cb,'Roller\Controller') ) {
-			$rc = new ReflectionClass( $cb );
-			$rm = $rc->getMethod('run');
-			$rps = $rm->getParameters();
-
-            $this->controller = $this->createController( $rc, $args );
-            $cb = array( $controller, 'run');
-		}
-		elseif( is_a($cb,'Closure') ) {
-			$rf = new ReflectionFunction( $cb );
-			$rps = $rf->getParameters();
-		}
-        return $rps;
+            return $rps;
+        }
+        elseif( is_a($cb,'Closure') ) {
+            $rf = new ReflectionFunction( $cb );
+            return $rf->getParameters();
+        }
+        else {
+            throw new Exception('Unsupported callback type');
+        }
     }
 
     /**
@@ -122,17 +134,17 @@ class MatchedRoute
         // validation action method prototype
         $vars = $this->getVars();
 
-		// reflection parameters
-		$rps = $this->initCallback( $cb , $args );
+        // reflection parameters
+        $rps = $this->initCallback( $cb , $args );
 
         // check callback function
-		if( ! is_callable($cb) )
-			throw new RouteException( 'This route callback is not a valid callback.' , $this->route );
+        if( ! is_callable($cb) )
+            throw new RouteException( 'This route callback is not a valid callback.' , $this->route );
 
         // get relection method parameter prototype for checking...
         $arguments = array();
         foreach( $rps as $param ) {
-			$n = $param->getName();
+            $n = $param->getName();
             if( isset( $vars[ $n ] ) ) 
             {
                 $arguments[] = $vars[ $n ];
@@ -249,10 +261,10 @@ class MatchedRoute
 
 
 
-	// evaluate route
-	function __invoke()
-	{
+    // evaluate route
+    function __invoke()
+    {
         return $this->run();
-	}
+    }
 }
 
