@@ -61,25 +61,32 @@ class MatchedRoute
 
 
     /**
-     * Create controller object.
+     * Create object with/from ReflectionClass
      *
-     * @param ReflectionClass $rc Reflection class of controller class
+     * @param string $class Class name (which is optional if ReflectionClass object is specified)
      * @param array $args arguments for controller constructor.
+     * @param ReflectionClass $rc Reflection class of controller class
+     * @return Roller\Controller
      */
-    public function createObjectFromReflection($rc,$args = null) 
+    public function createObjectFromReflection($class = null,$args = null,$rc = null)
     {
+        if( ! $rc ) {
+            $rc = new ReflectionClass($class);
+        }
         return $args ? $rc->newInstanceArgs($args) : $rc->newInstance();
     }
 
-
-
-
     public function getCallbackParameters($callback)
     {
-        list($object,$method) = $callback;
-        $rc = new ReflectionObject( $cb );
-        $rm = $rc->getMethod($method);
-        return $rm->getParameters();
+        if( is_array($callback) ) {
+            list($object,$method) = $callback;
+            $r = is_object($object) ? new ReflectionObject($object) : new ReflectionClass($object);
+            return $r->getMethod($method)->getParameters();
+        }
+        elseif( is_a($callback,'Closure') ) {
+            $rf = new ReflectionFunction( $callback );
+            return $rf->getParameters();
+        }
     }
 
     /**
@@ -116,8 +123,10 @@ class MatchedRoute
             $rm = $rc->getMethod('run');
             $rps = $rm->getParameters();
 
-            $this->controller = $this->createObjectFromReflection( $rc, $args );
-            $cb = array( $controller, 'run');
+            $this->controller = $this->createObjectFromReflection( $cb , $args , $rc );
+
+            // rebuild callback array
+            $cb = array( $this->controller, 'run');
             return $rps;
         }
         elseif( is_a($cb,'Closure') ) {
