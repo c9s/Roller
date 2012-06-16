@@ -30,8 +30,6 @@ abstract class Controller
 
     public function after() { }
 
-    public function run() { }
-
     public function finalize() { }
 
     public function runWrapper($callable,$arguments)
