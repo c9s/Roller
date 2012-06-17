@@ -32,7 +32,7 @@ abstract class Controller
 
     public function finalize() { }
 
-    public function runWrapper($callable,$arguments)
+    public function runWrapper($callable,$arguments = array() )
     {
         $this->before();
         $response = call_user_func_array($callable,$arguments);
