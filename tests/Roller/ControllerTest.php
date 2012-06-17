@@ -17,6 +17,9 @@ class ControllerTest extends PHPUnit_Framework_TestCase
             'name' => 'John'
         ));
         is( 'Hello John', $response );
+
+        $response = $controller->dispatchAction('index',array( 'name' => 'Mary' ));
+        is( 'Hello Mary', $response );
     }
 }
 
