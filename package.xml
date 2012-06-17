@@ -10,8 +10,8 @@
     <email>cornelius.howl@gmail.com</email>
     <active>yes</active>
   </lead>
-  <date>2012-06-14</date>
-  <time>18:14:49</time>
+  <date>2012-06-17</date>
+  <time>15:57:46</time>
   <version>
     <release>1.9.0</release>
     <api>1.9.0</api>
@@ -25,7 +25,7 @@
   <contents>
     <dir name="/">
       <file name="tests/bootstrap.php" role="test" md5sum="b805c1c4ad52d54cb97ceef8f42e13bb"/>
-      <file name="tests/ExtensionTest.php" role="test" md5sum="8c1d3357b57f19409aa7f3123fa2648d"/>
+      <file name="tests/ExtensionTest.php.bak" role="test" md5sum="8c1d3357b57f19409aa7f3123fa2648d"/>
       <file name="tests/RESTfulTest.php" role="test" md5sum="1250f55c75d718a3e2c75663f247bfa2"/>
       <file name="tests/Roller/Annotation/ClassReaderTest.php" role="test" md5sum="8d67c46483bc048bd8a5530b9f1b2d57"/>
       <file name="tests/Roller/Dumper/ConsoleDumperTest.php" role="test" md5sum="2beda835f820ac3e82414eac7f86c369"/>
@@ -35,7 +35,7 @@
       <file name="tests/Roller/RouteSetTest.php" role="test" md5sum="367837b2609059cbd99952d346a144b0"/>
       <file name="src/Roller/Annotations/Route.php" role="php" md5sum="f829a5ade6dc9ce52edbc5212846d3a2"/>
       <file name="src/Roller/ClosureSerializer.php" role="php" md5sum="7956d38e0e58c2f5c59a469777e8d1bc"/>
-      <file name="src/Roller/Controller.php" role="php" md5sum="e4478c3225a28299c5be2ec8d19914f4"/>
+      <file name="src/Roller/Controller.php" role="php" md5sum="79eb396fa52bce188a971385a9e8b12c"/>
       <file name="src/Roller/DSL.php" role="php" md5sum="a1cb75d1c222997beedef7458cbee50f"/>
       <file name="src/Roller/Dumper/ConsoleDumper.php" role="php" md5sum="eb6415684ac8965c9fd11c07b3f8918d"/>
       <file name="src/Roller/Dumper/PhpDumper.php" role="php" md5sum="525e37836f76b5ecf28054ebb23b7926"/>
@@ -47,7 +47,7 @@
       <file name="src/Roller/Plugin/RESTful/ResourceHandler.php" role="php" md5sum="78a9bcb90a6ec8d70e81f46fa0e1e1c8"/>
       <file name="src/Roller/Plugin/RESTful.php" role="php" md5sum="a4f59aedb1c049d6acf0a17f1c0e178e"/>
       <file name="src/Roller/PluginInterface.php" role="php" md5sum="e18eacc88ca940293cb510bcd6806eb6"/>
-      <file name="src/Roller/RouteCompiler.php" role="php" md5sum="bf2b49aa33f869d15f975343c1def8c6"/>
+      <file name="src/Roller/RouteCompiler.php" role="php" md5sum="2c0bee20173475b1416869d53a209529"/>
       <file name="src/Roller/Router.php" role="php" md5sum="9e28426f0c9ac7eb794a2f038307183a"/>
       <file name="src/Roller/RouteSet.php" role="php" md5sum="de8af8eee798ab9a1eb11b71ee03b8df"/>
       <file name="CHANGES.md" role="doc" md5sum="fccbafddd6c60e2e1726129e514e3c84"/>
@@ -88,7 +88,7 @@
   <phprelease>
     <filelist>
       <install name="tests/bootstrap.php" as="bootstrap.php"/>
-      <install name="tests/ExtensionTest.php" as="ExtensionTest.php"/>
+      <install name="tests/ExtensionTest.php.bak" as="ExtensionTest.php.bak"/>
       <install name="tests/RESTfulTest.php" as="RESTfulTest.php"/>
       <install name="tests/Roller/Annotation/ClassReaderTest.php" as="Roller/Annotation/ClassReaderTest.php"/>
       <install name="tests/Roller/Dumper/ConsoleDumperTest.php" as="Roller/Dumper/ConsoleDumperTest.php"/>
