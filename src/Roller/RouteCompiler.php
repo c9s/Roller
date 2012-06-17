@@ -3,6 +3,7 @@ namespace Roller;
 use Exception;
 
 /**
+ * Compile path string into PCRE pattern:
  *
  *   /blog/:year/:month
  *   /blog/item/:id
@@ -12,6 +13,13 @@ use Exception;
 class RouteCompiler
 {
 
+
+    /**
+     * compile pattern
+     *
+     * @param string $pattern
+     * @param array $options
+     */
     static function compilePattern($pattern, $options = array() ) {
 
         $len = strlen($pattern);
@@ -179,6 +187,8 @@ class RouteCompiler
 
 
     /**
+     * Split tokens from path.
+     *
      * @param string $string path string
      *
      * @return array matched results
@@ -196,6 +206,10 @@ class RouteCompiler
 
     /**
      * Compiles the current route instance.
+     *
+     * @param array $route route info
+     *
+     * @return array compiled route info, with newly added 'compiled' key.
      */
     static function compile(Array $route)
     {
