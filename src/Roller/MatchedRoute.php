@@ -181,6 +181,8 @@ class MatchedRoute
         if( $this->controller && is_a($this->controller,'Roller\Controller') ) {
             $this->controller->route = $this;
             $this->controller->router = $this->router;
+
+            // runWrapper method runs: before, run, after, finalize method
             return $this->controller->runWrapper($cb,$arguments);
         } else {
             return call_user_func_array($cb, $arguments );
