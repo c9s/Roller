@@ -139,7 +139,9 @@ class MatchedRoute
     }
 
     /**
-     * To evaluate route content
+     * Evaluate route and return response content.
+     *
+     * @return string
      */
     public function run() 
     {

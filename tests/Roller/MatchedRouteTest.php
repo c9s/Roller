@@ -13,6 +13,8 @@ class MatchedRouteTest extends PHPUnit_Framework_TestCase
         ok( $matched['callback'] );
 
         is( 'Hello', $matched() );
+
+        is( '/hello', $matched->path );
     }
 }
 
