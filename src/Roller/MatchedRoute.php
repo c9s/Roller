@@ -112,7 +112,7 @@ class MatchedRoute
 
             // check controller action method
             if( $this->controller && ! method_exists( $this->controller ,$cb[1]) ) {
-                throw new RouteException("Method " . 
+                throw new RouteException('Method ' . 
                     get_class($this->controller) . "->{$cb[1]} does not exist.", $this->route );
             }
 
