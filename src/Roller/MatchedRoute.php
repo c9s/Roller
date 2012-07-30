@@ -73,7 +73,7 @@ class MatchedRoute
         if( ! $rc ) {
             $rc = new ReflectionClass($class);
         }
-        return $args ? $rc->newInstanceArgs($args) : $rc->newInstance();
+        return $args && is_array($args) ? $rc->newInstanceArgs(array($args)) : $rc->newInstance();
     }
 
     public function getCallbackParameters($callback)
@@ -118,11 +118,10 @@ class MatchedRoute
 
             return $rc->getMethod($cb[1])->getParameters();
         }
-        elseif( is_a($cb,'Roller\Controller') ) {
+        elseif( is_a($cb,'Roller\Controller',true) ) {  # allow string
             $rc = new ReflectionClass( $cb );
             $rm = $rc->getMethod('run');
             $rps = $rm->getParameters();
-
             $this->controller = $this->createObjectFromReflection( $cb , $args , $rc );
 
             // rebuild callback array
@@ -134,7 +133,7 @@ class MatchedRoute
             return $rf->getParameters();
         }
         else {
-            throw new Exception('Unsupported callback type');
+            throw new Exception('Unsupported route type');
         }
     }
 
