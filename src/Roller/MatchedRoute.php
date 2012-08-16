@@ -175,7 +175,7 @@ class MatchedRoute
             {
                 $arguments[] = $default;
             }
-            else {
+            else if( ! $param->isOptional() && ! $param->allowsNull ) {
                 throw new RouteException( 'parameter is not defined.',  $this->route );
             }
         }
