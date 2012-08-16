@@ -319,7 +319,7 @@ PHP_FUNCTION(roller_dispatch)
             zval *pcre_ret;
             ALLOC_INIT_ZVAL(pcre_ret);
             php_pcre_match_impl(pce, path, path_len, pcre_ret, z_subpats,
-                global, false , flags, start_offset TSRMLS_CC);
+                global, 0, flags, start_offset TSRMLS_CC);
 
 
             /* return_value is not bool */
