@@ -66,7 +66,7 @@ on('/path/to/:date',function() {
     return 'your content';
 });
 
-on('/path/to/:year', [ 'year' => '\d+' ] ,function() {
+on('/path/to/:year', [ ':year' => '\d+' ] ,function() {
 
     return 'your content';
 });
@@ -111,7 +111,7 @@ To add a new route with requirement:
 ```php
 <?
     $router->add( '/path/to/:year' , array('Callback','method') , array( 
-        'year' => '\d+',
+        ':year' => '\d+',
     ));
 ```
 
@@ -122,7 +122,7 @@ To add a new route with requirement and closure:
     $router->add( '/path/to/:year' , function($year) { 
         return $year;
     },array( 
-        'year' => '\d+',
+        ':year' => '\d+',
     ));
 ```
 
@@ -133,7 +133,7 @@ Or by `any`:
     $router->any( '/path/to/:year' , function($year) { 
         return $year;
     }, array( 
-        'year' => '\d+',
+        ':year' => '\d+',
     ));
 ```
 
@@ -154,16 +154,16 @@ An alias for POST method:
 
 META ATTRIBUTE
 --------------
-Meta attributes are started with ':' prefix. currently, Roller currently
-supports: `:method`, `:default`, `:requirement`, `:post`, `:get` attributes.
+Roller currently supports: `method`, `default`, `requirement`, `post`, `get`
+attributes.
 
 To add a new route with requirement and default value:
 
 ```php
 <?
     $router->add( '/path/to/:year' , array('Callback','method') , array( 
-        'year' => '\d+',
-        ':default' => array(
+        ':year' => '\d+',
+        'default' => array(
             'year' => 2000,
         ),
     ));
@@ -174,10 +174,10 @@ To add a new route with request method (like POST method):
 ```php
 <?
     $router->add( '/path/to/:year' , array('Callback','method') , array( 
-        'year' => '\d+',
+        ':year' => '\d+',
 
-        ':method' => 'post',
-        ':default' => array(
+        'method' => 'post',
+        'default' => array(
             'year' => 2000,
         ),
     ));
@@ -261,7 +261,7 @@ Use Annotation Reader for controllers
 class AnnotationTestController {
 
     /**
-     * @Route("/hello/:name", name="_hello", requirements={"name" = ".+"}, vars={ "k" = 123, "b" = 234 })
+     * @Route("/hello/:name", name="_hello", requirements={":name" = ".+"}, vars={ "k" = 123, "b" = 234 })
      */
     function helloAction($name) { 
         return $name;
@@ -438,32 +438,32 @@ Here is how RESTful route generator works:
     {
         $routes->add( "/$r(\.:format)" , array($h,'handleFind'), 
             array( 
-                ':get' => true , 
-                ':default' => array( 'format' => 'json' ) 
+                'get' => true , 
+                'default' => array( 'format' => 'json' ) 
             ));
 
         $routes->add( '/' . $r . '(\.:format)' , array($h,'handleCreate'), 
             array( 
-                ':post' => true, 
-                ':default' => array( 'format' => 'json' ) 
+                'post' => true, 
+                'default' => array( 'format' => 'json' ) 
             ));
 
         $routes->add( '/' . $r . '/:id(\.:format)' , array($h,'handleLoad'),
             array( 
-                ':get' => true, 
-                ':default' => array( 'format' => 'json' )
+                'get' => true, 
+                'default' => array( 'format' => 'json' )
             ));
 
         $routes->add( '/' . $r . '/:id(\.:format)' , array($h,'handleUpdate'),
             array( 
-                ':put' => true, 
-                ':default' => array( 'format' => 'json' ) 
+                'put' => true, 
+                'default' => array( 'format' => 'json' ) 
             ));
 
         $routes->add( '/' . $r . '/:id(\.:format)' , array($h,'handleDelete'),
             array( 
-                ':delete' => true, 
-                ':default' => array( 'format' => 'json' ) 
+                'delete' => true, 
+                'default' => array( 'format' => 'json' ) 
             ));
     }
 ```

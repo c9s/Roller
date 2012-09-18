@@ -3,6 +3,8 @@
 
 <project name="Roller" default="build">
 
+    <ant dir="ext"/>
+
  <taskdef resource="net/sf/antcontrib/antlib.xml"/>
 
  <target name="build"
@@ -121,6 +123,7 @@
  <target name="phpdox" description="Generate API documentation using phpDox">
     <exec executable="phpdox"/>
  </target>
+
 
  <target name="bundle">
      <if>

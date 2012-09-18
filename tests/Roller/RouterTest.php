@@ -57,8 +57,8 @@ class RouterTest extends PHPUnit_Framework_TestCase
         $router->add('/blog/:year', function($year) { 
             return 'Hello ' . $year;
         }, array(
-            'year' => '\d+',
-            ':default' => array( 
+            ':year' => '\d+',
+            'default' => array( 
                 'year' => 2012
             )
         ));
@@ -99,7 +99,7 @@ class RouterTest extends PHPUnit_Framework_TestCase
     {
         $router = new Roller\Router;
         $router->add('/item/:id', 'TestController:run', array( 
-            ':post' => true,
+            'post' => true,
         ));
         $_SERVER['REQUEST_METHOD'] = 'POST';
         $r = $router->dispatch( '/item/9' );

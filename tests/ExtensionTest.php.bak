@@ -14,10 +14,10 @@ class ExtensionTest extends PHPUnit_Framework_TestCase
     function testBuildName()
     {
         $route = roller_build_route('/path/to/:blog', function($blog) {  }, array( 
-            'blog' => '\w+',
-            ':secure' => true,
-            ':post' => true,
-            ':default' => array( 
+            ':blog' => '\w+',
+            'secure' => true,
+            'post' => true,
+            'default' => array( 
                 'blog' => '123'
             ),
         ));

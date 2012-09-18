@@ -24,7 +24,6 @@ class MyGenericHandler extends GenericHandler
     public function find($resource) { 
         return range(1,10);
     }
-
 }
 
 class BlogResourceHandler extends ResourceHandler

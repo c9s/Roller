@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<project name="Roller" default="build">
+
+ <taskdef resource="net/sf/antcontrib/antlib.xml"/>
+
+ <target name="build"
+   depends="clean,prepare,phpize,configure,make"/>
+
+ <target name="clean" description="Cleanup build artifacts">
+    <delete dir="${basedir}/build"/>
+    <exec executable="phpize">
+        <arg value="--clean"/>
+    </exec>
+ </target>
+
+ <target name="prepare" depends="clean" description="Prepare for build">
+  <mkdir dir="${basedir}/build"/>
+ </target>
+
+ <target name="phpize" description="phpize">
+     <exec executable="phpize"/>
+ </target>
+
+ <target name="configure" description="configure">
+     <exec executable="./configure">
+     </exec>
+ </target>
+
+ <target name="make" description="make">
+     <exec executable="make">
+     </exec>
+ </target>
+
+</project>
