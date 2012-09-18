@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<package xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" packagerversion="1.4.10" version="2.0" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0        http://pear.php.net/dtd/tasks-1.0.xsd        http://pear.php.net/dtd/package-2.0        http://pear.php.net/dtd/package-2.0.xsd">
+<package xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" packagerversion="1.4.10" version="2.0" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0               http://pear.php.net/dtd/tasks-1.0.xsd               http://pear.php.net/dtd/package-2.0               http://pear.php.net/dtd/package-2.0.xsd">
   <name>Roller</name>
   <channel>pear.corneltek.com</channel>
   <summary>A flexible, high-performance PHP router for PHP5.3+</summary>
@@ -10,38 +10,40 @@
     <email>cornelius.howl@gmail.com</email>
     <active>yes</active>
   </lead>
-  <date>2012-06-17</date>
-  <time>15:57:46</time>
+  <date>2012-09-18</date>
+  <time>12:17:44</time>
   <version>
     <release>1.9.0</release>
     <api>1.9.0</api>
   </version>
   <stability>
-    <release>stable</release>
-    <api>stable</api>
+    <release>beta</release>
+    <api>beta</api>
   </stability>
   <license>PHP</license>
   <notes>-</notes>
   <contents>
     <dir name="/">
-      <file name="tests/bootstrap.php" role="test" md5sum="b805c1c4ad52d54cb97ceef8f42e13bb"/>
+      <file name="tests/bootstrap.php" role="test" md5sum="be05bad3e59d3f6b3b9f7592d8997c9f"/>
       <file name="tests/ExtensionTest.php.bak" role="test" md5sum="8c1d3357b57f19409aa7f3123fa2648d"/>
       <file name="tests/RESTfulTest.php" role="test" md5sum="1250f55c75d718a3e2c75663f247bfa2"/>
       <file name="tests/Roller/Annotation/ClassReaderTest.php" role="test" md5sum="8d67c46483bc048bd8a5530b9f1b2d57"/>
+      <file name="tests/Roller/ControllerTest.php" role="test" md5sum="3e8c04cb42f96c43257bae9540589c88"/>
       <file name="tests/Roller/Dumper/ConsoleDumperTest.php" role="test" md5sum="2beda835f820ac3e82414eac7f86c369"/>
+      <file name="tests/Roller/MatchedRouteTest.php" role="test" md5sum="2ecb5d55b36f833972229b021128094a"/>
       <file name="tests/Roller/RouteCompilerTest.php" role="test" md5sum="dd428eddb11f4f48f01702162b6f090d"/>
       <file name="tests/Roller/RouterApcTest.php" role="test" md5sum="1e964d55a69c6893e2f681512e4950da"/>
       <file name="tests/Roller/RouterTest.php" role="test" md5sum="bd007a6be65a6d6e32b1c14b836aa26d"/>
       <file name="tests/Roller/RouteSetTest.php" role="test" md5sum="367837b2609059cbd99952d346a144b0"/>
       <file name="src/Roller/Annotations/Route.php" role="php" md5sum="f829a5ade6dc9ce52edbc5212846d3a2"/>
       <file name="src/Roller/ClosureSerializer.php" role="php" md5sum="7956d38e0e58c2f5c59a469777e8d1bc"/>
-      <file name="src/Roller/Controller.php" role="php" md5sum="79eb396fa52bce188a971385a9e8b12c"/>
+      <file name="src/Roller/Controller.php" role="php" md5sum="2609cf9efbcd210d4e86019109e61f22"/>
       <file name="src/Roller/DSL.php" role="php" md5sum="a1cb75d1c222997beedef7458cbee50f"/>
       <file name="src/Roller/Dumper/ConsoleDumper.php" role="php" md5sum="eb6415684ac8965c9fd11c07b3f8918d"/>
       <file name="src/Roller/Dumper/PhpDumper.php" role="php" md5sum="525e37836f76b5ecf28054ebb23b7926"/>
       <file name="src/Roller/Exception/RouteException.php" role="php" md5sum="c2821b1a76753aea22e11c5e7b310873"/>
       <file name="src/Roller/Exception/RouterException.php" role="php" md5sum="47f7624f9454e42c11b5e1f9afe54365"/>
-      <file name="src/Roller/MatchedRoute.php" role="php" md5sum="fcd8dc3f972e09768654e27ea79fe9b1"/>
+      <file name="src/Roller/MatchedRoute.php" role="php" md5sum="793140f25a12b042347f49e35c1952bb"/>
       <file name="src/Roller/Plugin/RESTful/BaseHandler.php" role="php" md5sum="391866205e412dd709939c87ad7c93de"/>
       <file name="src/Roller/Plugin/RESTful/GenericHandler.php" role="php" md5sum="c83f97b041cce6e7d8b7f22e26b5ff7b"/>
       <file name="src/Roller/Plugin/RESTful/ResourceHandler.php" role="php" md5sum="78a9bcb90a6ec8d70e81f46fa0e1e1c8"/>
@@ -51,8 +53,7 @@
       <file name="src/Roller/Router.php" role="php" md5sum="9e28426f0c9ac7eb794a2f038307183a"/>
       <file name="src/Roller/RouteSet.php" role="php" md5sum="de8af8eee798ab9a1eb11b71ee03b8df"/>
       <file name="CHANGES.md" role="doc" md5sum="fccbafddd6c60e2e1726129e514e3c84"/>
-      <file name="README.md" role="doc" md5sum="936364f1d5927dc625735739e47a7f30"/>
-      <file name="notes.md" role="doc" md5sum="d41d8cd98f00b204e9800998ecf8427e"/>
+      <file name="README.md" role="doc" md5sum="a9ed8c2468a05a371564e227ed32ee76"/>
     </dir>
   </contents>
   <dependencies>
@@ -91,7 +92,9 @@
       <install name="tests/ExtensionTest.php.bak" as="ExtensionTest.php.bak"/>
       <install name="tests/RESTfulTest.php" as="RESTfulTest.php"/>
       <install name="tests/Roller/Annotation/ClassReaderTest.php" as="Roller/Annotation/ClassReaderTest.php"/>
+      <install name="tests/Roller/ControllerTest.php" as="Roller/ControllerTest.php"/>
       <install name="tests/Roller/Dumper/ConsoleDumperTest.php" as="Roller/Dumper/ConsoleDumperTest.php"/>
+      <install name="tests/Roller/MatchedRouteTest.php" as="Roller/MatchedRouteTest.php"/>
       <install name="tests/Roller/RouteCompilerTest.php" as="Roller/RouteCompilerTest.php"/>
       <install name="tests/Roller/RouterApcTest.php" as="Roller/RouterApcTest.php"/>
       <install name="tests/Roller/RouterTest.php" as="Roller/RouterTest.php"/>
@@ -115,7 +118,6 @@
       <install name="src/Roller/RouteSet.php" as="Roller/RouteSet.php"/>
       <install name="CHANGES.md" as="CHANGES.md"/>
       <install name="README.md" as="README.md"/>
-      <install name="notes.md" as="notes.md"/>
     </filelist>
   </phprelease>
 </package>
