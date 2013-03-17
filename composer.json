@@ -1,5 +1,5 @@
 {
-    "name": "c9s/Roller",
+    "name": "c9s/roller",
     "homepage": "http://github.com/c9s/Roller",
     "description": "High performance PHP router",
     "require": {
