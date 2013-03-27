@@ -34,6 +34,17 @@ ROUTE CONSOLE DUMPER
 INSTALL
 -------
 
+Install from Composer:
+
+
+```json
+{
+    "require": {
+        "corneltek/roller": "~1.8"
+    }
+}
+```
+
 Install through PEAR:
 
     pear channel-discover pear.corneltek.com
@@ -494,6 +505,15 @@ Add config to your php.ini:
 
 Hacking
 -------
+Run Composer Install:
+
+    composer install --dev
+
+Install ConsoleTools:
+
+    pear channel-discover components.ez.no
+    pear install -a ezc/ConsoleTools
+
 Get Onion and install it:
 
     $ curl -s http://install.onionphp.org/ | bash
