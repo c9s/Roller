@@ -1,6 +1,6 @@
 <?php
-
 namespace Roller;
+use Exception;
 
 abstract class Controller
 {
@@ -24,21 +24,22 @@ abstract class Controller
     }
 
 
-    public function init()
+    public function init() { }
+
+    public function before() { }
+
+    public function after() { }
+
+    public function finalize() { }
+
+    public function runWrapper($callable,$arguments = array() )
     {
-
+        $this->before();
+        $response = call_user_func_array($callable,$arguments);
+        $this->after();
+        $this->finalize();
+        return $response;
     }
-
-    public function before()
-    {
-
-    }
-
-    public function after() 
-    {
-
-    }
-
 
     public function getRoute()
     {
@@ -50,7 +51,15 @@ abstract class Controller
         return $this->router;
     }
 
-
+    public function dispatchAction($action,$arguments) 
+    {
+        $method = $action . 'Action';
+        if( method_exists($this,$method) ) {
+            return call_user_func_array(array($this,$method),$arguments);
+        } else {
+            throw new Exception("Action $action not found.");
+        }
+    }
 
     public function parseInput()
     {

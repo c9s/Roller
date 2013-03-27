@@ -36,7 +36,7 @@ class Router
     public $cacheId;
 
 
-    public $enableExtension = true;
+    public $extensionSupport = false;
 
     /**
      * cache exxpiry 
@@ -69,6 +69,10 @@ class Router
 
         if( $routes && !is_a( $routes, 'Roller\RouteSet' ) ) {
             throw new RouterException('Router constructor argument #1 is not a Roller\RouteSet object.');
+        }
+
+        if( isset($options['enable_extension']) && extension_loaded('roller') ) {
+            $this->extensionSupport = true;
         }
 
         /* if cache_id is defined (only), we use apc for caching defined routes */
@@ -198,13 +202,13 @@ class Router
             $this->hasCache = true;
         }
 
-        if( $this->enableExtension && function_exists('roller_dispatch') ) {
-            $route = roller_dispatch( $this->routes->routes , $path );
-            $class = $this->matchedRouteClass;
-            if( $route ) {
-                return new $class($this,$route,$path);
-            }
-            else {
+        $routeClass = $this->matchedRouteClass;
+
+        if( $this->extensionSupport ) {
+            // function_exists('roller_dispatch')
+            if( $route = roller_dispatch( $this->routes->routes , $path ) ) {
+                return new $routeClass($this,$route,$path);
+            } else {
                 return false;
             }
         }
@@ -234,8 +238,7 @@ class Router
                     }
 
                     // matched!
-                    $class = $this->matchedRouteClass;
-                    return new $class($this,$route,$path);
+                    return new $routeClass($this,$route,$path);
                 }
             }
         }

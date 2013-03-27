@@ -24,7 +24,7 @@ class RouteSet implements Iterator
             $path = $a[0];
             $callback = $a[1];
             $options = isset($a[2]) ? $a[2] : array();
-            $options[':method'] = $m;
+            $options['method'] = $m;
             return $this->add( $path , $callback , $options );
             break;
         }
@@ -38,13 +38,13 @@ class RouteSet implements Iterator
      */
     public function get($path, $callback, $options = array() )
     {
-        $options[':method'] = 'get';
+        $options['method'] = 'get';
         return $this->add( $path,  $callback , $options );
     }
 
     public function post($path, $callback, $options = array() )
     {
-        $options[':method'] = 'post';
+        $options['method'] = 'post';
         return $this->add( $path, $callback, $options );
     }
 
@@ -106,6 +106,10 @@ class RouteSet implements Iterator
         );
         $route['path']        = $path;
 
+
+        /**
+         * callback string: "Class:method"
+         */
         if( is_string($callback) && false !== strpos($callback,':') ) {
             $callback = explode(':',$callback);
         }
@@ -113,11 +117,12 @@ class RouteSet implements Iterator
 
 
         $requirement = array();
-        if( isset($options[':requirement']) ) {
-            $requirement = $options[':requirement'];
+        if( isset($options['requirement']) ) {
+            $requirement = $options['requirement'];
         } else {
+            // bind varaible (starts with ":")
             foreach( $options as $k => $v ) {
-                if( $k[0] !== ':' ) {
+                if( $k[0] === ':' ) {
                     $requirement[ $k ] = $v;
                 }
             }
@@ -126,48 +131,48 @@ class RouteSet implements Iterator
 
 
         /* :secure option for https */
-        if( isset($options[':secure']) ) {
+        if( isset($options['secure']) ) {
             $route['secure'] = true;
         }
 
-        if( isset($options[':default']) ) {
-            $route['default'] = $options[':default'];
+        if( isset($options['default']) ) {
+            $route['default'] = $options['default'];
         }
 
 
-        if( isset($options[':method']) ) {
-            $route['method'] = $options[':method'];
+        if( isset($options['method']) ) {
+            $route['method'] = $options['method'];
         } 
-        elseif( isset($options[':post']) ) {
+        elseif( isset($options['post']) ) {
             $route['method'] = 'post';
         } 
-        elseif( isset($options[':get']) ) {
+        elseif( isset($options['get']) ) {
             $route['method'] = 'get';
         } 
-        elseif( isset($options[':head']) ) {
+        elseif( isset($options['head']) ) {
             $route['method'] = 'head';
         } 
-        elseif( isset($options[':put']) ) {
+        elseif( isset($options['put']) ) {
             $route['method'] = 'put';
         } 
-        elseif( isset($options[':delete']) ) {
+        elseif( isset($options['delete']) ) {
             $route['method'] = 'delete';
         }
 
-        if( isset($options[':before']) ) {
+        if( isset($options['before']) ) {
             $route['before'] = true;
         }
 
         /** 
          * arguments pass to constructor 
          */
-        if( isset($options[':args']) ) {
-            $route['args'] = $options[':args'];
+        if( isset($options['args']) ) {
+            $route['args'] = $options['args'];
         }
 
         // always have a name
-        if( isset($options[':name']) ) {
-            $route['name'] = $options[':name'];
+        if( isset($options['name']) ) {
+            $route['name'] = $options['name'];
         } else {
             $route['name'] = preg_replace( '/\W+/' , '_' , $route['path'] );
         }
@@ -175,10 +180,8 @@ class RouteSet implements Iterator
     }
 
 
-
-
-
     /** 
+     * Add path rule with *ANY* request method
      *
      * @param string $path
      * @param mixed $callback
@@ -196,6 +199,15 @@ class RouteSet implements Iterator
     }
 
 
+
+    /**
+     * Path rule Add method,
+     * an alias from any() method
+     *
+     * @param string $path
+     * @param mixed $callback
+     * @param array $options
+     */
     public function add($path,$callback,$options = array() )
     {
         return $this->any( $path, $callback, $options );
@@ -204,6 +216,7 @@ class RouteSet implements Iterator
     /**
      * find route by route path
      *
+     * @param string $path
      */
     public function findRouteByPath( $path ) 
     {
