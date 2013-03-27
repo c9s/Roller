@@ -111,53 +111,47 @@ $router->add( '/blog/:year/:month/:id/:title'  , array('Controller','method') );
 Add a new route with class/action callback string:
 
 ```php
-<?
-    $router->add( '/path/to/blog'  , 'Controller:methodName' );
+$router->add( '/path/to/blog'  , 'Controller:methodName' );
 ```
 
 To add a new route with requirement:
 
 ```php
-<?
-    $router->add( '/path/to/:year' , array('Callback','method') , array( 
-        ':year' => '\d+',
-    ));
+$router->add( '/path/to/:year' , array('Callback','method') , array( 
+    ':year' => '\d+',
+));
 ```
 
 To add a new route with requirement and closure:
 
 ```php
-<?
-    $router->add( '/path/to/:year' , function($year) { 
-        return $year;
-    },array( 
-        ':year' => '\d+',
-    ));
+$router->add( '/path/to/:year' , function($year) { 
+    return $year;
+},array( 
+    ':year' => '\d+',
+));
 ```
 
 Or by `any`:
 
 ```php
-<?
-    $router->any( '/path/to/:year' , function($year) { 
-        return $year;
-    }, array( 
-        ':year' => '\d+',
-    ));
+$router->any( '/path/to/:year' , function($year) { 
+    return $year;
+}, array( 
+    ':year' => '\d+',
+));
 ```
 
 An alias for GET method:
 
 ```php
-<?
-    $router->get( '/path/to/:year' , function($year) { ... } );
+$router->get( '/path/to/:year' , function($year) { ... } );
 ```
 
 An alias for POST method:
 
 ```php
-<?
-    $router->post( '/path/to/:year' , function($year) { ... } );
+$router->post( '/path/to/:year' , function($year) { ... } );
 ```
 
 
@@ -169,27 +163,25 @@ attributes.
 To add a new route with requirement and default value:
 
 ```php
-<?
-    $router->add( '/path/to/:year' , array('Callback','method') , array( 
-        ':year' => '\d+',
-        'default' => array(
-            'year' => 2000,
-        ),
-    ));
+$router->add( '/path/to/:year' , array('Callback','method') , array( 
+    ':year' => '\d+',
+    'default' => array(
+        'year' => 2000,
+    ),
+));
 ```
 
 To add a new route with request method (like POST method):
 
 ```php
-<?
-    $router->add( '/path/to/:year' , array('Callback','method') , array( 
-        ':year' => '\d+',
+$router->add( '/path/to/:year' , array('Callback','method') , array( 
+    ':year' => '\d+',
 
-        'method' => 'post',
-        'default' => array(
-            'year' => 2000,
-        ),
-    ));
+    'method' => 'post',
+    'default' => array(
+        'year' => 2000,
+    ),
+));
 ```
 
 RouteSet
@@ -213,14 +205,13 @@ Mount paths
 To mount route set:
 
 ```php
-<?
-    $routes = new Roller\RouteSet;
-    $routes->add( '/path/to/:year' , array( 'Callback', 'method' ) );
+$routes = new Roller\RouteSet;
+$routes->add( '/path/to/:year' , array( 'Callback', 'method' ) );
 
-    $routes = new Roller\RouteSet;
-    $routes->mount( '/root' , $routes );
+$routes = new Roller\RouteSet;
+$routes->mount( '/root' , $routes );
 
-    $router = new Roller\Router( $routes );
+$router = new Roller\Router( $routes );
 ```
 
 Dispatch
@@ -229,25 +220,22 @@ Dispatch
 To dispatch path:
 
 ```php
-<?
-    $r = $router->dispatch( $_SERVER['PATH_INFO'] );
+$r = $router->dispatch( $_SERVER['PATH_INFO'] );
 ```
 
 To evalulate response content:
 
 ```php
-<?
-    if( $r !== false )
-        echo $r();
-    else
-        die('page not found.');
+if( $r !== false )
+    echo $r();
+else
+    die('page not found.');
 ```
 
 Customize Route Class
 ---------------------
 
 ```php
-<?
 class YourRoute extends Roller\MatchedRoute
 {
     // customze here.
@@ -297,20 +285,18 @@ Cache
 To enable apc cache:
 
 ```php
-<?
-    $router = new Roller\Router( null , array( 
-        'cache_id' => '_router_testing_'
-    ));
+$router = new Roller\Router( null , array( 
+    'cache_id' => '_router_testing_'
+));
 ```
     
 To enable file cache:
 
 ```php
-<?
-    $router = new Roller\Router( null , array( 
-        'cache_id' => '_router_testing_',
-        'cache_dir' => 'tests/cache',
-    ));
+$router = new Roller\Router( null , array( 
+    'cache_id' => '_router_testing_',
+    'cache_dir' => 'tests/cache',
+));
 ```
 
 RESTful interface
@@ -501,7 +487,10 @@ Install Extension
 
 Add config to your php.ini:
 
-    extension=roller.so
+```ini
+extension=roller.so
+```
+
 
 Hacking
 -------
