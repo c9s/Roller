@@ -18,5 +18,5 @@
             "homepage": "http://c9s.me"
         }
     ],
-    "autoload": { "psr-0": { "Roller": "src/" } }
+    "autoload": { "psr-0": { "Roller": "src" } }
 }
