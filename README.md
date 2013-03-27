@@ -29,7 +29,7 @@ FEATURES
 ROUTE CONSOLE DUMPER
 --------------------
 
-<img src="https://raw.github.com/c9s/Roller/master/misc/img1.png" width="500">
+<img src="https://raw.github.com/c9s/php-Roller/master/misc/img1.png" width="500">
 
 INSTALL
 -------
