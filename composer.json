@@ -4,8 +4,8 @@
     "description": "High performance PHP router",
     "require": {
         "php": ">=5.3.0",
-        "doctrine/common": "2.3.*",
-        "corneltek/serializerkit": "~1.0"
+        "doctrine/common": "~2.3",
+        "corneltek/serializerkit": "~1"
     },
     "require-dev": {
         "corneltek/phpunit-testmore": "dev-master"
