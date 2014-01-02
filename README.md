@@ -25,6 +25,11 @@ FEATURES
 - Ready for Frameworks.
 - Annotation reader support.
 
+Benchmark
+-----------
+
+<img src="https://raw.github.com/c9s/Roller/raw/master/misc/benchmark-comparison.png" width="500"/>
+
 
 ROUTE CONSOLE DUMPER
 --------------------
