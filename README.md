@@ -28,7 +28,7 @@ FEATURES
 Benchmark
 -----------
 
-<img src="https://raw.github.com/c9s/Roller/raw/master/misc/benchmark-comparison.png" width="500"/>
+<img src="https://raw.github.com/c9s/php-Roller/master/misc/benchmark-comparison.png" width="500"/>
 
 
 ROUTE CONSOLE DUMPER
